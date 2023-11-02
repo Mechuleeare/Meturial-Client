@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
-import Start from './components/Screens/Start';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Main, Login, Start} from './views';
 
 const HelloWorldApp = () => {
   const Stack = createStackNavigator();
@@ -13,6 +13,8 @@ const HelloWorldApp = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Start">
           <Stack.Screen name="Start" component={Start} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Main" component={Main} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
