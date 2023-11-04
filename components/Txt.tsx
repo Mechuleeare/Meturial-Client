@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { Text, TextProps, TextStyle } from 'react-native';
+import React, {ReactNode} from 'react';
+import {Text, TextProps, TextStyle} from 'react-native';
 
 interface TxtProps extends TextProps {
   typography?: keyof typeof FontStyle;
