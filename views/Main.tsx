@@ -1,3 +1,5 @@
+import {Text} from 'react-native';
+
 export const Main = () => {
-  return <>hello! this is main page!</>;
+  return <Text>hello! this is main page!</Text>;
 };
