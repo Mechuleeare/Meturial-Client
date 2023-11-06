@@ -98,6 +98,9 @@ const TabNavigation = () => {
         tabBarStyle: {
           height: 64,
           paddingHorizontal: 8,
+          borderTopColor: color.Gray[100],
+          borderTopWidth: 1,
+          shadowColor: 'white',
         },
       }}>
       {TabList.map((item, index) => (
