@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Main} from './views';
+import {Calendar, Main, My, Recipe, Wish} from './views';
 import {
   Bookmark,
   Bookmark_filled,
@@ -81,10 +81,10 @@ const Frame = styled.View`
 
 const TabList = [
   {name: 'Home', label: '홈', icon: 'home', component: Main},
-  {name: 'Calendar', label: '식단관리', icon: 'calendar', component: Main},
-  {name: 'Recipe', label: '레시피', icon: 'recipe', component: Main},
-  {name: 'Wish', label: '찜', icon: 'wish', component: Main},
-  {name: 'My', label: '마이', icon: 'my', component: Main},
+  {name: 'Calendar', label: '식단관리', icon: 'calendar', component: Calendar},
+  {name: 'Recipe', label: '레시피', icon: 'recipe', component: Recipe},
+  {name: 'Wish', label: '찜', icon: 'wish', component: Wish},
+  {name: 'My', label: '마이', icon: 'my', component: My},
 ];
 
 const TabNavigation = () => {
