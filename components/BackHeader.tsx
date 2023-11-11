@@ -2,12 +2,15 @@ import styled from 'styled-components/native';
 import {Arrow_left} from '../assets';
 import Txt from './Txt';
 import {color} from '../style/color';
+import {View} from 'react-native';
 
-const BackHeader = () => {
+const BackHeader = ({name, nav}: {name: string; nav: any}) => {
   return (
     <Frame>
-      <Arrow_left />
-      <Txt typography="TitleMedium">이거슨 헤더요</Txt>
+      <View onTouchStart={() => nav.goBack()}>
+        <Arrow_left />
+      </View>
+      <Txt typography="TitleMedium">{name}</Txt>
     </Frame>
   );
 };
