@@ -90,8 +90,8 @@ export const Main = ({navigation}: any) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 8}}>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map(() => (
-            <RecipeLarge nav={navigation} />
+          {[1, 2, 3, 4, 5, 6, 7, 8].map(v => (
+            <RecipeLarge nav={navigation} key={v} />
           ))}
         </RecommendRecipe>
       </Content>
