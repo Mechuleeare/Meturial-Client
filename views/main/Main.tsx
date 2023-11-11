@@ -1,11 +1,39 @@
-import {Dimensions, View} from 'react-native';
+import {View} from 'react-native';
 import styled from 'styled-components/native';
-import {color} from '../style/color';
-import Txt from '../components/Txt';
-import {Access_time, Arrow_right, Search} from '../assets';
-import UnderTxt from '../components/UnderTxt';
+import {color} from '../../style/color';
+import Txt from '../../components/Txt';
+import {Access_time, Search} from '../../assets';
+import UnderTxt from '../../components/UnderTxt';
+import TodayMenu from '../../components/TodayMenu';
 
-export const Main = () => {
+export interface menuType {
+  menu?: string;
+  img?: string;
+  recipe?: string;
+}
+type todayMenuProps = {
+  [key in 'morning' | 'lunch' | 'dinner']: menuType;
+};
+
+const todayMenu: todayMenuProps = {
+  morning: {
+    menu: '토스트',
+    img: 'https://cdn.pixabay.com/photo/2015/10/19/06/13/french-toast-995532_1280.jpg',
+    recipe: '토스트',
+  },
+  lunch: {
+    menu: '크림파스타',
+    img: 'https://cdn.pixabay.com/photo/2023/10/10/08/40/alfredo-8305773_1280.jpg',
+    recipe: '크림파스타',
+  },
+  dinner: {
+    menu: '페페로니피자',
+    img: 'https://cdn.pixabay.com/photo/2023/05/08/13/40/pizza-7978642_1280.jpg',
+    recipe: '페페로니피자',
+  },
+};
+
+export const Main = ({navigation}: any) => {
   return (
     <Frame>
       <Header>
@@ -31,19 +59,9 @@ export const Main = () => {
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}>
-          <TodayFrame>
-            <Txt typography="TitleSmall">아침</Txt>
-            <Txt typography="HeadlineLarge">7:50</Txt>
-            <Txt typography="TitleMedium" style={{marginTop: 8}}>
-              토스트
-            </Txt>
-            <MoveFrame>
-              <Txt typography="BodySmall" color={color.Green[500]}>
-                레시피 보러가기
-              </Txt>
-              <Arrow_right color={color.Green[500]} />
-            </MoveFrame>
-          </TodayFrame>
+          <TodayMenu data={todayMenu.morning} time="morning" nav={navigation} />
+          <TodayMenu data={todayMenu.lunch} time="lunch" nav={navigation} />
+          <TodayMenu data={todayMenu.dinner} time="dinner" nav={navigation} />
         </TodayRecipe>
         <Box>
           <UnderTxt>레시피 카테고리</UnderTxt>
@@ -57,22 +75,7 @@ const Box = styled.View`
   gap: 16px;
   padding: 40px 16px 0;
 `;
-const MoveFrame = styled.View`
-  flex-direction: row;
-  align-items: center;
-  gap: 4px;
-  margin-top: 14px;
-`;
 const Content = styled.ScrollView``;
-const TodayFrame = styled.View`
-  width: ${Dimensions.get('window').width - 32}px;
-  background-color: white;
-  margin: 0 16px;
-  border-radius: 8px;
-  border: 2px solid ${color.Gray[50]};
-  padding: 24px;
-  justify-content: flex-end;
-`;
 const TodayRecipe = styled.ScrollView`
   height: 200px;
   margin-top: 12px;

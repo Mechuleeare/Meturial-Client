@@ -18,3 +18,4 @@ export * from './Trophy_filed';
 export * from './Access_time';
 export * from './Search';
 export * from './Arrow_right';
+export * from './Arrow_left';
