@@ -5,10 +5,11 @@ import {Bookmark, Bookmark_filled, Star_filled} from '../assets';
 import {useState} from 'react';
 import {View} from 'react-native';
 
-const RecipeLarge = () => {
+const RecipeLarge = ({nav}: {nav: any}) => {
   const [wish, setWish] = useState<boolean>(false);
   return (
-    <RecipeFrame>
+    <RecipeFrame
+      onTouchEnd={() => nav.navigate('DetailRecipe', {recipe: '크림파스타'})}>
       <BigImg />
       <Title>
         <Txt typography="TitleMedium">크림파스타</Txt>
