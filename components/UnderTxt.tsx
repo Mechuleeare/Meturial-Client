@@ -13,7 +13,7 @@ const UnderTxt = ({
   const [width, setWidth] = useState<number>(0);
 
   return (
-    <Frame>
+    <Frame height={typo === 'TitleLarge'}>
       <Txt
         typography={typo}
         onLayout={e => setWidth(e.nativeEvent.layout.width)}>
@@ -31,11 +31,12 @@ const Line = styled.View<{width: number}>`
   border-radius: 2px;
   height: 12px;
   width: ${props => props.width}px;
-  position: relative;
-  top: -10px;
+  position: absolute;
+  bottom: 0;
   z-index: -1;
 `;
-const Frame = styled.View`
-  flex-wrap: wrap;
+const Frame = styled.View<{height: boolean}>`
+  position: relative;
   align-items: flex-start;
+  height: ${props => (props.height ? 30 : 42)}px;
 `;
