@@ -5,6 +5,7 @@ import Txt from '../../components/Txt';
 import {Access_time, Search} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
 import TodayMenu from '../../components/TodayMenu';
+import RecipeLarge from '../../components/RecipeLarge';
 
 export interface menuType {
   menu?: string;
@@ -39,7 +40,6 @@ export const Main = ({navigation}: any) => {
       <Header>
         <LeftFrame>
           <View
-            // eslint-disable-next-line react-native/no-inline-styles
             style={{
               borderRadius: 100,
               backgroundColor: color.Green[500],
@@ -54,26 +54,84 @@ export const Main = ({navigation}: any) => {
           <Access_time />
         </RightFrame>
       </Header>
-      <Content>
+      <Content contentContainerStyle={{paddingBottom: 120}}>
         <TodayRecipe
           horizontal
           pagingEnabled
-          showsHorizontalScrollIndicator={false}>
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{paddingHorizontal: 16, gap: 32}}>
           <TodayMenu data={todayMenu.morning} time="morning" nav={navigation} />
           <TodayMenu data={todayMenu.lunch} time="lunch" nav={navigation} />
           <TodayMenu data={todayMenu.dinner} time="dinner" nav={navigation} />
         </TodayRecipe>
         <Box>
           <UnderTxt>레시피 카테고리</UnderTxt>
+          <CategoryFrame>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map(v => (
+              <ItemBox key={v}>
+                <ItemImg />
+                <Txt typography="LabelMedium">한식</Txt>
+              </ItemBox>
+            ))}
+          </CategoryFrame>
         </Box>
+        <Box>
+          <TextFrame>
+            <Column>
+              <UnderTxt>오늘의 추천</UnderTxt>
+              <Txt>오늘의 추천메뉴를 확인해 보세요</Txt>
+            </Column>
+            <View>
+              <Txt color={color.Gray[500]}>더보기</Txt>
+            </View>
+          </TextFrame>
+        </Box>
+        <RecommendRecipe
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{paddingHorizontal: 16, gap: 8}}>
+          {[1, 2, 3, 4, 5, 6, 7, 8].map(() => (
+            <RecipeLarge />
+          ))}
+        </RecommendRecipe>
       </Content>
     </Frame>
   );
 };
 
+const RecommendRecipe = styled.ScrollView`
+  margin-top: 16px;
+  width: 100%;
+`;
+const Column = styled.View`
+  gap: 2px;
+`;
+const TextFrame = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+const ItemImg = styled.View`
+  height: 64px;
+  width: 64px;
+  border-radius: 32px;
+  background-color: ${color.Gray[100]};
+`;
+const ItemBox = styled.View`
+  gap: 4px;
+  align-items: center;
+`;
+const CategoryFrame = styled.View`
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  row-gap: 12px;
+  column-gap: 24px;
+`;
 const Box = styled.View`
   gap: 16px;
   padding: 40px 16px 0;
+  overflow: visible;
 `;
 const Content = styled.ScrollView``;
 const TodayRecipe = styled.ScrollView`
