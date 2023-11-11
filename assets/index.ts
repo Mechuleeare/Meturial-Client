@@ -4,3 +4,8 @@ export {default as BackArrow} from './Images/arrow_back.png';
 export {default as LoginTitle} from './Images/LoginTitle.png';
 export {default as Eye} from './Images/eye.png';
 export {default as EyeOff} from './Images/eye-off.png';
+export {default as SignupTitle} from './Images/SignupTitle.png';
+export {default as Add} from './Images/add.png';
+export {default as AllergyTitle} from './Images/AllergyTitle.png';
+export {default as AllergyCheckTitle} from './Images/AllergyCheckTitle.png';
+export {default as Search} from './Images/Search.png';
