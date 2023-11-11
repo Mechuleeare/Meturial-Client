@@ -52,16 +52,17 @@ const ButtonStatus: {
 interface ButtonProps {
   status?: keyof typeof ButtonStatus;
   children: ReactNode;
+  onPress: () => void;
 }
 
-const Button = ({status = 'primary', children, ...props}: ButtonProps) => {
+const Button = ({status = 'primary', children, onPress}: ButtonProps) => {
   return (
     <ButtonBorder
       style={({pressed}: any) =>
         pressed && {backgroundColor: ButtonStatus[status].click}
       }
       status={status}
-      {...props}>
+      onPress={onPress}>
       <Txt typography="LabelLarge" style={{color: ButtonStatus[status].color}}>
         {children}
       </Txt>
