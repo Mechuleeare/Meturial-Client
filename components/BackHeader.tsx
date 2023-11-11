@@ -24,5 +24,6 @@ const Frame = styled.View`
   gap: 8px;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid ${color.Gray[100]};
+  border-bottom-width: 1px;
+  border-bottom-color: ${color.Gray[100]};
 `;
