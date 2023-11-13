@@ -7,8 +7,10 @@ const RecipeStack = () => {
   const Stack = createStackNavigator();
 
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Recipe" component={Recipe} />
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="Recipes">
+      <Stack.Screen name="Recipes" component={Recipe} />
       <Stack.Screen name="DetailRecipe" component={DetailRecipe} />
       <Stack.Screen name="CategoryRecipe" component={CategoryRecipe} />
     </Stack.Navigator>
