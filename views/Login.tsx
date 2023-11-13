@@ -1,32 +1,35 @@
 import {styled} from 'styled-components/native';
 import {color} from '../style/color';
-import {Image, Pressable} from 'react-native';
+import {Image, Pressable, Alert} from 'react-native';
 import {BackArrow, LoginTitle} from '../assets';
 import Txt from '../components/Txt';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import {useState} from 'react';
-// import axios from 'axios';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BaseUrl} from '../utils';
 
 export const Login = ({navigation}: any) => {
   const [emailValue, setEmailValue] = useState<string>();
   const [pwValue, setpwValue] = useState<string>();
 
   const HandleLogin = async () => {
-    console.log(emailValue);
-    console.log(pwValue);
-    // try {
-    //   const result = await axios.post(`${BaseUrl}/auth/token`, {
-    //     email: emailValue,
-    //     password: pwValue,
-    //   });
-    //   await AsyncStorage.setItem('AccessToken', result.data.AccessToken);
-    //   await AsyncStorage.setItem('RefreshToken', result.data.RefreshToken);
-    //   navigation.navigate('Main');
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const result = await axios.post(`${BaseUrl}/auth/token`, {
+        email: emailValue,
+        password: pwValue,
+      });
+      console.log(result.data);
+      await AsyncStorage.setItem('AccessToken', result.data.accessToken);
+      await AsyncStorage.setItem('RefreshToken', result.data.refreshToken);
+      navigation.navigate('HomeTabs');
+    } catch (error) {
+      console.log(error);
+      Alert.alert('이메일 비밀번호를 다시 확인해주세요', '', [
+        {text: '확인', style: 'cancel'},
+      ]);
+    }
   };
 
   return (
@@ -97,7 +100,7 @@ const TitleFlex = styled.View`
 const InputFlex = styled.View`
   display: flex;
   width: 100%;
-  height: 63%;
+  height: 70%;
   gap: 18px;
 `;
 
