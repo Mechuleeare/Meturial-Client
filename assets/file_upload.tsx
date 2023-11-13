@@ -1,6 +1,6 @@
 import {Svg, Path} from 'react-native-svg';
 
-export const file_upload = ({
+export const File_upload = ({
   color = '#000',
   size = 24,
 }: {
