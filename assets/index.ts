@@ -8,7 +8,6 @@ export {default as SignupTitle} from './Images/SignupTitle.png';
 export {default as Add} from './Images/add.png';
 export {default as AllergyTitle} from './Images/AllergyTitle.png';
 export {default as AllergyCheckTitle} from './Images/AllergyCheckTitle.png';
-export {default as Search} from './Images/Search.png';
 
 export * from './Person';
 export * from './Person_filled';
