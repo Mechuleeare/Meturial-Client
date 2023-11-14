@@ -12,6 +12,7 @@ import {AllergyCheck} from './views/Signup/AllergyCheck';
 import {Allergy} from './views/Signup/Allergy';
 import ReviewAll from './views/recipe/ReviewAll';
 import Review from './views/recipe/Review';
+import ReviewManagement from './views/recipe/ReviewManagement';
 
 const HelloWorldApp = () => {
   const Stack = createStackNavigator();
@@ -25,6 +26,7 @@ const HelloWorldApp = () => {
           <Stack.Screen name="HomeTabs" component={TabNavigation} />
           <Stack.Screen name="ReviewAll" component={ReviewAll} />
           <Stack.Screen name="Review" component={Review} />
+          <Stack.Screen name="ReviewManagement" component={ReviewManagement} />
           {/* <Stack.Navigator initialRouteName="Start"> */}
           <Stack.Screen name="Start" component={Start} />
           <Stack.Screen name="Login" component={Login} />
