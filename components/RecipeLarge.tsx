@@ -1,21 +1,17 @@
 import styled from 'styled-components/native';
 import {color} from '../style/color';
 import Txt from './Txt';
-import {Bookmark, Bookmark_filled, Star_filled} from '../assets';
-import {useState} from 'react';
-import {View} from 'react-native';
+import {Star_filled} from '../assets';
+import WishButton from './WishButton';
 
 const RecipeLarge = ({nav}: {nav: any}) => {
-  const [wish, setWish] = useState<boolean>(false);
   return (
     <RecipeFrame
       onTouchEnd={() => nav.navigate('DetailRecipe', {recipe: '크림파스타'})}>
       <BigImg />
       <Title>
         <Txt typography="TitleMedium">크림파스타</Txt>
-        <View onTouchStart={() => setWish(v => !v)}>
-          {wish ? <Bookmark_filled size={20} /> : <Bookmark size={20} />}
-        </View>
+        <WishButton size={18} />
       </Title>
       <TagFrame>
         {['양식', '면요리', '파스타'].map((v, i) => (

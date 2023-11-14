@@ -5,16 +5,19 @@ interface TxtProps extends TextProps {
   typography?: keyof typeof FontStyle;
   children: ReactNode;
   color?: string;
+  numberOfLines?: number;
 }
 
 const Txt = ({
   typography = 'BodyMedium',
   color = 'black',
+  numberOfLines,
   children,
   ...props
 }: TxtProps) => {
   return (
     <Text
+      numberOfLines={numberOfLines}
       style={{
         color: color,
         ...(FontStyle[typography] as unknown as TextStyle),
