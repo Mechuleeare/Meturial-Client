@@ -4,13 +4,26 @@ import Txt from './Txt';
 import {color} from '../style/color';
 import {View} from 'react-native';
 
-const BackHeader = ({name, nav}: {name: string; nav: any}) => {
+interface headerProps {
+  name: string;
+  nav?: any;
+  num?: number;
+}
+
+const BackHeader = ({name, nav, num}: headerProps) => {
   return (
     <Frame>
-      <View onTouchStart={() => nav.goBack()}>
-        <Arrow_left />
-      </View>
+      {nav && (
+        <View onTouchStart={() => nav.goBack()}>
+          <Arrow_left />
+        </View>
+      )}
       <Txt typography="TitleMedium">{name}</Txt>
+      {num && (
+        <Txt typography="TitleMedium" color={color.Green[500]}>
+          {num}
+        </Txt>
+      )}
     </Frame>
   );
 };
