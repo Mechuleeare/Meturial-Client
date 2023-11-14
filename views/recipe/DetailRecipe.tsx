@@ -132,7 +132,11 @@ const DetailRecipe = ({route, navigation}: any) => {
           {[1, 2, 3].map(v => (
             <ReviewPreview key={v} />
           ))}
-          <Button status="outline">요리 후기 모두 보기</Button>
+          <Button
+            status="outline"
+            onPress={() => navigation.navigate('ReviewAll', {recipe: recipe})}>
+            요리 후기 모두 보기
+          </Button>
         </ReviewFrame>
       </Content>
     </Frame>
