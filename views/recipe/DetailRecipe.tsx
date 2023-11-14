@@ -6,6 +6,7 @@ import Line from '../../components/Line';
 import {Bookmark, File_upload, Pencil, Star_filled} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
 import Button from '../../components/Button';
+import ReviewPreview from '../../components/ReviewPreview';
 
 interface sequence {
   sequenceId: string;
@@ -70,7 +71,7 @@ const DetailRecipe = ({route, navigation}: any) => {
   return (
     <Frame>
       <BackHeader name={recipe} nav={navigation} />
-      <Content>
+      <Content contentContainerStyle={{paddingBottom: 120}}>
         <TitleImg source={{uri: data.recipeImageUrl}} />
         <Title>
           <Txt typography="HeadlineLarge">{data.name}</Txt>
@@ -128,6 +129,9 @@ const DetailRecipe = ({route, navigation}: any) => {
           <Button status="silver" icon={<Pencil size={20} />}>
             요리 후기 작성하기
           </Button>
+          {[1, 2, 3].map(v => (
+            <ReviewPreview key={v} />
+          ))}
           <Button status="outline">요리 후기 모두 보기</Button>
         </ReviewFrame>
       </Content>
@@ -141,6 +145,7 @@ const ReviewFrame = styled.View`
   width: 100%;
   padding: 0 16px;
   gap: 24px;
+  margin: 8px 0;
 `;
 const TxtFrame = styled.View`
   padding: 6px 0;
