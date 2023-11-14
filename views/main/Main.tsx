@@ -94,7 +94,7 @@ export const Main = ({navigation}: any) => {
           <TextFrame>
             <Column>
               <UnderTxt>오늘의 추천</UnderTxt>
-              <Txt>오늘의 추천메뉴를 확인해 보세요</Txt>
+              <Txt>오늘의 추천 메뉴를 확인해 보세요</Txt>
             </Column>
             <View>
               <Txt color={color.Gray[500]}>더보기</Txt>
