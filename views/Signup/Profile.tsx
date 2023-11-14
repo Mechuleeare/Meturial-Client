@@ -4,16 +4,38 @@ import {color} from '../../style/color';
 import {BackArrow, SignupTitle, Add} from '../../assets';
 import Txt from '../../components/Txt';
 import Button from '../../components/Button';
-// import {launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {BaseUrl} from '../../utils';
+import axios from 'axios';
+import {useState} from 'react';
 
-export const Profile = ({navigation}: any) => {
+export const Profile = ({navigation, route}: any) => {
+  const [imageData, setImageData] = useState<string>();
+  const [imageState, setImageState] = useState<boolean>(false);
+  const {email, password, name} = route.params;
   const ShowPicker = () => {
     //launchImageLibrary : 사용자 앨범 접근
-    // launchImageLibrary({}, res => {
-    //   const formdata = new FormData();
-    //   formdata.append('file', res.assets[0].uri);
-    //   console.log(res);
-    // });
+    launchImageLibrary({mediaType: 'photo'}, async res => {
+      const formdata = new FormData();
+      const file = {
+        name: res?.assets?.[0]?.fileName,
+        type: res?.assets?.[0]?.type,
+        uri: res?.assets?.[0]?.uri,
+      };
+      formdata.append('images', file);
+      try {
+        const result = await axios.post(`${BaseUrl}/image`, formdata, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        setImageData(result.data.imageUrl[0]);
+        setImageState(true);
+        await console.log(imageData);
+      } catch (error) {
+        console.log(error);
+      }
+    });
   };
 
   return (
@@ -31,13 +53,34 @@ export const Profile = ({navigation}: any) => {
         <Txt typography="LabelSmall" color={color.Gray[800]}>
           프로필 사진
         </Txt>
-        <ProfileInputBackground>
-          <ProfileInput onPress={ShowPicker}>
-            <Image source={Add} />
-          </ProfileInput>
-        </ProfileInputBackground>
+        {imageState === false ? (
+          <ProfileInputBackground>
+            <ProfileInput onPress={ShowPicker}>
+              <Image source={Add} />
+            </ProfileInput>
+          </ProfileInputBackground>
+        ) : (
+          <UploadImageBackground
+            source={{uri: `${imageData}`}}
+            blurRadius={32}
+            borderRadius={8}>
+            <UploadImagePressable onPress={ShowPicker}>
+              <UploadImage source={{uri: `${imageData}`}} borderRadius={8} />
+            </UploadImagePressable>
+          </UploadImageBackground>
+        )}
       </ProfileInputFlex>
-      <Button onPress={() => navigation.navigate('AllergyCheck')}>다음</Button>
+      <Button
+        onPress={() =>
+          navigation.navigate('AllergyCheck', {
+            email: email,
+            password: password,
+            name: name,
+            profileImageUrl: imageData,
+          })
+        }>
+        다음
+      </Button>
       <SignupGo>
         <Txt typography="BodyMedium">이미 계정이 있으신가요?</Txt>
         <Pressable onPress={() => navigation.navigate('Login')}>
@@ -71,20 +114,20 @@ const TitleFlex = styled.View`
 
 const ProfileInputFlex = styled.View`
   width: 100%;
-  height: 66%;
+  height: 72%;
   gap: 4px;
 `;
 
 const ProfileInputBackground = styled.View`
   width: 100%;
-  height: 40%;
+  height: 200px;
   border-radius: 8px;
   background-color: ${color.Gray[50]};
   display: flex;
   align-items: center;
 `;
 
-const ProfileInput = styled.Pressable`
+const ProfileInput = styled(Pressable)`
   width: 50%;
   height: 99%;
   border-radius: 8px;
@@ -108,4 +151,25 @@ const SignupGo = styled.View`
   justify-content: center;
   gap: 8px;
   margin-top: 18px;
+`;
+
+const UploadImageBackground = styled.ImageBackground`
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  object-fit: contain;
+`;
+
+const UploadImagePressable = styled.Pressable`
+  width: 50%;
+  height: 200px;
+`;
+
+const UploadImage = styled.Image`
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
 `;
