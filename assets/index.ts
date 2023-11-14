@@ -26,3 +26,4 @@ export * from './Arrow_left';
 export * from './Star_filed';
 export * from './File_upload';
 export * from './Pencil';
+export * from './More';
