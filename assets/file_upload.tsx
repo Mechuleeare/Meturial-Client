@@ -1,6 +1,6 @@
 import {Svg, Path} from 'react-native-svg';
 
-export const Bookmark_filled = ({
+export const File_upload = ({
   color = '#000',
   size = 24,
 }: {
@@ -10,7 +10,7 @@ export const Bookmark_filled = ({
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
-        d="M17 3H7C5.9 3 5 3.9 5 5V21L12 18L19 21V5C19 3.9 18.1 3 17 3Z"
+        d="M18 15V18H6V15H4V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V15H18ZM7 9L8.41 10.41L11 7.83V16H13V7.83L15.59 10.41L17 9L12 4L7 9Z"
         fill={color}
       />
     </Svg>

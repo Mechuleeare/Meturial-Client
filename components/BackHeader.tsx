@@ -2,12 +2,28 @@ import styled from 'styled-components/native';
 import {Arrow_left} from '../assets';
 import Txt from './Txt';
 import {color} from '../style/color';
+import {View} from 'react-native';
 
-const BackHeader = () => {
+interface headerProps {
+  name: string;
+  nav?: any;
+  num?: number;
+}
+
+const BackHeader = ({name, nav, num}: headerProps) => {
   return (
     <Frame>
-      <Arrow_left />
-      <Txt typography="TitleMedium">이거슨 헤더요</Txt>
+      {nav && (
+        <View onTouchStart={() => nav.goBack()}>
+          <Arrow_left />
+        </View>
+      )}
+      <Txt typography="TitleMedium">{name}</Txt>
+      {num && (
+        <Txt typography="TitleMedium" color={color.Green[500]}>
+          {num}
+        </Txt>
+      )}
     </Frame>
   );
 };
@@ -21,5 +37,6 @@ const Frame = styled.View`
   gap: 8px;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid ${color.Gray[100]};
+  border-bottom-width: 1px;
+  border-bottom-color: ${color.Gray[100]};
 `;

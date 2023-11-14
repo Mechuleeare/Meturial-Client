@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Calendar, My, Recipe, Wish} from './views';
+import {Calendar, My, Wish} from './views';
 import {
   Bookmark,
   Bookmark_filled,
@@ -16,6 +16,7 @@ import {color} from './style/color';
 import styled from 'styled-components/native';
 import Txt from './components/Txt';
 import MainStack from './views/main/MainStack';
+import RecipeStack from './views/recipe/RecipeStack';
 
 const icon = {
   home: [
@@ -83,7 +84,7 @@ const Frame = styled.View`
 const TabList = [
   {name: 'Home', label: '홈', icon: 'home', component: MainStack},
   {name: 'Calendar', label: '식단관리', icon: 'calendar', component: Calendar},
-  {name: 'Recipe', label: '레시피', icon: 'recipe', component: Recipe},
+  {name: 'Recipe', label: '레시피', icon: 'recipe', component: RecipeStack},
   {name: 'Wish', label: '찜', icon: 'wish', component: Wish},
   {name: 'My', label: '마이', icon: 'my', component: My},
 ];

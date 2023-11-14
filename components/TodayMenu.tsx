@@ -73,7 +73,6 @@ const MoveFrame = styled.View`
 const TodayFrame = styled.View`
   width: ${Dimensions.get('window').width - 32}px;
   background-color: white;
-  margin: 0 16px;
   height: 200px;
   border-radius: 8px;
   border: 2px solid ${color.Gray[50]};
