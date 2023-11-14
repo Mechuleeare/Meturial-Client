@@ -52,6 +52,7 @@ const ButtonStatus: {
 interface ButtonProps {
   status?: keyof typeof ButtonStatus;
   children: ReactNode;
+  icon?: ReactNode;
   onPress?: () => void;
 }
 
@@ -59,6 +60,7 @@ const Button = ({
   status = 'primary',
   children,
   onPress,
+  icon,
   ...props
 }: ButtonProps) => {
   return (
@@ -69,6 +71,7 @@ const Button = ({
       status={status}
       onPress={onPress}
       {...props}>
+      {icon}
       <Txt typography="LabelLarge" style={{color: ButtonStatus[status].color}}>
         {children}
       </Txt>
@@ -85,6 +88,8 @@ const ButtonBorder = styled.Pressable<{status: keyof typeof ButtonStatus}>`
   border-radius: 8px;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
   background-color: ${props => ButtonStatus[props.status].bgColor};
   border: ${props => ButtonStatus[props.status]?.border || 'none'};
+  gap: 8px;
 `;
