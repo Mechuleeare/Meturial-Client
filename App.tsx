@@ -11,6 +11,7 @@ import {Profile} from './views/Signup/Profile';
 import {AllergyCheck} from './views/Signup/AllergyCheck';
 import {Allergy} from './views/Signup/Allergy';
 import ReviewAll from './views/recipe/ReviewAll';
+import Review from './views/recipe/Review';
 
 const HelloWorldApp = () => {
   const Stack = createStackNavigator();
@@ -23,6 +24,7 @@ const HelloWorldApp = () => {
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="HomeTabs" component={TabNavigation} />
           <Stack.Screen name="ReviewAll" component={ReviewAll} />
+          <Stack.Screen name="Review" component={Review} />
           {/* <Stack.Navigator initialRouteName="Start"> */}
           <Stack.Screen name="Start" component={Start} />
           <Stack.Screen name="Login" component={Login} />

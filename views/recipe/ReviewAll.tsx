@@ -19,7 +19,12 @@ const ReviewAll = ({route, navigation}: any) => {
           paddingBottom: 120,
         }}>
         {data.map(v => (
-          <ReviewPreview key={v} />
+          <ReviewPreview
+            key={v}
+            onTouch={() =>
+              navigation.navigate('Review', {recipe: recipe, data: v})
+            }
+          />
         ))}
       </Content>
     </Flex>

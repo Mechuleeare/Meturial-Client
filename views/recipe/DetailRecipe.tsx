@@ -130,7 +130,12 @@ const DetailRecipe = ({route, navigation}: any) => {
             요리 후기 작성하기
           </Button>
           {[1, 2, 3].map(v => (
-            <ReviewPreview key={v} />
+            <ReviewPreview
+              key={v}
+              onTouch={() =>
+                navigation.navigate('Review', {recipe: recipe, data: v})
+              }
+            />
           ))}
           <Button
             status="outline"

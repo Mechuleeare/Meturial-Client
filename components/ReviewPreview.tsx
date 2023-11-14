@@ -3,10 +3,10 @@ import {color} from '../style/color';
 import Txt from './Txt';
 import {Star_filled} from '../assets';
 
-const ReviewPreview = () => {
+const ReviewPreview = ({onTouch}: {onTouch: () => void}) => {
   const star = 4;
   return (
-    <Frame>
+    <Frame onTouchEnd={() => onTouch()}>
       <Content>
         <TxtFrame>
           <Txt typography="LabelLarge">강진현</Txt>
