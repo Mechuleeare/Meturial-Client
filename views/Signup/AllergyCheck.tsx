@@ -4,8 +4,27 @@ import {color} from '../../style/color';
 import {AllergyCheckTitle, BackArrow} from '../../assets';
 import Txt from '../../components/Txt';
 import Button from '../../components/Button';
+import {BaseUrl} from '../../utils';
+import axios from 'axios';
 
-export const AllergyCheck = ({navigation}: any) => {
+export const AllergyCheck = ({navigation, route}: any) => {
+  const {name, email, password, profileImageUrl} = route.params;
+  const HandleImmediatelySignup = async () => {
+    try {
+      const result = await axios.post(`${BaseUrl}/user/signup`, {
+        email: email,
+        password: password,
+        name: name,
+        deviceToken: 'assfffgag-afaghhhh',
+        profileImageUrl: `${profileImageUrl}`,
+      });
+      console.log(result);
+      navigation.navigate('Main');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Background>
       <BackPageFlex>
@@ -21,10 +40,18 @@ export const AllergyCheck = ({navigation}: any) => {
       </TitleFlex>
       <Margin />
       <ButtonFlex>
-        <Button onPress={() => navigation.navigate('Allergy')}>
+        <Button
+          onPress={() =>
+            navigation.navigate('Allergy', {
+              name: name,
+              email: email,
+              password: password,
+              profileImageUrl: profileImageUrl,
+            })
+          }>
           알레르기가 있어요
         </Button>
-        <Button onPress={() => navigation.navigate('Main')} status="silver">
+        <Button onPress={HandleImmediatelySignup} status="silver">
           없어요(회원가입 완료)
         </Button>
       </ButtonFlex>
@@ -53,7 +80,7 @@ const TitleFlex = styled.View`
 
 const Margin = styled.View`
   width: 100%;
-  height: 60%;
+  height: 64%;
 `;
 
 const ButtonFlex = styled.View`
