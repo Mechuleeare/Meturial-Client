@@ -30,13 +30,13 @@ const Backgorund = styled.ImageBackground`
 
 const StartTextFlex = styled.View`
   width: 100%;
-  height: 75%;
+  height: 81%;
   padding: 84px 0 0 16px;
 `;
 
 const ButtonFlex = styled.View`
   width: 100%;
-  height: 25%;
+  height: 20%;
   background-color: ${color.White};
   border-radius: 8px;
   display: flex;

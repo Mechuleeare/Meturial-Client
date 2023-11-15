@@ -24,5 +24,5 @@ export * from './Search';
 export * from './Arrow_right';
 export * from './Arrow_left';
 export * from './Star_filed';
-export * from './File_upload';
+export * from './file_upload';
 export * from './Pencil';
