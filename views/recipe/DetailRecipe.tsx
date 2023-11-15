@@ -3,10 +3,11 @@ import {color} from '../../style/color';
 import BackHeader from '../../components/BackHeader';
 import Txt from '../../components/Txt';
 import Line from '../../components/Line';
-import {Bookmark, File_upload, Pencil, Star_filled} from '../../assets';
+import {File_upload, Pencil, Star_filled} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
 import Button from '../../components/Button';
 import ReviewPreview from '../../components/ReviewPreview';
+import WishButton from '../../components/WishButton';
 
 interface sequence {
   sequenceId: string;
@@ -92,7 +93,7 @@ const DetailRecipe = ({route, navigation}: any) => {
             </Txt>
           </StarFrame>
           <Row>
-            <Bookmark />
+            <WishButton />
             <File_upload />
           </Row>
         </SubFrame>
@@ -126,11 +127,21 @@ const DetailRecipe = ({route, navigation}: any) => {
               12
             </Txt>
           </Txt>
-          <Button status="silver" icon={<Pencil size={20} />}>
+          <Button
+            status="silver"
+            icon={<Pencil size={20} />}
+            onPress={() =>
+              navigation.navigate('ReviewManagement', {isRegister: true})
+            }>
             요리 후기 작성하기
           </Button>
           {[1, 2, 3].map(v => (
-            <ReviewPreview key={v} />
+            <ReviewPreview
+              key={v}
+              onTouch={() =>
+                navigation.navigate('Review', {recipe: recipe, data: v})
+              }
+            />
           ))}
           <Button
             status="outline"
