@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
-import {Arrow_left} from '../assets';
+import {Arrow_left, More} from '../assets';
 import Txt from './Txt';
 import {color} from '../style/color';
-import {View} from 'react-native';
+import {Dimensions, Pressable, View} from 'react-native';
+import {ReactNode, useState} from 'react';
 
 interface headerProps {
   name: string;
@@ -10,14 +11,21 @@ interface headerProps {
   num?: number;
   button?: string;
   func?: () => void;
+  modal?: ReactNode;
 }
 
-const BackHeader = ({name, nav, num, button, func}: headerProps) => {
+const BackHeader = ({name, nav, num, button, func, modal}: headerProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  console.log(modal);
   return (
     <Frame>
       <Left>
         {nav && (
-          <View onTouchStart={() => nav.goBack()}>
+          <View
+            onTouchStart={e => {
+              nav.goBack();
+              e.stopPropagation();
+            }}>
             <Arrow_left />
           </View>
         )}
@@ -36,12 +44,36 @@ const BackHeader = ({name, nav, num, button, func}: headerProps) => {
           {button}
         </Txt>
       )}
+      {isOpen && <Background onPress={() => setIsOpen(false)} />}
+      {modal && (
+        <Pressable
+          onPress={e => {
+            setIsOpen(v => !v);
+            e.stopPropagation();
+          }}>
+          <More />
+          {isOpen && <ModalFrame>{modal}</ModalFrame>}
+        </Pressable>
+      )}
     </Frame>
   );
 };
 
 export default BackHeader;
 
+const ModalFrame = styled.View`
+  z-index: 100;
+  position: absolute;
+  right: 0;
+  top: 48px;
+`;
+const Background = styled.Pressable`
+  width: ${Dimensions.get('window').width}px;
+  height: 2000px;
+  position: absolute;
+  background-color: transparent;
+  z-index: -1;
+`;
 const Left = styled.View`
   gap: 8px;
   flex-direction: row;
@@ -56,4 +88,5 @@ const Frame = styled.View`
   justify-content: space-between;
   border-bottom-width: 1px;
   border-bottom-color: ${color.Gray[100]};
+  z-index: 10;
 `;
