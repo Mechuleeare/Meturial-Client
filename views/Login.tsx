@@ -5,24 +5,24 @@ import {BackArrow, LoginTitle} from '../assets';
 import Txt from '../components/Txt';
 import Input from '../components/Input';
 import Button from '../components/Button';
-// import {useState} from 'react';
-// import axios from 'axios';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {BaseUrl} from '../utils';
+import {useState} from 'react';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BaseUrl} from '../utils';
 
 export const Login = ({navigation}: any) => {
-  // const [emailValue, setEmailValue] = useState<string>();
-  // const [pwValue, setpwValue] = useState<string>();
+  const [emailValue, setEmailValue] = useState<string>();
+  const [pwValue, setpwValue] = useState<string>();
 
   const HandleLogin = async () => {
     try {
-      // const result = await axios.post(`${BaseUrl}/auth/token`, {
-      //   email: emailValue,
-      //   password: pwValue,
-      // });
-      // console.log(result.data);
-      // await AsyncStorage.setItem('AccessToken', result.data.accessToken);
-      // await AsyncStorage.setItem('RefreshToken', result.data.refreshToken);
+      const result = await axios.post(`${BaseUrl}/auth/token`, {
+        email: emailValue,
+        password: pwValue,
+      });
+      console.log(result.data);
+      await AsyncStorage.setItem('AccessToken', result.data.accessToken);
+      await AsyncStorage.setItem('RefreshToken', result.data.refreshToken);
       navigation.navigate('HomeTabs');
     } catch (error) {
       console.log(error);
@@ -48,13 +48,13 @@ export const Login = ({navigation}: any) => {
           title="이메일"
           placeholder="이메일을 입력해 주세요"
           eyeCheck={false}
-          // fun={setEmailValue}
+          fun={setEmailValue}
         />
         <Input
           title="비밀번호"
           placeholder="비밀번호를 입력해 주세요"
           eyeCheck={true}
-          // fun={setpwValue}
+          fun={setpwValue}
         />
         <FindPw>
           <Txt
