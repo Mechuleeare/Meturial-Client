@@ -10,9 +10,28 @@ const Review = ({route, navigation}: any) => {
 
   const star = 4;
 
+  const Modal = (
+    <MFrame>
+      <List
+        style={({pressed}) => [
+          {backgroundColor: pressed ? color.Gray[100] : color.White},
+        ]}>
+        <Txt typography="LabelMedium">수정하기</Txt>
+      </List>
+      <List
+        style={({pressed}) => [
+          {backgroundColor: pressed ? color.Gray[100] : color.White},
+        ]}>
+        <Txt typography="LabelMedium" color={color.Red.Point}>
+          삭제하기
+        </Txt>
+      </List>
+    </MFrame>
+  );
+
   return (
     <Flex>
-      <BackHeader name={recipe} nav={navigation} />
+      <BackHeader name={recipe} nav={navigation} modal={Modal} />
       <Frame>
         <Img
           source={{
@@ -49,6 +68,20 @@ const Review = ({route, navigation}: any) => {
 
 export default Review;
 
+const List = styled.Pressable`
+  padding: 8px;
+  border-radius: 6px;
+  background-color: ${color.White};
+`;
+const MFrame = styled.View`
+  padding: 4px;
+  gap: 2px;
+  border-width: 2px;
+  border-color: ${color.Gray[50]};
+  width: 100px;
+  border-radius: 8px;
+  background-color: ${color.White};
+`;
 const Frame = styled.View`
   flex: 1;
   padding: 24px 16px 0;
