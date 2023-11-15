@@ -55,7 +55,6 @@ interface ButtonProps {
   icon?: ReactNode;
   onPress?: () => void;
 }
-
 const Button = ({
   status = 'primary',
   children,
