@@ -13,20 +13,12 @@ const RecipeLarge = ({
   nav?: any;
   data?: recommendDataRes | undefined;
 }) => {
-  function urlEncoding(url: string) {
-    let kor = url.split('/');
-    let encodeTxt = encodeURIComponent(kor[4]);
-    kor[4] = encodeTxt;
-    let result = kor.join('/');
-    console.log(result);
-    return result;
-  }
   return (
     <View>
       {data ? (
         <RecipeFrame
           onTouchEnd={() => nav.navigate('DetailRecipe', {recipe: data.name})}>
-          <BigImg source={{uri: `${urlEncoding(data.url)}`}} />
+          <BigImg source={{uri: `${data.url}`}} />
           <Title>
             <Txt typography="TitleMedium">{data.name}</Txt>
             <WishButton size={18} />

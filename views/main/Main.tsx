@@ -37,7 +37,7 @@ const todayMenu: todayMenuProps = {
 };
 
 export const Access_Token =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3amtubjMxMjNAZ21haWwuY29tIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwMDEyNzkxMSwiZXhwIjoxNzAwMTM1MTExfQ.W7a-omzbinyKQfj1iFs3q8-sLm1iGs4F-Syisaog6-rku_c8rC00uMZcfJDID_GnbzP_SZ4hsm6EvaAXphK-VQ';
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3amtubjMxMjNAZ21haWwuY29tIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwMDEzNzUyMiwiZXhwIjoxNzAwMTQ0NzIyfQ.0Vj0at6c5FgapVb9QJFB0gGNcePgbczxBXxYceVLMWx5_qNeCK0SE1ZxXwX8oCKInsE--yAiXAwqevLGdxdsSw';
 
 export interface recommendDataRes {
   name: string;
