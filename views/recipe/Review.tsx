@@ -3,12 +3,51 @@ import {color} from '../../style/color';
 import BackHeader from '../../components/BackHeader';
 import Txt from '../../components/Txt';
 import {Star_filled} from '../../assets';
+import {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {BaseUrl} from '../../utils';
+
+interface ReviewDataType {
+  recipeId: string;
+  recipeName: string;
+  writerName: string;
+  starRating: number;
+  content: string;
+  reviewImageUrl: string;
+  createdAt: string;
+}
 
 const Review = ({route, navigation}: any) => {
-  const {recipe, data} = route.params;
-  console.log(data);
+  const {data} = route.params;
+  const [reviewData, setReviewData] = useState<ReviewDataType>({
+    recipeId: '',
+    recipeName: '',
+    writerName: '',
+    starRating: 0,
+    content: '',
+    reviewImageUrl: '',
+    createdAt: '',
+  });
 
-  const star = 4;
+  useEffect(() => {
+    async function AxiosReviewDetail() {
+      const Token = await AsyncStorage.getItem('AccessToken');
+      try {
+        const result = await axios.get(`${BaseUrl}/review/${data}`, {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        });
+        console.log(result.data);
+        setReviewData(result.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    AxiosReviewDetail();
+  }, [data]);
 
   const Modal = (
     <MFrame>
@@ -30,36 +69,37 @@ const Review = ({route, navigation}: any) => {
   );
 
   return (
-    <Flex>
-      <BackHeader name={recipe} nav={navigation} modal={Modal} />
+    <Flex key={reviewData.recipeId}>
+      <BackHeader name={reviewData.recipeName} nav={navigation} modal={Modal} />
       <Frame>
         <Img
           source={{
-            uri: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            uri: reviewData.reviewImageUrl,
           }}
         />
         <Content>
           <TxtFrame>
-            <Txt typography="TitleLarge">강진현</Txt>
+            <Txt typography="TitleLarge">{reviewData.writerName}</Txt>
             <StarFrame>
               <Star>
                 {[1, 2, 3, 4, 5].map((v, i) => (
                   <Star_filled
                     size={14}
                     key={i}
-                    color={v > star ? color.Gray[100] : color.Yellow.Point}
+                    color={
+                      v > reviewData?.starRating
+                        ? color.Gray[100]
+                        : color.Yellow.Point
+                    }
                   />
                 ))}
               </Star>
               <Txt typography="LabelMedium" color={color.Gray[300]}>
-                2023.10.10
+                {reviewData.createdAt.substring(0, 10).replaceAll('-', '.')}
               </Txt>
             </StarFrame>
           </TxtFrame>
-          <Txt color={color.Gray[800]}>
-            만들기도 증말 쉽고 너무너무 맛있네요. 아들이 이거 먹고 행복맨이
-            되었어요. 감사합니다.
-          </Txt>
+          <Txt color={color.Gray[800]}>{reviewData.content}</Txt>
         </Content>
       </Frame>
     </Flex>
