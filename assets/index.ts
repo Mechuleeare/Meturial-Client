@@ -9,6 +9,7 @@ export {default as Add} from './Images/add.png';
 export {default as AllergyTitle} from './Images/AllergyTitle.png';
 export {default as AllergyCheckTitle} from './Images/AllergyCheckTitle.png';
 export {default as Gear} from './Images/gear.png';
+export {default as PwChangeTitle} from './Images/PWChangeTitle.png';
 
 export * from './Person';
 export * from './Person_filled';
@@ -25,6 +26,6 @@ export * from './Search';
 export * from './Arrow_right';
 export * from './Arrow_left';
 export * from './Star_filed';
-export * from './File_upload';
+export * from './file_upload';
 export * from './Pencil';
 export * from './More';
