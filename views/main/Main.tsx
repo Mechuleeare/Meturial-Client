@@ -6,6 +6,8 @@ import {Access_time, Search} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
 import TodayMenu from '../../components/TodayMenu';
 import RecipeLarge from '../../components/RecipeLarge';
+import {useEffect, useState} from 'react';
+import axios from 'axios';
 
 export interface menuType {
   menu?: string;
@@ -45,7 +47,32 @@ const category: string[] = [
   '면요리',
 ];
 
+const Access_Token =
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3amtubjMxMjNAZ21haWwuY29tIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwMDA1MTA2MiwiZXhwIjoxNzAwMDU4MjYyfQ.w6j9Nh0leIY5MPIWQ8Y62JBJ_ZFqJAN_ba9-wZ3Esx7l-HFGEpo4gH-Yo-aVkLqDv4XqLAmNmlXfThvEk4XllA';
+
+export interface recommendDataRes {
+  name: string;
+  bigtype: string;
+  material: string;
+  description: string;
+  url: string;
+}
+
 export const Main = ({navigation}: any) => {
+  const [recommendData, setRecommendData] = useState<recommendDataRes[]>([]);
+
+  useEffect(() => {
+    async function getRecommendRecipe() {
+      await axios
+        .get('http://192.168.1.113:8000/recipe/today', {
+          headers: {Autorization: `Bearer ${Access_Token}`},
+        })
+        .then(res => setRecommendData(res.data))
+        .catch(err => console.log(err));
+    }
+
+    getRecommendRecipe();
+  }, []);
   return (
     <Frame>
       <Header>
@@ -105,8 +132,8 @@ export const Main = ({navigation}: any) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 8}}>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map(v => (
-            <RecipeLarge nav={navigation} key={v} />
+          {recommendData.slice(0, 6).map((v, i) => (
+            <RecipeLarge nav={navigation} data={v} key={i} />
           ))}
         </RecommendRecipe>
       </Content>
