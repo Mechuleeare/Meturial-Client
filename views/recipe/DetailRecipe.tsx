@@ -6,7 +6,7 @@ import Line from '../../components/Line';
 import {File_upload, Pencil, Star_filled} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
 import Button from '../../components/Button';
-import ReviewPreview from '../../components/ReviewPreview';
+// import ReviewPreview from '../../components/ReviewPreview';
 import WishButton from '../../components/WishButton';
 
 interface sequence {
@@ -135,14 +135,14 @@ const DetailRecipe = ({route, navigation}: any) => {
             }>
             요리 후기 작성하기
           </Button>
-          {[1, 2, 3].map(v => (
+          {/* {[1, 2, 3].map(v => (
             <ReviewPreview
               key={v}
               onTouch={() =>
                 navigation.navigate('Review', {recipe: recipe, data: v})
               }
             />
-          ))}
+          ))} */}
           <Button
             status="outline"
             onPress={() => navigation.navigate('ReviewAll', {recipe: recipe})}>

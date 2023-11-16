@@ -36,7 +36,7 @@ const todayMenu: todayMenuProps = {
   },
 };
 
-const Access_Token =
+export const Access_Token =
   'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3amtubjMxMjNAZ21haWwuY29tIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwMDEyNzkxMSwiZXhwIjoxNzAwMTM1MTExfQ.W7a-omzbinyKQfj1iFs3q8-sLm1iGs4F-Syisaog6-rku_c8rC00uMZcfJDID_GnbzP_SZ4hsm6EvaAXphK-VQ';
 
 export interface recommendDataRes {
@@ -115,7 +115,9 @@ export const Main = ({navigation}: any) => {
                   <ItemBox
                     key={v.categoryName}
                     onTouchEnd={() =>
-                      navigation.navigate('CategoryRecipe', {recipe: v})
+                      navigation.navigate('CategoryRecipe', {
+                        recipe: v.categoryName,
+                      })
                     }>
                     <ItemImg />
                     <Txt typography="LabelMedium">{v.categoryName}</Txt>
