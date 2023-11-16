@@ -1,14 +1,14 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
 import Txt from '../../components/Txt';
-import {Image} from 'react-native';
-import {Gear, Pencil} from '../../assets';
+import {Pencil} from '../../assets';
 import Button from '../../components/Button';
 import ReviewPreview from '../../components/ReviewPreview';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {BaseUrl} from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
 
 interface RecipeType {
   content: string;
@@ -19,11 +19,21 @@ interface RecipeType {
   starRating: number;
 }
 
+interface InformaionType {
+  profileImageUrl: string;
+  name: string;
+  email: string;
+}
+
 export const My = ({navigation}: any) => {
   const [recipe, setRecipe] = useState<RecipeType[]>([]);
+  const [recipeCount, setRecipeCount] = useState<string>();
+  const [information, setInformaion] = useState<InformaionType>();
+  const [allergyData, setAllergyData] = useState<string[]>([]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    async function AxiosMyApi() {
+    async function AxiosMyRecipeApi() {
       const Token = await AsyncStorage.getItem('AccessToken');
       try {
         const result = await axios.get(`${BaseUrl}/review/my`, {
@@ -35,51 +45,80 @@ export const My = ({navigation}: any) => {
         const recipeData = result.data.myReviewList;
         const sliceData = recipeData.slice(0, 3);
         setRecipe(sliceData);
+        setRecipeCount(result.data.myReviewCount);
       } catch (error) {
         console.log(error);
       }
     }
 
-    AxiosMyApi();
-  }, []);
+    async function AxiosMyInformation() {
+      const Token = await AsyncStorage.getItem('AccessToken');
+      try {
+        const result = await axios.get(`${BaseUrl}/user/my-page`, {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        });
+        console.log(result.data);
+        setInformaion(result.data);
+        const all = result.data;
+        const AllergySplit = all.split(',');
+        setAllergyData(AllergySplit);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    AxiosMyInformation();
+    AxiosMyRecipeApi();
+  }, [isFocused]);
 
   return (
     <Background>
       <Header>
         <Txt typography="TitleMedium">마이페이지</Txt>
-        <Image source={Gear} />
       </Header>
       <Line />
       <ScrollView>
         <Information>
           <Profile
             source={{
-              uri: 'https://s3.ap-northeast-2.amazonaws.com/meturial-bucket/08efe72f-e897-4a63-b202-1cc012d85a91test%201.jpg',
+              uri: information?.profileImageUrl,
             }}
           />
           <Margin>
-            <Txt typography="TitleLarge">최승우</Txt>
+            <Txt typography="TitleLarge">{information?.name}</Txt>
             <Txt typography="BodyMedium" color={color.Gray[600]}>
-              wjknn3123@gmail.com
+              {information?.email}
             </Txt>
           </Margin>
-          <Button status="outline" icon={<Pencil size={20} />}>
+          <Button
+            status="outline"
+            icon={<Pencil size={20} />}
+            onPress={() =>
+              navigation.navigate('MyFixed', {
+                ImgUrl: information?.profileImageUrl,
+                name: information?.name,
+              })
+            }>
             내정보 수정하기
           </Button>
         </Information>
         <AllergyInfromation>
           <Txt typography="TitleMedium">알레르기</Txt>
           <AllergyFlex>
-            <Allergy>
-              <Txt typography="LabelSmall">복숭아</Txt>
-            </Allergy>
+            {allergyData.map(v => (
+              <Allergy>
+                <Txt typography="LabelSmall">{v}</Txt>
+              </Allergy>
+            ))}
           </AllergyFlex>
         </AllergyInfromation>
         <MyReview>
           <ReviewTitle>
             <Txt typography="TitleMedium">내가 작성한 후기</Txt>
             <Txt typography="TitleMedium" color={color.Green.Point}>
-              12
+              {recipeCount}
             </Txt>
           </ReviewTitle>
           <ReviewFlex>
@@ -93,14 +132,15 @@ export const My = ({navigation}: any) => {
                 createdAt={v.createdAt}
                 onTouch={() =>
                   navigation.navigate('Review', {
-                    recipe: v.recipeName,
                     data: v.reviewId,
                   })
                 }
               />
             ))}
           </ReviewFlex>
-          <Button status="outline" onPress={navigation.navigate('A')}>
+          <Button
+            status="outline"
+            onPress={() => navigation.navigate('MyReviewList')}>
             내가 작성한 후기 모두 보기
           </Button>
         </MyReview>
@@ -117,12 +157,9 @@ const Background = styled.View`
 const Header = styled.View`
   width: 100%;
   height: 48px;
-  padding: 12px 0;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
+  padding: 12px 16px;
   background-color: ${color.White};
+  justify-content: center;
 `;
 
 const Line = styled.View`
