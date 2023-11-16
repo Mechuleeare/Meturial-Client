@@ -47,7 +47,7 @@ export interface recommendDataRes {
   url: string;
 }
 
-interface categoryRes {
+export interface categoryRes {
   categoryName: string;
   categoryImageUrl: string;
 }
