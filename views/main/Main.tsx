@@ -36,19 +36,8 @@ const todayMenu: todayMenuProps = {
   },
 };
 
-const category: string[] = [
-  '한식',
-  '양식',
-  '일식',
-  '중식',
-  '분식',
-  '음료',
-  '디저트',
-  '면요리',
-];
-
 const Access_Token =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3amtubjMxMjNAZ21haWwuY29tIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwMDA1MTA2MiwiZXhwIjoxNzAwMDU4MjYyfQ.w6j9Nh0leIY5MPIWQ8Y62JBJ_ZFqJAN_ba9-wZ3Esx7l-HFGEpo4gH-Yo-aVkLqDv4XqLAmNmlXfThvEk4XllA';
+  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3amtubjMxMjNAZ21haWwuY29tIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwMDEyNzkxMSwiZXhwIjoxNzAwMTM1MTExfQ.W7a-omzbinyKQfj1iFs3q8-sLm1iGs4F-Syisaog6-rku_c8rC00uMZcfJDID_GnbzP_SZ4hsm6EvaAXphK-VQ';
 
 export interface recommendDataRes {
   name: string;
@@ -58,16 +47,32 @@ export interface recommendDataRes {
   url: string;
 }
 
+interface categoryRes {
+  categoryName: string;
+  categoryImageUrl: string;
+}
+
 export const Main = ({navigation}: any) => {
-  const [recommendData, setRecommendData] = useState<recommendDataRes[]>([]);
+  const [recommendData, setRecommendData] = useState<
+    recommendDataRes[] | undefined
+  >(undefined);
+  const [category, setCategory] = useState<categoryRes[] | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     async function getRecommendRecipe() {
       await axios
-        .get('http://192.168.1.113:8000/recipe/today', {
+        .get('http://43.202.18.230:8000/recipe/today', {
           headers: {Autorization: `Bearer ${Access_Token}`},
         })
-        .then(res => setRecommendData(res.data))
+        .then(res => setRecommendData([res.data]))
+        .catch(err => console.log(err));
+      await axios
+        .get('http://43.202.18.230:80/recipe/category', {
+          headers: {Authorization: `Bearer ${Access_Token}`},
+        })
+        .then(res => setCategory(res.data.category))
         .catch(err => console.log(err));
     }
 
@@ -105,16 +110,30 @@ export const Main = ({navigation}: any) => {
         <Box>
           <UnderTxt>레시피 카테고리</UnderTxt>
           <CategoryFrame>
-            {category.map(v => (
-              <ItemBox
-                key={v}
-                onTouchEnd={() =>
-                  navigation.navigate('CategoryRecipe', {recipe: v})
-                }>
-                <ItemImg />
-                <Txt typography="LabelMedium">{v}</Txt>
-              </ItemBox>
-            ))}
+            {category
+              ? category.map(v => (
+                  <ItemBox
+                    key={v.categoryName}
+                    onTouchEnd={() =>
+                      navigation.navigate('CategoryRecipe', {recipe: v})
+                    }>
+                    <ItemImg />
+                    <Txt typography="LabelMedium">{v.categoryName}</Txt>
+                  </ItemBox>
+                ))
+              : [1, 2, 3, 4, 5, 6, 7, 8].map(v => (
+                  <ItemBox key={v}>
+                    <ItemImg />
+                    <View
+                      style={{
+                        backgroundColor: color.Gray[50],
+                        height: 18,
+                        width: 32,
+                        borderRadius: 8,
+                      }}
+                    />
+                  </ItemBox>
+                ))}
           </CategoryFrame>
         </Box>
         <Box>
@@ -132,9 +151,11 @@ export const Main = ({navigation}: any) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 8}}>
-          {recommendData.slice(0, 6).map((v, i) => (
-            <RecipeLarge nav={navigation} data={v} key={i} />
-          ))}
+          {recommendData
+            ? recommendData.map((v, i) => (
+                <RecipeLarge nav={navigation} data={v} key={i} />
+              ))
+            : [1, 2, 3, 4, 5, 6].map(v => <RecipeLarge key={v} />)}
         </RecommendRecipe>
       </Content>
     </Frame>
