@@ -1,15 +1,40 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {Image} from 'react-native';
+import {Alert, Image} from 'react-native';
 import {BackArrow, PwChangeTitle} from '../../assets';
 import Txt from '../../components/Txt';
 import Input from '../../components/Input';
 import {useState} from 'react';
 import Button from '../../components/Button';
+import axios from 'axios';
+import {BaseUrl} from '../../utils';
 
-export const PwChange = ({navigation}: any) => {
-  const [email, setEmail] = useState<string>();
-  const [number, setNumber] = useState<string>();
+export const PwChange = ({navigation, route}: any) => {
+  const email = route.params;
+  const [newPw, setNewPw] = useState<string>();
+  const [newPwCheck, setNewPwCheck] = useState<string>();
+
+  const HandlePwChange = async () => {
+    if (newPw === newPwCheck) {
+      try {
+        const result = await axios.put(`${BaseUrl}/auth/find`, {
+          email: email.emailValue,
+          newPassword: newPw,
+        });
+        console.log(result.data);
+        navigation.navigate('Login');
+      } catch (error) {
+        console.log(error);
+        Alert.alert('비밀번호를 다시 확인해주세요', '', [
+          {text: '확인', style: 'cancel'},
+        ]);
+      }
+    } else {
+      Alert.alert('비밀번호를 다시 확인해주세요', '', [
+        {text: '확인', style: 'cancel'},
+      ]);
+    }
+  };
 
   return (
     <Background>
@@ -19,26 +44,22 @@ export const PwChange = ({navigation}: any) => {
         </BackImage>
       </Header>
       <Image source={PwChangeTitle} />
-      <Txt typography="TitleSmall">이메일 인증해 주세요</Txt>
+      <Txt typography="TitleSmall">새 비밀번호를 입력해주세요</Txt>
       <CheckFlex>
         <Input
-          title="이메일"
-          eyeCheck={false}
-          placeholder="이메일을 입력해 주세요"
-          fun={setEmail}
-          email="email"
-          emailValue={email}
+          title="새 비밀번호"
+          eyeCheck={true}
+          placeholder="영문 숫자 특수기호 포함 8자리 이상"
+          fun={setNewPw}
         />
         <Input
-          title="인증번호"
-          eyeCheck={false}
-          placeholder="인증번호를 입력해 주세요"
-          fun={setNumber}
-          email="number"
-          emailValue={number}
+          title="새 비밀번호 재입력"
+          eyeCheck={true}
+          placeholder="새 비밀번호를 다시 입력해 주세요"
+          fun={setNewPwCheck}
         />
       </CheckFlex>
-      <Button>다음</Button>
+      <Button onPress={HandlePwChange}>비밀번호 변경</Button>
     </Background>
   );
 };
