@@ -1,7 +1,7 @@
 import {styled} from 'styled-components/native';
 import {color} from '../style/color';
 import {Image, Pressable, Alert} from 'react-native';
-import {BackArrow, LoginTitle} from '../assets';
+import {BackArrow} from '../assets';
 import Txt from '../components/Txt';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -9,6 +9,7 @@ import {useState} from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BaseUrl} from '../utils';
+import UnderTxt from '../components/UnderTxt';
 
 export const Login = ({navigation}: any) => {
   const [emailValue, setEmailValue] = useState<string>();
@@ -40,7 +41,7 @@ export const Login = ({navigation}: any) => {
         </Pressable>
       </BackPageFlex>
       <TitleFlex>
-        <Image source={LoginTitle} />
+        <UnderTxt typo="HeadlineLarge">로그인</UnderTxt>
         <Txt typography="TitleSmall">로그인 하여 서비스를 이용해 보세요</Txt>
       </TitleFlex>
       <InputFlex>
@@ -88,19 +89,21 @@ const Background = styled.View`
 const BackPageFlex = styled.View`
   width: 100%;
   height: 48px;
+  justify-content: center;
+  margin: 0 0 16px;
 `;
 
 const TitleFlex = styled.View`
   display: flex;
   width: 100%;
-  height: 120px;
   gap: 6px;
+  margin: 0 0 36px;
 `;
 
 const InputFlex = styled.View`
   display: flex;
   width: 100%;
-  height: 70%;
+  flex: 1;
   gap: 18px;
 `;
 
@@ -114,5 +117,5 @@ const SignupGo = styled.View`
   flex-direction: row;
   justify-content: center;
   gap: 8px;
-  margin-top: 18px;
+  margin: 18px 0 0;
 `;
