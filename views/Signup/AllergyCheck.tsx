@@ -61,31 +61,31 @@ export const AllergyCheck = ({navigation, route}: any) => {
 
 const Background = styled.View`
   width: 100%;
-  height: 100%;
+  flex: 1;
   background-color: ${color.White};
-  padding: 32px 16px;
+  padding: 0 16px 32px;
 `;
 
 const BackPageFlex = styled.View`
   width: 100%;
   height: 48px;
+  justify-content: center;
 `;
 
 const TitleFlex = styled.View`
   display: flex;
   width: 100%;
-  height: 120px;
   gap: 6px;
+  margin-top: 16px;
 `;
 
 const Margin = styled.View`
   width: 100%;
-  height: 64%;
+  flex: 1;
 `;
 
 const ButtonFlex = styled.View`
   display: flex;
   gap: 18px;
   width: 100%;
-  height: 15%;
 `;

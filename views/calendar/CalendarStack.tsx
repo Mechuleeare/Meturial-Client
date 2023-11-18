@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import {TodayRecipe} from './TodayRecipe';
+// import {TodayRecipe} from './TodayRecipe';
 import {Calendar} from './Calendar';
 
 const CalendarStack = () => {
@@ -9,7 +9,7 @@ const CalendarStack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="TodayRecipe">
-      <Stack.Screen name="TodayRecipe" component={TodayRecipe} />
+      {/* <Stack.Screen name="TodayRecipe" component={TodayRecipe} /> */}
       <Stack.Screen name="Calendar" component={Calendar} />
     </Stack.Navigator>
   );
