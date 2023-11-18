@@ -7,6 +7,7 @@ export {default as Add} from './Images/add.png';
 export {default as AllergyTitle} from './Images/AllergyTitle.png';
 export {default as AllergyCheckTitle} from './Images/AllergyCheckTitle.png';
 export {default as Gear} from './Images/gear.png';
+export {default as ProfileImg} from './Images/Profile.png';
 
 export * from './Person';
 export * from './Person_filled';
