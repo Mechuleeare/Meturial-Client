@@ -93,7 +93,9 @@ export const MyFixed = ({navigation, route}: any) => {
           inputValue={nameValue}
         />
         <Button status="silver">알레르기 관리</Button>
-        <Button status="silver" onPress={() => navigation.navigate('PwChange')}>
+        <Button
+          status="silver"
+          onPress={() => navigation.navigate('PwChangeCheck')}>
           비밀번호 변경
         </Button>
       </ButtonFlex>

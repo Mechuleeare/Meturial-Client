@@ -13,6 +13,10 @@ import {Allergy} from './views/Signup/Allergy';
 import ReviewAll from './views/recipe/ReviewAll';
 import Review from './views/recipe/Review';
 import ReviewManagement from './views/recipe/ReviewManagement';
+import {MyReviewList} from './views/my/MyReviewList';
+import {MyFixed} from './views/my/MyFixed';
+import {PwChangeCheck} from './views/my/PwChangeCheck';
+import {PwChange} from './views/my/PwChange';
 
 const HelloWorldApp = () => {
   const Stack = createStackNavigator();
@@ -22,11 +26,17 @@ const HelloWorldApp = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Navigator
+          screenOptions={{headerShown: false}}
+          initialRouteName="Start">
           <Stack.Screen name="HomeTabs" component={TabNavigation} />
           <Stack.Screen name="ReviewAll" component={ReviewAll} />
           <Stack.Screen name="Review" component={Review} />
           <Stack.Screen name="ReviewManagement" component={ReviewManagement} />
+          <Stack.Screen name="MyReviewList" component={MyReviewList} />
+          <Stack.Screen name="MyFixed" component={MyFixed} />
+          <Stack.Screen name="PwChangeCheck" component={PwChangeCheck} />
+          <Stack.Screen name="PwChange" component={PwChange} />
           {/* <Stack.Navigator initialRouteName="Start"> */}
           <Stack.Screen name="Start" component={Start} />
           <Stack.Screen name="Login" component={Login} />

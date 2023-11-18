@@ -145,14 +145,6 @@ const ProfileInput = styled(Pressable)`
   justify-content: center;
 `;
 
-const SignupGo = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 18px;
-`;
-
 const UploadImageBackground = styled.ImageBackground`
   width: 100%;
   height: 200px;
@@ -172,4 +164,12 @@ const UploadImage = styled.Image`
   height: 100%;
   border-radius: 8px;
   object-fit: cover;
+`;
+
+const SignupGo = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
 `;
