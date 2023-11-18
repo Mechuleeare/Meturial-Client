@@ -10,6 +10,8 @@ export {default as AllergyTitle} from './Images/AllergyTitle.png';
 export {default as AllergyCheckTitle} from './Images/AllergyCheckTitle.png';
 export {default as Gear} from './Images/gear.png';
 export {default as PwChangeTitle} from './Images/PWChangeTitle.png';
+export {default as CalendarTitle} from './Images/CalenderTitle.png';
+export {default as WishTitle} from './Images/WishTitle.png';
 
 export * from './Person';
 export * from './Person_filled';
