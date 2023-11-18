@@ -60,7 +60,7 @@ export const Login = ({navigation}: any) => {
           <Txt
             typography="BodySmall"
             color={color.Blue.Point}
-            onPress={() => navigation.navigate('Signup')}>
+            onPress={() => navigation.navigate('PwChangeCheck')}>
             비밀번호를 잊으셨나요?
           </Txt>
         </FindPw>
