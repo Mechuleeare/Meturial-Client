@@ -13,6 +13,7 @@ const RecipeLarge = ({
   nav?: any;
   data?: recommendDataRes | undefined;
 }) => {
+  console.log(data?.url);
   return (
     <View>
       {data ? (

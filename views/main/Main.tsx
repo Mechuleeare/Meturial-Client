@@ -8,6 +8,7 @@ import TodayMenu from '../../components/TodayMenu';
 import RecipeLarge from '../../components/RecipeLarge';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface menuType {
   menu?: string;
@@ -36,15 +37,13 @@ const todayMenu: todayMenuProps = {
   },
 };
 
-export const Access_Token =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3amtubjMxMjNAZ21haWwuY29tIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwMDEzNzUyMiwiZXhwIjoxNzAwMTQ0NzIyfQ.0Vj0at6c5FgapVb9QJFB0gGNcePgbczxBXxYceVLMWx5_qNeCK0SE1ZxXwX8oCKInsE--yAiXAwqevLGdxdsSw';
-
 export interface recommendDataRes {
   name: string;
   bigtype: string;
   material: string;
   description: string;
   url: string;
+  id: number;
 }
 
 export interface categoryRes {
@@ -62,15 +61,16 @@ export const Main = ({navigation}: any) => {
 
   useEffect(() => {
     async function getRecommendRecipe() {
+      const Token = await AsyncStorage.getItem('AccessToken');
       await axios
         .get('http://43.202.18.230:8000/recipe/today', {
-          headers: {Autorization: `Bearer ${Access_Token}`},
+          headers: {Autorization: `Bearer ${Token}`},
         })
-        .then(res => setRecommendData([res.data]))
+        .then(res => setRecommendData([...res.data]))
         .catch(err => console.log(err));
       await axios
         .get('http://43.202.18.230:80/recipe/category', {
-          headers: {Authorization: `Bearer ${Access_Token}`},
+          headers: {Authorization: `Bearer ${Token}`},
         })
         .then(res => setCategory(res.data.category))
         .catch(err => console.log(err));
@@ -154,7 +154,7 @@ export const Main = ({navigation}: any) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 8}}>
           {recommendData
-            ? recommendData.map((v, i) => (
+            ? recommendData.map((v: recommendDataRes, i) => (
                 <RecipeLarge nav={navigation} data={v} key={i} />
               ))
             : [1, 2, 3, 4, 5, 6].map(v => <RecipeLarge key={v} />)}
