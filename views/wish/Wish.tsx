@@ -1,7 +1,7 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
 import Txt from '../../components/Txt';
-import {WishPreview} from '../../components/WishPreview';
+import {RecipeSmall} from '../../components/RecipeSmall';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BaseUrl} from '../../utils';
 import axios from 'axios';
@@ -18,7 +18,7 @@ interface WishPreviewData {
   recipeCategory: string;
 }
 
-export const Wish = () => {
+export const Wish = ({navigation}: any) => {
   const [wishListData, setWishListData] = useState<WishPreviewData[]>([]);
   const [wishListCount, setWishListCount] = useState<number>(0);
   useEffect(() => {
@@ -54,15 +54,16 @@ export const Wish = () => {
       </Header>
       <PreviewList>
         {wishListData.map(v => (
-          <WishPreview
+          <RecipeSmall
             choiceId={v.choiceId}
             recipeId={v.recipeId}
             name={v.name}
             starRating={v.starRating}
             starCount={v.starCount}
             recipeImageUrl={v.recipeImageUrl}
-            recipeCategory={v.recipeCategory}
+            recipeCategory={v.recipeCategory.split(', ')}
             wishState={true}
+            navigation={navigation}
           />
         ))}
       </PreviewList>

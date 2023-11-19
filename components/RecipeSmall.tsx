@@ -5,18 +5,18 @@ import {Star_filled} from '../assets';
 import {color} from '../style/color';
 
 interface WishPreviewProps {
-  choiceId: string;
+  choiceId?: string;
   recipeId: string;
   name: string;
   starRating: number;
   starCount: number;
   recipeImageUrl: string;
-  recipeCategory: string;
+  recipeCategory: string[];
   navigation?: any;
   wishState: boolean;
 }
 
-export const WishPreview = ({
+export const RecipeSmall = ({
   choiceId,
   recipeId,
   name,
@@ -48,9 +48,11 @@ export const WishPreview = ({
           {starCount}명의 후기
         </Txt>
         <Bottom>
-          <Txt typography="BodySmall" color={color.Green.Point}>
-            {recipeCategory}
-          </Txt>
+          {recipeCategory.map((v, i) => (
+            <Txt typography="BodySmall" color={color.Green.Point} key={i}>
+              #{v}
+            </Txt>
+          ))}
         </Bottom>
       </Center>
       <WishPosition>
