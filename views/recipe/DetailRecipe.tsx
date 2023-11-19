@@ -38,7 +38,7 @@ interface recipeReviewListType {
   starRating: number;
   reviewImageUrl: string;
   content: string;
-  createAt: string;
+  createdAt: string;
 }
 
 export interface recipeReviewRes {
@@ -151,7 +151,7 @@ const DetailRecipe = ({route, navigation}: any) => {
             <ReviewPreview
               name={v.writerName}
               content={v.content}
-              createdAt={v.createAt}
+              createdAt={v.createdAt}
               starRating={v.starRating}
               reviewImageUrl={v.reviewImageUrl}
               key={v.reviewId}

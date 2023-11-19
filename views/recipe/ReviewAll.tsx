@@ -25,7 +25,7 @@ const ReviewAll = ({route, navigation}: any) => {
           <ReviewPreview
             name={v.writerName}
             content={v.content}
-            createdAt={v.createAt}
+            createdAt={v.createdAt}
             starRating={v.starRating}
             reviewImageUrl={v.reviewImageUrl}
             key={v.reviewId}
