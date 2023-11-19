@@ -27,3 +27,4 @@ export * from './File_upload';
 export * from './Pencil';
 export * from './More';
 export * from './Arrow_back';
+export * from './Filter';

@@ -55,7 +55,6 @@ export const Wish = ({navigation}: any) => {
       <PreviewList>
         {wishListData.map(v => (
           <RecipeSmall
-            choiceId={v.choiceId}
             recipeId={v.recipeId}
             name={v.name}
             starRating={v.starRating}

@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import {color} from '../../style/color';
-import {Search} from '../../assets';
+import {Filter, Search} from '../../assets';
 import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -20,6 +20,7 @@ interface RankingRes {
 
 const Ranking = ({navigation}: any) => {
   const [ranking, setRanking] = useState<RankingRes[] | undefined>(undefined);
+  const [isStar, setIsStar] = useState<boolean>(true);
 
   useEffect(() => {
     async function getRecommendRecipe() {
@@ -27,14 +28,14 @@ const Ranking = ({navigation}: any) => {
       await axios
         .get('http://43.202.18.230:80/recipe/ranking', {
           headers: {Authorization: `Bearer ${Token}`},
-          params: {type: 'starRating'},
+          params: {type: isStar ? 'starRating' : 'starCount'},
         })
         .then(res => setRanking(res.data.recipeRankingList))
         .catch(err => console.log(err));
     }
 
     getRecommendRecipe();
-  }, []);
+  }, [isStar]);
 
   console.log(ranking?.length);
   return (
@@ -58,11 +59,20 @@ const Ranking = ({navigation}: any) => {
           <Search color={color.Gray[400]} />
         </InputFrame>
       </Gap>
+      <FilterFrame onPress={() => setIsStar(v => !v)}>
+        <Txt typography="TitleSmall">레시피 랭킹</Txt>
+        <Row2>
+          <Txt typography="LabelLarge" color={color.Green[600]}>
+            {isStar ? '별점순' : '후기순'}
+          </Txt>
+          <Filter size={18} color={color.Green[600]} />
+        </Row2>
+      </FilterFrame>
       <RankingFrame>
         {ranking?.splice(0, 10).map((v, i) => (
           <Row key={i}>
             <NumFrame>
-              <Txt>{i + 1}</Txt>
+              <Txt typography="BodyLarge">{i + 1}</Txt>
             </NumFrame>
             <RecipeSmall
               recipeId={v.recipeId}
@@ -83,6 +93,17 @@ const Ranking = ({navigation}: any) => {
 
 export default Ranking;
 
+const Row2 = styled.View`
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+`;
+const FilterFrame = styled.Pressable`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 16px 24px;
+`;
 const Row = styled.View`
   width: 100%;
   flex-direction: row;
@@ -114,7 +135,7 @@ const Input = styled.TextInput`
 `;
 const Gap = styled.View`
   width: 100%;
-  padding: 24px 16px 40px;
+  padding: 24px 16px 32px;
 `;
 const Frame = styled.ScrollView`
   flex: 1;

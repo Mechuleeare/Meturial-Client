@@ -8,14 +8,12 @@ import {BaseUrl} from '../utils';
 
 interface WishButtonProps {
   size?: number;
-  choiceId?: string;
   recipeId?: string;
   wishState?: boolean;
 }
 
 const WishButton = ({
   size = 24,
-  choiceId,
   recipeId,
   wishState = false,
 }: WishButtonProps) => {
@@ -37,7 +35,7 @@ const WishButton = ({
       }
     } else {
       try {
-        const result = await axios.delete(`${BaseUrl}/choice/${choiceId}`, {
+        const result = await axios.delete(`${BaseUrl}/choice/${recipeId}`, {
           headers: {
             Authorization: `Bearer ${Token}`,
           },

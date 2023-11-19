@@ -5,7 +5,6 @@ import {Star_filled} from '../assets';
 import {color} from '../style/color';
 
 interface WishPreviewProps {
-  choiceId?: string;
   recipeId: string;
   name: string;
   starRating: number;
@@ -17,7 +16,6 @@ interface WishPreviewProps {
 }
 
 export const RecipeSmall = ({
-  choiceId,
   recipeId,
   name,
   starRating,
@@ -58,12 +56,7 @@ export const RecipeSmall = ({
         </Bottom>
       </Center>
       <WishPosition>
-        <WishButton
-          size={18}
-          recipeId={recipeId}
-          choiceId={choiceId}
-          wishState={wishState}
-        />
+        <WishButton size={18} recipeId={recipeId} wishState={wishState} />
       </WishPosition>
     </Background>
   );
