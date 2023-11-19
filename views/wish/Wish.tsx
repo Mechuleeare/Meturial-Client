@@ -92,4 +92,5 @@ const TxtFlex = styled.View`
 const PreviewList = styled.ScrollView`
   width: 100%;
   margin-top: 32px;
+  gap: 8px;
 `;

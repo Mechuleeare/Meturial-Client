@@ -73,7 +73,6 @@ const Background = styled.Pressable`
   flex-direction: row;
   gap: 12px;
   position: relative;
-  margin-bottom: 18px;
 `;
 
 const WishImg = styled.Image`
