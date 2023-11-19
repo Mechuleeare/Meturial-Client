@@ -1,20 +1,18 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import DetailRecipe from '../recipe/DetailRecipe';
-import CategoryRecipe from '../recipe/CategoryRecipe';
-import RecipeTopBar from './RecipeTopBar';
+import {Wish} from './Wish';
 
-const RecipeStack = () => {
+const WishStack = () => {
   const Stack = createStackNavigator();
 
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName="Recipes">
-      <Stack.Screen name="Recipes" component={RecipeTopBar} />
+      initialRouteName="Wished">
+      <Stack.Screen name="Wished" component={Wish} />
       <Stack.Screen name="DetailRecipe" component={DetailRecipe} />
-      <Stack.Screen name="CategoryRecipe" component={CategoryRecipe} />
     </Stack.Navigator>
   );
 };
 
-export default RecipeStack;
+export default WishStack;

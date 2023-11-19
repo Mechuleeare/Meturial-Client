@@ -2,19 +2,52 @@ import {useState} from 'react';
 import {View} from 'react-native';
 import {Bookmark, Bookmark_filled} from '../assets';
 import {color} from '../style/color';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BaseUrl} from '../utils';
 
-const WishButton = ({size = 24}: {size?: number}) => {
-  const [isWish, setIsWish] = useState<boolean>(false);
+interface WishButtonProps {
+  size?: number;
+  recipeId?: string;
+  wishState?: boolean;
+}
+
+const WishButton = ({
+  size = 24,
+  recipeId,
+  wishState = false,
+}: WishButtonProps) => {
+  const [isWish, setIsWish] = useState<boolean>(wishState);
 
   const wishClick = async () => {
-    console.log('대충 api 코드');
+    const Token = await AsyncStorage.getItem('AccessToken');
+    if (isWish === false) {
+      await axios({
+        method: 'POST',
+        url: `${BaseUrl}/choice/${recipeId}`,
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+        .then(() => setIsWish(v => !v))
+        .catch(err => console.log(err));
+    } else {
+      await axios({
+        method: 'DELETE',
+        url: `${BaseUrl}/choice/${recipeId}`,
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+        .then(() => setIsWish(v => !v))
+        .catch(err => console.log(err));
+    }
   };
 
   return (
     <View
       onTouchEnd={e => {
         e.stopPropagation();
-        setIsWish(v => !v);
         wishClick();
       }}>
       {isWish ? (

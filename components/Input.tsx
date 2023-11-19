@@ -12,13 +12,14 @@ type emailCheckEnum = 'email' | 'number';
 
 interface InputProps {
   title: string;
-  placeholder: string;
+  placeholder?: string;
   eyeCheck: boolean;
   email?: emailCheckEnum;
   fun?: (text: string) => void;
   emailValue?: string;
   numberValue?: string;
   check?: (state: boolean) => void | undefined;
+  inputValue?: string;
 }
 
 const Input = ({
@@ -30,6 +31,7 @@ const Input = ({
   emailValue,
   numberValue,
   check,
+  inputValue,
 }: InputProps) => {
   const [eyeOff, setEyeOff] = useState<boolean>(true);
 
@@ -73,6 +75,8 @@ const Input = ({
           placeholder={placeholder}
           secureTextEntry={eyeCheck === true ? eyeOff : false}
           onChangeText={text => fun && fun(text)}
+          defaultValue={inputValue}
+          placeholderTextColor={color.Gray[400]}
         />
         {eyeCheck && (
           <EyeFlex onPress={() => setEyeOff(!eyeOff)}>
@@ -123,9 +127,6 @@ const InputStyle = styled.TextInput`
   background-color: ${color.Gray[50]};
   padding: 0 8px;
   border-radius: 8px;
-  ::placeholder {
-    color: ${color.Gray[400]};
-  }
 `;
 
 const EyeFlex = styled.Pressable`

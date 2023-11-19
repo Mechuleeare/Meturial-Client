@@ -3,36 +3,50 @@ import {color} from '../style/color';
 import Txt from './Txt';
 import {Star_filled} from '../assets';
 
-const ReviewPreview = () => {
-  const star = 4;
+interface ReviewProps {
+  name: string;
+  starRating: number;
+  content: string;
+  reviewImageUrl: string;
+  createdAt: string;
+  onTouch: () => void;
+}
+
+const ReviewPreview = ({
+  name,
+  starRating,
+  content,
+  reviewImageUrl,
+  createdAt,
+  onTouch,
+}: ReviewProps) => {
   return (
-    <Frame>
+    <Frame onTouchEnd={() => onTouch()}>
       <Content>
         <TxtFrame>
-          <Txt typography="LabelLarge">강진현</Txt>
+          <Txt typography="LabelLarge">{name}</Txt>
           <StarFrame>
             <Star>
               {[1, 2, 3, 4, 5].map((v, i) => (
                 <Star_filled
                   size={14}
                   key={i}
-                  color={v > star ? color.Gray[100] : color.Yellow.Point}
+                  color={v > starRating ? color.Gray[100] : color.Yellow.Point}
                 />
               ))}
             </Star>
             <Txt typography="LabelSmall" color={color.Gray[300]}>
-              2023.10.10
+              {createdAt.substring(0, 10).replaceAll('-', '.')}
             </Txt>
           </StarFrame>
         </TxtFrame>
         <Txt typography="BodySmall" color={color.Gray[800]} numberOfLines={3}>
-          만들기도 증말 쉽고 너무너무 맛있네요. 아들이 이거 먹고 행복맨이
-          되었어요. 감사합니다.
+          {content}
         </Txt>
       </Content>
       <Img
         source={{
-          uri: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          uri: reviewImageUrl,
         }}
       />
     </Frame>

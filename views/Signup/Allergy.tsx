@@ -1,7 +1,7 @@
 import {Image, Pressable} from 'react-native';
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {AllergyTitle, BackArrow, Search} from '../../assets';
+import {AllergyTitle, Arrow_back, Search} from '../../assets';
 import Txt from '../../components/Txt';
 import Button from '../../components/Button';
 
@@ -10,7 +10,7 @@ export const Allergy = ({navigation}: any) => {
     <Background>
       <BackPageFlex>
         <Pressable onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
+          <Arrow_back />
         </Pressable>
       </BackPageFlex>
       <TitleFlex>
@@ -19,8 +19,11 @@ export const Allergy = ({navigation}: any) => {
       </TitleFlex>
       <InputBackground>
         <InputFlex>
-          <SearchInput placeholder="알레르기를 검색해 보세요" />
-          <SearchIcon source={Search} />
+          <SearchInput
+            placeholder="알레르기를 검색해 보세요"
+            placeholderTextColor={color.Gray[400]}
+          />
+          <Search color={color.Gray[400]} />
         </InputFlex>
       </InputBackground>
       <Button onPress={() => navigation.navigate('Main')}>완료</Button>
@@ -30,14 +33,15 @@ export const Allergy = ({navigation}: any) => {
 
 const Background = styled.View`
   width: 100%;
-  height: 100%;
+  flex: 1;
   background-color: ${color.White};
-  padding: 32px 16px;
+  padding: 0 16px 32px;
 `;
 
 const BackPageFlex = styled.View`
   width: 100%;
   height: 48px;
+  justify-content: center;
 `;
 
 const TitleFlex = styled.View`
@@ -45,29 +49,27 @@ const TitleFlex = styled.View`
   width: 100%;
   height: 120px;
   gap: 6px;
+  margin: 16px 0 36px;
 `;
 
 const InputBackground = styled.View`
   display: flex;
   width: 100%;
-  height: 70%;
+  flex: 1;
 `;
 
 const InputFlex = styled.View`
-  position: relative;
-  margin-top: 5%;
+  background-color: ${color.Gray[50]};
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 8px;
 `;
 
 const SearchInput = styled.TextInput`
-  width: 100%;
-  height: 48px;
-  background-color: ${color.Gray[50]};
-
-  padding: 12px 8px;
-`;
-
-const SearchIcon = styled.Image`
-  position: absolute;
-  top: 12px;
-  right: 8px;
+  flex: 1;
+  font-size: 16px;
+  line-height: 24px;
 `;
