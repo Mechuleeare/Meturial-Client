@@ -65,7 +65,7 @@ const RecipeLarge = ({
 
 export default RecipeLarge;
 
-const Skeleton = styled.View<{height?: number; width: number}>`
+export const Skeleton = styled.View<{height?: number; width: number}>`
   background-color: ${color.Gray[50]};
   border-radius: 8px;
   height: ${props => props.height || 16}px;

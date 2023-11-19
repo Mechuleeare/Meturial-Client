@@ -29,7 +29,9 @@ export const RecipeSmall = ({
 }: WishPreviewProps) => {
   return (
     <Background
-      onPress={() => navigation.navigate('DetailRecipe', {recipeId: recipeId})}>
+      onTouchEnd={() =>
+        navigation.navigate('DetailRecipe', {recipeId: recipeId})
+      }>
       <WishImg
         source={{
           uri: recipeImageUrl,
@@ -67,7 +69,8 @@ export const RecipeSmall = ({
   );
 };
 
-const Background = styled.Pressable`
+const Background = styled.View`
+  flex: 1;
   width: 100%;
   height: 70px;
   flex-direction: row;

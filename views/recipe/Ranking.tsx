@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {RecipeSmall} from '../../components/RecipeSmall';
+import Txt from '../../components/Txt';
 
 interface RankingRes {
   recipeId: string;
@@ -37,7 +38,7 @@ const Ranking = ({navigation}: any) => {
 
   console.log(ranking?.length);
   return (
-    <Frame>
+    <Frame contentContainerStyle={{paddingBottom: 120}}>
       <Gap>
         <InputFrame
           style={{
@@ -57,25 +58,46 @@ const Ranking = ({navigation}: any) => {
           <Search color={color.Gray[400]} />
         </InputFrame>
       </Gap>
-      {ranking?.splice(0, 10).map((v, i) => (
-        <RecipeSmall
-          recipeId={v.recipeId}
-          name={v.name}
-          starRating={v.starRating}
-          starCount={v.starCount}
-          recipeImageUrl={v.recipeImageUrl}
-          recipeCategory={v.recipeCategory}
-          wishState={true}
-          navigation={navigation}
-          key={i}
-        />
-      ))}
+      <RankingFrame>
+        {ranking?.splice(0, 10).map((v, i) => (
+          <Row key={i}>
+            <NumFrame>
+              <Txt>{i + 1}</Txt>
+            </NumFrame>
+            <RecipeSmall
+              recipeId={v.recipeId}
+              name={v.name}
+              starRating={v.starRating}
+              starCount={v.starCount}
+              recipeImageUrl={v.recipeImageUrl}
+              recipeCategory={v.recipeCategory}
+              wishState={v.isChoice}
+              navigation={navigation}
+            />
+          </Row>
+        ))}
+      </RankingFrame>
     </Frame>
   );
 };
 
 export default Ranking;
 
+const Row = styled.View`
+  width: 100%;
+  flex-direction: row;
+  gap: 12px;
+`;
+const NumFrame = styled.View`
+  width: 32px;
+  justify-content: center;
+  align-items: center;
+`;
+const RankingFrame = styled.View`
+  width: 100%;
+  padding: 0 16px;
+  gap: 18px;
+`;
 const InputFrame = styled.View`
   border-radius: 8px;
   background-color: ${color.White};
@@ -92,7 +114,7 @@ const Input = styled.TextInput`
 `;
 const Gap = styled.View`
   width: 100%;
-  padding: 24px 16px;
+  padding: 24px 16px 40px;
 `;
 const Frame = styled.ScrollView`
   flex: 1;

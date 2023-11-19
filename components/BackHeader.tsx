@@ -8,7 +8,7 @@ import {ReactNode, useState} from 'react';
 interface headerProps {
   name: string;
   nav?: any;
-  num?: number;
+  num?: number | string;
   button?: string;
   func?: () => void;
   modal?: ReactNode;

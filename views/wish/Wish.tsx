@@ -41,16 +41,16 @@ export const Wish = ({navigation}: any) => {
   }, []);
 
   return (
-    <Background>
+    <Background contentContainerStyle={{paddingBottom: 120}}>
       <Header>
         <UnderTxt typo="HeadlineLarge">찜 목록</UnderTxt>
-        <TxtFlex>
-          <Txt typography="TitleSmall">찜한 음식이 </Txt>
+        <Txt typography="TitleSmall">
+          찜한 음식이{' '}
           <Txt typography="TitleSmall" color={color.Green.Point}>
             {wishListCount}
           </Txt>
           <Txt typography="TitleSmall">개 있어요.</Txt>
-        </TxtFlex>
+        </Txt>
       </Header>
       <PreviewList>
         {wishListData.map(v => (
@@ -64,6 +64,7 @@ export const Wish = ({navigation}: any) => {
             recipeCategory={v.recipeCategory.split(', ')}
             wishState={true}
             navigation={navigation}
+            key={v.recipeId}
           />
         ))}
       </PreviewList>
@@ -71,7 +72,7 @@ export const Wish = ({navigation}: any) => {
   );
 };
 
-const Background = styled.View`
+const Background = styled.ScrollView`
   width: 100%;
   flex: 1;
   background-color: ${color.White};
@@ -84,13 +85,8 @@ const Header = styled.View`
   gap: 6px;
 `;
 
-const TxtFlex = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const PreviewList = styled.ScrollView`
+const PreviewList = styled.View`
   width: 100%;
-  margin-top: 32px;
-  gap: 8px;
+  gap: 18px;
+  flex: 1;
 `;
