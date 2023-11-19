@@ -1,12 +1,12 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {Image, Keyboard, Pressable} from 'react-native';
-import {BackArrow} from '../../assets';
+import {Keyboard, Pressable} from 'react-native';
 import Txt from '../../components/Txt';
 import Input from '../../components/Input';
 import {useState} from 'react';
 import Button from '../../components/Button';
 import UnderTxt from '../../components/UnderTxt';
+import {Arrow_back} from '../../assets';
 
 export const PwChangeCheck = ({navigation}: any) => {
   const [email, setEmail] = useState<string>();
@@ -26,7 +26,7 @@ export const PwChangeCheck = ({navigation}: any) => {
       <Background>
         <Header>
           <Pressable onPress={() => navigation.goBack(null)}>
-            <Image source={BackArrow} />
+            <Arrow_back />
           </Pressable>
         </Header>
         <TitleFlex>

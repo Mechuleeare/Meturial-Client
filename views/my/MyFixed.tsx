@@ -1,8 +1,7 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
 import Txt from '../../components/Txt';
-import {Image} from 'react-native';
-import {BackArrow, Pencil} from '../../assets';
+import {Arrow_back, Pencil} from '../../assets';
 import {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
@@ -67,7 +66,7 @@ export const MyFixed = ({navigation, route}: any) => {
     <Background>
       <Header>
         <BackImage onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
+          <Arrow_back />
         </BackImage>
         <Txt typography="TitleMedium">내정보 수정</Txt>
       </Header>

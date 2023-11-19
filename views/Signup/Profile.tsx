@@ -1,7 +1,7 @@
 import {Image, Pressable} from 'react-native';
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {BackArrow, Add} from '../../assets';
+import {Add, Arrow_back} from '../../assets';
 import Txt from '../../components/Txt';
 import Button from '../../components/Button';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -43,7 +43,7 @@ export const Profile = ({navigation, route}: any) => {
     <Background>
       <BackPageFlex>
         <Pressable onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
+          <Arrow_back />
         </Pressable>
       </BackPageFlex>
       <TitleFlex>

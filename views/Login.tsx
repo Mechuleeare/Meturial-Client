@@ -1,7 +1,6 @@
 import {styled} from 'styled-components/native';
 import {color} from '../style/color';
-import {Image, Pressable, Alert, Keyboard} from 'react-native';
-import {BackArrow} from '../assets';
+import {Pressable, Alert, Keyboard} from 'react-native';
 import Txt from '../components/Txt';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -10,6 +9,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BaseUrl} from '../utils';
 import UnderTxt from '../components/UnderTxt';
+import {Arrow_back} from '../assets';
 
 export const Login = ({navigation}: any) => {
   const [emailValue, setEmailValue] = useState<string>();
@@ -45,7 +45,7 @@ export const Login = ({navigation}: any) => {
     <Frame>
       <BackPageFlex>
         <Pressable onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
+          <Arrow_back />
         </Pressable>
       </BackPageFlex>
       <Background>

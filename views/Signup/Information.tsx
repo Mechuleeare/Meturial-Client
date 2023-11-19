@@ -1,12 +1,12 @@
-import {Image, Keyboard, Pressable} from 'react-native';
+import {Keyboard, Pressable} from 'react-native';
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {BackArrow} from '../../assets';
 import Txt from '../../components/Txt';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import {useState} from 'react';
 import UnderTxt from '../../components/UnderTxt';
+import {Arrow_back} from '../../assets';
 
 export const Signup = ({navigation}: any) => {
   const [name, setName] = useState<string>();
@@ -27,7 +27,7 @@ export const Signup = ({navigation}: any) => {
     <Frame>
       <BackPageFlex>
         <Pressable onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
+          <Arrow_back />
         </Pressable>
       </BackPageFlex>
       <Background

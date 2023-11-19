@@ -1,13 +1,12 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {Image} from 'react-native';
-import {BackArrow} from '../../assets';
 import Txt from '../../components/Txt';
 import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import ReviewPreview from '../../components/ReviewPreview';
 import {BaseUrl} from '../../utils';
+import {Arrow_back} from '../../assets';
 
 interface RecipeType {
   content: string;
@@ -46,7 +45,7 @@ export const MyReviewList = ({navigation}: any) => {
     <Background>
       <Header>
         <BackImage onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
+          <Arrow_back />
         </BackImage>
         <Txt typography="TitleMedium">내가 작성한 후기</Txt>
         <Txt typography="TitleMedium" color={color.Green.Point}>

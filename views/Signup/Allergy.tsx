@@ -1,7 +1,7 @@
 import {Image, Pressable} from 'react-native';
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {AllergyTitle, BackArrow, Search} from '../../assets';
+import {AllergyTitle, Arrow_back, Search} from '../../assets';
 import Txt from '../../components/Txt';
 import Button from '../../components/Button';
 
@@ -10,7 +10,7 @@ export const Allergy = ({navigation}: any) => {
     <Background>
       <BackPageFlex>
         <Pressable onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
+          <Arrow_back />
         </Pressable>
       </BackPageFlex>
       <TitleFlex>
