@@ -6,8 +6,12 @@ import Line from '../../components/Line';
 import {File_upload, Pencil, Star_filled} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
 import Button from '../../components/Button';
-// import ReviewPreview from '../../components/ReviewPreview';
+import ReviewPreview from '../../components/ReviewPreview';
 import WishButton from '../../components/WishButton';
+import {useEffect, useState} from 'react';
+import axios from 'axios';
+import {BaseUrl} from '../../utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface sequence {
   sequenceId: string;
@@ -19,65 +23,73 @@ interface sequence {
 interface dataType {
   recipeId: string;
   name: string;
+  isChoice: boolean;
   starRating: 4.8;
   starCount: 24;
   recipeImageUrl: string;
   recipeCategory: string[];
   recipeMaterial: string[];
-  recipeTip: string;
   recipeSequence: sequence[];
 }
 
-const DetailRecipe = ({route, navigation}: any) => {
-  const {recipe} = route.params;
+interface recipeReviewListType {
+  reviewId: string;
+  writerName: string;
+  starRating: number;
+  reviewImageUrl: string;
+  content: string;
+  createAt: string;
+}
 
-  const data: dataType = {
-    recipeId: 'a',
-    name: '하와이안 피자',
-    starRating: 4.8,
-    starCount: 24,
-    recipeImageUrl:
-      'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    recipeCategory: ['양식', '피자'],
-    recipeMaterial: ['밀가루', '모짜렐라 치즈', '양파', '파인애플'],
-    recipeTip: '하와이안 피자를 만들 때는 ~~',
-    recipeSequence: [
-      {
-        sequenceId: '1',
-        sequence: 1,
-        content: '밀가루 반죽을 한다',
-        recipeId: 'a',
-      },
-      {
-        sequenceId: '2',
-        sequence: 2,
-        content: '토마토 소스를 고르게 발라준다.',
-        recipeId: 'a',
-      },
-      {
-        sequenceId: '3',
-        sequence: 3,
-        content: '토핑을 골고루 얹어 준 후, 모짜렐라 치즈를 뿌려준다.',
-        recipeId: 'a',
-      },
-      {
-        sequenceId: '4',
-        sequence: 4,
-        content: '오븐을 1000°C 로 맞춘 후, 갖다 넣는다.',
-        recipeId: 'a',
-      },
-    ],
-  };
+export interface recipeReviewRes {
+  recipeReviewCount: number;
+  recipeName: string;
+  recipeReviewList: recipeReviewListType[];
+}
+
+const DetailRecipe = ({route, navigation}: any) => {
+  const {recipeId}: {recipeId: string} = route.params;
+  const [data, setData] = useState<dataType>();
+  const [review, setReview] = useState<recipeReviewRes>();
+
+  useEffect(() => {
+    const getRecipeDetail = async () => {
+      const Token = await AsyncStorage.getItem('AccessToken');
+      await axios({
+        method: 'GET',
+        url: `${BaseUrl}/recipe/${recipeId}`,
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+        .then(res => setData(res.data))
+        .catch(err => console.log(err));
+    };
+    const getReview = async () => {
+      const Token = await AsyncStorage.getItem('AccessToken');
+      await axios({
+        method: 'GET',
+        url: `${BaseUrl}/review/list/${recipeId}`,
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+        .then(res => setReview(res.data))
+        .catch(err => console.log(err));
+    };
+    getRecipeDetail();
+    getReview();
+  }, [recipeId]);
 
   return (
     <Frame>
-      <BackHeader name={recipe} nav={navigation} />
+      <BackHeader name={data?.name || '레시피'} nav={navigation} />
       <Content contentContainerStyle={{paddingBottom: 120}}>
-        <TitleImg source={{uri: data.recipeImageUrl}} />
+        <TitleImg source={{uri: data?.recipeImageUrl}} />
         <Title>
-          <Txt typography="HeadlineLarge">{data.name}</Txt>
+          <Txt typography="HeadlineLarge">{data?.name}</Txt>
           <Tag>
-            {data.recipeCategory.map(v => (
+            {data?.recipeCategory.map(v => (
               <Txt color={color.Green[500]} typography="LabelLarge" key={v}>
                 #{v}
               </Txt>
@@ -88,25 +100,25 @@ const DetailRecipe = ({route, navigation}: any) => {
           <StarFrame>
             <Star_filled color={color.Yellow.Point} />
             <Txt color={color.Yellow[900]}>
-              {data.starRating}
-              <Txt color={color.Gray[400]}> ({data.starCount})</Txt>
+              {data?.starRating}
+              <Txt color={color.Gray[400]}> ({data?.starCount})</Txt>
             </Txt>
           </StarFrame>
           <Row>
-            <WishButton />
+            <WishButton recipeId={data?.recipeId} wishState={data?.isChoice} />
             <File_upload />
           </Row>
         </SubFrame>
         <Line />
         <Material>
           <Txt typography="TitleMedium">재료</Txt>
-          <Txt color={color.Gray[700]}>{data.recipeMaterial.join(', ')}</Txt>
+          <Txt color={color.Gray[700]}>{data?.recipeMaterial.join(', ')}</Txt>
         </Material>
         <Line />
         <Column>
           <Txt typography="TitleMedium">조리 방법</Txt>
           <SequenceFrame>
-            {data.recipeSequence.map((v, i) => (
+            {data?.recipeSequence.map((v, i) => (
               <Sequence key={i}>
                 <UnderTxt>{v.sequence}</UnderTxt>
                 <TxtFrame>
@@ -124,7 +136,7 @@ const DetailRecipe = ({route, navigation}: any) => {
             요리 후기
             <Txt typography="TitleMedium" color={color.Green[500]}>
               {' '}
-              12
+              {review?.recipeReviewCount}
             </Txt>
           </Txt>
           <Button
@@ -135,19 +147,28 @@ const DetailRecipe = ({route, navigation}: any) => {
             }>
             요리 후기 작성하기
           </Button>
-          {/* {[1, 2, 3].map(v => (
+          {review?.recipeReviewList.slice(0, 3).map(v => (
             <ReviewPreview
-              key={v}
-              onTouch={() =>
-                navigation.navigate('Review', {recipe: recipe, data: v})
-              }
+              name={v.writerName}
+              content={v.content}
+              createdAt={v.createAt}
+              starRating={v.starRating}
+              reviewImageUrl={v.reviewImageUrl}
+              key={v.reviewId}
+              onTouch={() => navigation.navigate('Review', {data: v.reviewId})}
             />
-          ))} */}
-          <Button
-            status="outline"
-            onPress={() => navigation.navigate('ReviewAll', {recipe: recipe})}>
-            요리 후기 모두 보기
-          </Button>
+          ))}
+          {review && review?.recipeReviewList?.length > 3 && (
+            <Button
+              status="outline"
+              onPress={() =>
+                navigation.navigate('ReviewAll', {
+                  review: review,
+                })
+              }>
+              요리 후기 모두 보기
+            </Button>
+          )}
         </ReviewFrame>
       </Content>
     </Frame>
@@ -164,6 +185,7 @@ const ReviewFrame = styled.View`
 `;
 const TxtFrame = styled.View`
   padding: 6px 0;
+  flex: 1;
 `;
 const Sequence = styled.View`
   flex-direction: row;

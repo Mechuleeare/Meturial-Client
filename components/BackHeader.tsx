@@ -16,7 +16,6 @@ interface headerProps {
 
 const BackHeader = ({name, nav, num, button, func, modal}: headerProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  console.log(modal);
   return (
     <Frame>
       <Left>
