@@ -3,9 +3,10 @@ import {color} from '../../style/color';
 import {Search} from '../../assets';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import {Access_Token, categoryRes} from '../main/Main';
+import {categoryRes} from '../main/Main';
 import Txt from '../../components/Txt';
 import {View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Recipe = ({navigation}: any) => {
   const [category, setCategory] = useState<categoryRes[] | undefined>(
@@ -14,9 +15,10 @@ export const Recipe = ({navigation}: any) => {
 
   useEffect(() => {
     async function getRecommendRecipe() {
+      const Token = await AsyncStorage.getItem('AccessToken');
       await axios
         .get('http://43.202.18.230:80/recipe/category', {
-          headers: {Authorization: `Bearer ${Access_Token}`},
+          headers: {Authorization: `Bearer ${Token}`},
         })
         .then(res => setCategory(res.data.category))
         .catch(err => console.log(err));

@@ -1,13 +1,12 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {Image} from 'react-native';
-import {WishTitle} from '../../assets';
 import Txt from '../../components/Txt';
 import {WishPreview} from '../../components/WishPreview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BaseUrl} from '../../utils';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
+import UnderTxt from '../../components/UnderTxt';
 
 interface WishPreviewData {
   choiceId: string;
@@ -44,7 +43,7 @@ export const Wish = () => {
   return (
     <Background>
       <Header>
-        <Image source={WishTitle} />
+        <UnderTxt typo="HeadlineLarge">찜 목록</UnderTxt>
         <TxtFlex>
           <Txt typography="TitleSmall">찜한 음식이 </Txt>
           <Txt typography="TitleSmall" color={color.Green.Point}>
@@ -73,16 +72,14 @@ export const Wish = () => {
 
 const Background = styled.View`
   width: 100%;
-  height: 100%;
+  flex: 1;
   background-color: ${color.White};
   padding: 0 16px;
 `;
 
 const Header = styled.View`
   width: 100%;
-  height: 48px;
-  margin-top: 32px;
-  justify-content: center;
+  margin: 32px 0;
   gap: 6px;
 `;
 
