@@ -8,7 +8,7 @@ export const Start = ({navigation}: any) => {
   return (
     <Backgorund source={StartImage}>
       <StartTextFlex>
-        <Image source={StartText}></Image>
+        <Image source={StartText} />
       </StartTextFlex>
       <ButtonFlex>
         <Button status="primary" onPress={() => navigation.navigate('Login')}>

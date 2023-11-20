@@ -76,6 +76,7 @@ const Input = ({
           secureTextEntry={eyeCheck === true ? eyeOff : false}
           onChangeText={text => fun && fun(text)}
           defaultValue={inputValue}
+          placeholderTextColor={color.Gray[400]}
         />
         {eyeCheck && (
           <EyeFlex onPress={() => setEyeOff(!eyeOff)}>
@@ -126,9 +127,6 @@ const InputStyle = styled.TextInput`
   background-color: ${color.Gray[50]};
   padding: 0 8px;
   border-radius: 8px;
-  ::placeholder {
-    color: ${color.Gray[400]};
-  }
 `;
 
 const EyeFlex = styled.Pressable`

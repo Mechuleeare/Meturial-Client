@@ -1,13 +1,11 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {Image} from 'react-native';
-import {BackArrow} from '../../assets';
-import Txt from '../../components/Txt';
 import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import ReviewPreview from '../../components/ReviewPreview';
 import {BaseUrl} from '../../utils';
+import BackHeader from '../../components/BackHeader';
 
 interface RecipeType {
   content: string;
@@ -44,16 +42,7 @@ export const MyReviewList = ({navigation}: any) => {
 
   return (
     <Background>
-      <Header>
-        <BackImage onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
-        </BackImage>
-        <Txt typography="TitleMedium">내가 작성한 후기</Txt>
-        <Txt typography="TitleMedium" color={color.Green.Point}>
-          {recipeCount}
-        </Txt>
-      </Header>
-      <Line />
+      <BackHeader name="내가 작성한 후기" num={recipeCount} nav={navigation} />
       <Scroll>
         <ReviewFlex>
           {recipe.map(v => (
@@ -81,23 +70,6 @@ const Background = styled.View`
   width: 100%;
   flex: 1;
   background-color: ${color.White};
-`;
-
-const Header = styled.View`
-  width: 100%;
-  height: 48px;
-  padding: 12px 16px;
-  flex-direction: row;
-  gap: 8px;
-  align-items: center;
-`;
-
-const BackImage = styled.Pressable``;
-
-const Line = styled.View`
-  width: 100%;
-  height: 1px;
-  background-color: ${color.Gray[100]};
 `;
 
 const Scroll = styled.ScrollView`

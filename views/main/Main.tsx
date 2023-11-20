@@ -26,6 +26,7 @@ export interface recommendDataRes {
   material: string;
   description: string;
   url: string;
+  id: number;
 }
 
 export interface categoryRes {

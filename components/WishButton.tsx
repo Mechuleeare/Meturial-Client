@@ -8,14 +8,12 @@ import {BaseUrl} from '../utils';
 
 interface WishButtonProps {
   size?: number;
-  choiceId?: string;
   recipeId?: string;
   wishState?: boolean;
 }
 
 const WishButton = ({
   size = 24,
-  choiceId,
   recipeId,
   wishState = false,
 }: WishButtonProps) => {
@@ -24,29 +22,25 @@ const WishButton = ({
   const wishClick = async () => {
     const Token = await AsyncStorage.getItem('AccessToken');
     if (isWish === false) {
-      try {
-        const result = await axios.post(`${BaseUrl}/choice/${recipeId}`, {
-          headers: {
-            Authorization: `Bearer ${Token}`,
-          },
-        });
-        console.log(result.data);
-        setIsWish(!isWish);
-      } catch (error) {
-        console.log(error);
-      }
+      await axios({
+        method: 'POST',
+        url: `${BaseUrl}/choice/${recipeId}`,
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+        .then(() => setIsWish(v => !v))
+        .catch(err => console.log(err));
     } else {
-      try {
-        const result = await axios.delete(`${BaseUrl}/choice/${choiceId}`, {
-          headers: {
-            Authorization: `Bearer ${Token}`,
-          },
-        });
-        console.log(result.data);
-        setIsWish(!isWish);
-      } catch (error) {
-        console.log(error);
-      }
+      await axios({
+        method: 'DELETE',
+        url: `${BaseUrl}/choice/${recipeId}`,
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+        .then(() => setIsWish(v => !v))
+        .catch(err => console.log(err));
     }
   };
 
@@ -54,7 +48,6 @@ const WishButton = ({
     <View
       onTouchEnd={e => {
         e.stopPropagation();
-        setIsWish(v => !v);
         wishClick();
       }}>
       {isWish ? (

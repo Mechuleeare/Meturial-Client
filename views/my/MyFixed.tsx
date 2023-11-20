@@ -1,8 +1,6 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import Txt from '../../components/Txt';
-import {Image} from 'react-native';
-import {BackArrow, Pencil} from '../../assets';
+import {Pencil} from '../../assets';
 import {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
@@ -10,6 +8,7 @@ import {BaseUrl} from '../../utils';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BackHeader from '../../components/BackHeader';
 
 export const MyFixed = ({navigation, route}: any) => {
   const Old = route.params;
@@ -64,68 +63,53 @@ export const MyFixed = ({navigation, route}: any) => {
   };
 
   return (
-    <Background>
-      <Header>
-        <BackImage onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
-        </BackImage>
-        <Txt typography="TitleMedium">내정보 수정</Txt>
-      </Header>
-      <Line />
-      <ProfileInputFlex>
-        <UploadImageBackground
-          source={{uri: imageData}}
-          blurRadius={32}
-          borderRadius={8}>
-          <UploadImagePressable onPress={ShowPicker}>
-            <UploadImage source={{uri: imageData}} borderRadius={8} />
-          </UploadImagePressable>
-        </UploadImageBackground>
-        <PencilImg>
-          <Pencil color={color.White} />
-        </PencilImg>
-      </ProfileInputFlex>
-      <ButtonFlex>
-        <Input
-          title="이름"
-          eyeCheck={false}
-          fun={setNameValue}
-          inputValue={nameValue}
-        />
-        <Button status="silver">알레르기 관리</Button>
-        <Button
-          status="silver"
-          onPress={() => navigation.navigate('PwChangeCheck')}>
-          비밀번호 변경
-        </Button>
-      </ButtonFlex>
-      <Button onPress={HandleMyFixed}>수정하기</Button>
-    </Background>
+    <Frame>
+      <BackHeader name="내정보 수정" nav={navigation} />
+      <Background>
+        <ProfileInputFlex>
+          <UploadImageBackground
+            source={{uri: imageData}}
+            blurRadius={32}
+            borderRadius={8}>
+            <UploadImagePressable onPress={ShowPicker}>
+              <UploadImage source={{uri: imageData}} borderRadius={8} />
+            </UploadImagePressable>
+          </UploadImageBackground>
+          <PencilImg>
+            <Pencil color={color.White} />
+          </PencilImg>
+        </ProfileInputFlex>
+        <ButtonFlex>
+          <Input
+            title="이름"
+            eyeCheck={false}
+            fun={setNameValue}
+            inputValue={nameValue}
+          />
+          <Button status="silver">알레르기 관리</Button>
+          <Button
+            status="silver"
+            onPress={() => navigation.navigate('PwChangeCheck')}>
+            비밀번호 변경
+          </Button>
+        </ButtonFlex>
+        <Button onPress={HandleMyFixed}>수정하기</Button>
+      </Background>
+    </Frame>
   );
 };
+
+const Frame = styled.View`
+  flex: 1;
+  width: 100%;
+  background-color: white;
+`;
 
 const Background = styled.View`
   width: 100%;
   height: 100%;
   background-color: ${color.White};
   padding: 0 16px;
-`;
-
-const Header = styled.View`
-  width: 100%;
-  height: 48px;
-  padding: 12px 0px;
-  flex-direction: row;
-  gap: 8px;
-  align-items: center;
-`;
-
-const BackImage = styled.Pressable``;
-
-const Line = styled.View`
-  width: 100%;
-  height: 1px;
-  background-color: ${color.Gray[100]};
 `;
 
 const ProfileInputFlex = styled.View`

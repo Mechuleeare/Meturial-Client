@@ -5,19 +5,17 @@ import {Star_filled} from '../assets';
 import {color} from '../style/color';
 
 interface WishPreviewProps {
-  choiceId: string;
   recipeId: string;
   name: string;
   starRating: number;
   starCount: number;
   recipeImageUrl: string;
-  recipeCategory: string;
+  recipeCategory: string[];
   navigation?: any;
   wishState: boolean;
 }
 
-export const WishPreview = ({
-  choiceId,
+export const RecipeSmall = ({
   recipeId,
   name,
   starRating,
@@ -29,7 +27,9 @@ export const WishPreview = ({
 }: WishPreviewProps) => {
   return (
     <Background
-      onPress={() => navigation.navigate('DetailRecipe', {recipeId: recipeId})}>
+      onTouchEnd={() =>
+        navigation.navigate('DetailRecipe', {recipeId: recipeId})
+      }>
       <WishImg
         source={{
           uri: recipeImageUrl,
@@ -48,30 +48,27 @@ export const WishPreview = ({
           {starCount}명의 후기
         </Txt>
         <Bottom>
-          <Txt typography="BodySmall" color={color.Green.Point}>
-            {recipeCategory}
-          </Txt>
+          {recipeCategory.map((v, i) => (
+            <Txt typography="BodySmall" color={color.Green.Point} key={i}>
+              #{v}
+            </Txt>
+          ))}
         </Bottom>
       </Center>
       <WishPosition>
-        <WishButton
-          size={18}
-          recipeId={recipeId}
-          choiceId={choiceId}
-          wishState={wishState}
-        />
+        <WishButton size={18} recipeId={recipeId} wishState={wishState} />
       </WishPosition>
     </Background>
   );
 };
 
-const Background = styled.Pressable`
+const Background = styled.View`
+  flex: 1;
   width: 100%;
   height: 70px;
   flex-direction: row;
   gap: 12px;
   position: relative;
-  margin-bottom: 18px;
 `;
 
 const WishImg = styled.Image`

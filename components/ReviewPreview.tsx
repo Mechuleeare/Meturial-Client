@@ -36,7 +36,7 @@ const ReviewPreview = ({
               ))}
             </Star>
             <Txt typography="LabelSmall" color={color.Gray[300]}>
-              {createdAt.substring(0, 10).replaceAll('-', '.')}
+              {createdAt?.slice(0, 10).replaceAll('-', '.')}
             </Txt>
           </StarFrame>
         </TxtFrame>

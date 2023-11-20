@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {My, Wish} from './views';
+import {My} from './views';
 import {
   Bookmark,
   Bookmark_filled,
@@ -18,6 +18,7 @@ import Txt from './components/Txt';
 import MainStack from './views/main/MainStack';
 import RecipeStack from './views/recipe/RecipeStack';
 import CalendarStack from './views/calendar/CalendarStack';
+import WishStack from './views/wish/WishStack';
 
 const icon = {
   home: [
@@ -91,7 +92,7 @@ const TabList = [
     component: CalendarStack,
   },
   {name: 'Recipe', label: '레시피', icon: 'recipe', component: RecipeStack},
-  {name: 'Wish', label: '찜', icon: 'wish', component: Wish},
+  {name: 'Wish', label: '찜', icon: 'wish', component: WishStack},
   {name: 'My', label: '마이', icon: 'my', component: My},
 ];
 

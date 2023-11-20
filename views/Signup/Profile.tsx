@@ -1,13 +1,14 @@
 import {Image, Pressable} from 'react-native';
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {BackArrow, SignupTitle, Add} from '../../assets';
+import {Add, Arrow_back} from '../../assets';
 import Txt from '../../components/Txt';
 import Button from '../../components/Button';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {BaseUrl} from '../../utils';
 import axios from 'axios';
 import {useState} from 'react';
+import UnderTxt from '../../components/UnderTxt';
 
 export const Profile = ({navigation, route}: any) => {
   const [imageData, setImageData] = useState<string>();
@@ -42,11 +43,11 @@ export const Profile = ({navigation, route}: any) => {
     <Background>
       <BackPageFlex>
         <Pressable onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
+          <Arrow_back />
         </Pressable>
       </BackPageFlex>
       <TitleFlex>
-        <Image source={SignupTitle} />
+        <UnderTxt typo="HeadlineLarge">회원가입</UnderTxt>
         <Txt typography="TitleSmall">프로필 사진을 추가해 주세요</Txt>
       </TitleFlex>
       <ProfileInputFlex>
@@ -55,7 +56,18 @@ export const Profile = ({navigation, route}: any) => {
         </Txt>
         {imageState === false ? (
           <ProfileInputBackground>
-            <ProfileInput onPress={ShowPicker}>
+            <ProfileInput
+              onPress={ShowPicker}
+              style={{
+                shadowColor: color.Black,
+                shadowOffset: {
+                  width: 0,
+                  height: 5,
+                },
+                shadowOpacity: 0.1,
+                shadowRadius: 8,
+                elevation: 5,
+              }}>
               <Image source={Add} />
             </ProfileInput>
           </ProfileInputBackground>
@@ -97,24 +109,25 @@ const Background = styled.View`
   width: 100%;
   height: 100%;
   background-color: ${color.White};
-  padding: 32px 16px;
+  padding: 0 16px 32px;
 `;
 
 const BackPageFlex = styled.View`
   width: 100%;
   height: 48px;
+  justify-content: center;
 `;
 
 const TitleFlex = styled.View`
   display: flex;
   width: 100%;
-  height: 100px;
+  margin: 16px 0 36px;
   gap: 6px;
 `;
 
 const ProfileInputFlex = styled.View`
   width: 100%;
-  height: 72%;
+  flex: 1;
   gap: 4px;
 `;
 
@@ -132,14 +145,6 @@ const ProfileInput = styled(Pressable)`
   height: 99%;
   border-radius: 8px;
   background-color: ${color.Gray[50]};
-  shadowcolor: ${color.Black};
-  shadowoffset: {
-    width: 0;
-    height: 5;
-  }
-  shadowopacity: 0.1;
-  shadowradius: 8px;
-  elevation: 5;
   display: flex;
   align-items: center;
   justify-content: center;

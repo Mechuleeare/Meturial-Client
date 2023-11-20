@@ -1,13 +1,12 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {Image} from 'react-native';
-import {WishTitle} from '../../assets';
 import Txt from '../../components/Txt';
-import {WishPreview} from '../../components/WishPreview';
+import {RecipeSmall} from '../../components/RecipeSmall';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BaseUrl} from '../../utils';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
+import UnderTxt from '../../components/UnderTxt';
 
 interface WishPreviewData {
   choiceId: string;
@@ -19,7 +18,7 @@ interface WishPreviewData {
   recipeCategory: string;
 }
 
-export const Wish = () => {
+export const Wish = ({navigation}: any) => {
   const [wishListData, setWishListData] = useState<WishPreviewData[]>([]);
   const [wishListCount, setWishListCount] = useState<number>(0);
   useEffect(() => {
@@ -42,28 +41,29 @@ export const Wish = () => {
   }, []);
 
   return (
-    <Background>
+    <Background contentContainerStyle={{paddingBottom: 120}}>
       <Header>
-        <Image source={WishTitle} />
-        <TxtFlex>
-          <Txt typography="TitleSmall">찜한 음식이 </Txt>
+        <UnderTxt typo="HeadlineLarge">찜 목록</UnderTxt>
+        <Txt typography="TitleSmall">
+          찜한 음식이{' '}
           <Txt typography="TitleSmall" color={color.Green.Point}>
             {wishListCount}
           </Txt>
           <Txt typography="TitleSmall">개 있어요.</Txt>
-        </TxtFlex>
+        </Txt>
       </Header>
       <PreviewList>
         {wishListData.map(v => (
-          <WishPreview
-            choiceId={v.choiceId}
+          <RecipeSmall
             recipeId={v.recipeId}
             name={v.name}
             starRating={v.starRating}
             starCount={v.starCount}
             recipeImageUrl={v.recipeImageUrl}
-            recipeCategory={v.recipeCategory}
+            recipeCategory={v.recipeCategory.split(', ')}
             wishState={true}
+            navigation={navigation}
+            key={v.recipeId}
           />
         ))}
       </PreviewList>
@@ -71,27 +71,21 @@ export const Wish = () => {
   );
 };
 
-const Background = styled.View`
+const Background = styled.ScrollView`
   width: 100%;
-  height: 100%;
+  flex: 1;
   background-color: ${color.White};
   padding: 0 16px;
 `;
 
 const Header = styled.View`
   width: 100%;
-  height: 48px;
-  margin-top: 32px;
-  justify-content: center;
+  margin: 32px 0;
   gap: 6px;
 `;
 
-const TxtFlex = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-const PreviewList = styled.ScrollView`
+const PreviewList = styled.View`
   width: 100%;
-  margin-top: 32px;
+  gap: 18px;
+  flex: 1;
 `;

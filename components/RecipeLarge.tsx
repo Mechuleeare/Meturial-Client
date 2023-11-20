@@ -5,6 +5,17 @@ import {Star_filled} from '../assets';
 import WishButton from './WishButton';
 import {recommendDataRes} from '../views';
 import {View} from 'react-native';
+import {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {BaseUrl} from '../utils';
+
+interface starRes {
+  recipeId: string;
+  isChoice: boolean;
+  starRating: number;
+  starCount: number;
+}
 
 const RecipeLarge = ({
   nav,
@@ -13,6 +24,33 @@ const RecipeLarge = ({
   nav?: any;
   data?: recommendDataRes | undefined;
 }) => {
+  const [star, setStar] = useState<starRes>({
+    recipeId: '',
+    isChoice: false,
+    starRating: 0,
+    starCount: 0,
+  });
+
+  const {recipeId, isChoice, starRating, starCount} = star;
+
+  useEffect(() => {
+    const getStar = async () => {
+      const Token = await AsyncStorage.getItem('AccessToken');
+      if (data) {
+        await axios({
+          method: 'GET',
+          url: `${BaseUrl}/recipe`,
+          params: {name: data.name},
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        })
+          .then(res => setStar(res.data))
+          .catch(err => console.log(err));
+      }
+    };
+    getStar();
+  }, [data]);
   return (
     <View>
       {data ? (
@@ -21,7 +59,7 @@ const RecipeLarge = ({
           <BigImg source={{uri: data.url}} />
           <Title>
             <Txt typography="TitleMedium">{data.name}</Txt>
-            <WishButton size={18} />
+            <WishButton size={18} recipeId={recipeId} wishState={isChoice} />
           </Title>
           <TagFrame>
             <Txt typography="BodySmall" color={color.Green[500]}>
@@ -30,12 +68,12 @@ const RecipeLarge = ({
           </TagFrame>
           <SubFrame>
             <Txt typography="LabelSmall" color={color.Gray[300]}>
-              2048명의 후기
+              {starCount}명의 후기
             </Txt>
             <StarFrame>
               <Star_filled size={16} color={color.Yellow.Point} />
               <Txt typography="BodySmall" color={color.Yellow[900]}>
-                4.8
+                {starRating}
               </Txt>
             </StarFrame>
           </SubFrame>
@@ -64,7 +102,7 @@ const RecipeLarge = ({
 
 export default RecipeLarge;
 
-const Skeleton = styled.View<{height?: number; width: number}>`
+export const Skeleton = styled.View<{height?: number; width: number}>`
   background-color: ${color.Gray[50]};
   border-radius: 8px;
   height: ${props => props.height || 16}px;

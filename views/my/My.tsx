@@ -1,7 +1,7 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
 import Txt from '../../components/Txt';
-import {Pencil} from '../../assets';
+import {Pencil, ProfileImg} from '../../assets';
 import Button from '../../components/Button';
 import ReviewPreview from '../../components/ReviewPreview';
 import {useEffect, useState} from 'react';
@@ -82,9 +82,13 @@ export const My = ({navigation}: any) => {
       <ScrollView>
         <Information>
           <Profile
-            source={{
-              uri: information?.profileImageUrl,
-            }}
+            source={
+              information
+                ? {
+                    uri: information.profileImageUrl,
+                  }
+                : ProfileImg
+            }
           />
           <Margin>
             <Txt typography="TitleLarge">{information?.name}</Txt>
