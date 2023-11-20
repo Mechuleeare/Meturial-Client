@@ -1,16 +1,30 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {Image} from 'react-native';
-import {BackArrow} from '../../assets';
+import {Arrow_back} from '../../assets';
 import Txt from '../../components/Txt';
 import {BigPreview} from '../../components/BigPreview';
+import {useEffect} from 'react';
+import axios from 'axios';
+import {RecipeBaseUrl} from '../../utils';
 
 export const TodayRecipeAll = ({navigation}: any) => {
+  useEffect(() => {
+    async function RelodToday() {
+      try {
+        const result = await axios.get(`${RecipeBaseUrl}/recipe/today`);
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    RelodToday();
+  }, []);
+
   return (
     <Background>
       <Header>
         <ImgPress onPress={() => navigation.goBack(null)}>
-          <Image source={BackArrow} />
+          <Arrow_back />
         </ImgPress>
         <Txt typography="TitleMedium">오늘의 추천 메뉴</Txt>
         <Txt typography="TitleMedium" color={color.Green.Point}>
