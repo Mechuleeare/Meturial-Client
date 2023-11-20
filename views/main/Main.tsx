@@ -8,7 +8,7 @@ import TodayMenu from '../../components/TodayMenu';
 import RecipeLarge from '../../components/RecipeLarge';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import {BaseUrl, CategoriData, RecipeBaseUrl} from '../../utils';
+import {BaseUrl, CategoriData} from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface menuType {
@@ -16,9 +16,6 @@ export interface menuType {
   img?: string;
   recipe?: string;
 }
-
-export const Access_Token =
-  'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3amtubjMxMjNAZ21haWwuY29tIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcwMDEzNzUyMiwiZXhwIjoxNzAwMTQ0NzIyfQ.0Vj0at6c5FgapVb9QJFB0gGNcePgbczxBXxYceVLMWx5_qNeCK0SE1ZxXwX8oCKInsE--yAiXAwqevLGdxdsSw';
 
 export interface recommendDataRes {
   name: string;
@@ -42,18 +39,11 @@ interface MenuData {
   recipeImageUrl: string;
 }
 
-interface TodayData {
-  bigtype: string;
-  description: string;
-  id: string;
-  material: string;
-  name: string;
-  url: string;
-}
-
 export const Main = ({navigation}: any) => {
   const [menu, setMenu] = useState<MenuData>();
-  const [today, setToday] = useState<TodayData[]>([]);
+  const [recommendData, setRecommendData] = useState<
+    recommendDataRes[] | undefined
+  >(undefined);
   console.log(menu);
 
   useEffect(() => {
@@ -86,20 +76,18 @@ export const Main = ({navigation}: any) => {
         console.log(error);
       }
     }
-
-    async function getTodayData() {
-      try {
-        const result = await axios.get(`${RecipeBaseUrl}/recipe/today`);
-        console.log(result.data);
-        const data = result.data;
-        const split = data.slice(0, 6);
-        setToday(split);
-      } catch (error) {
-        console.log(error);
-      }
+    async function getRecommendRecipe() {
+      const Token = await AsyncStorage.getItem('AccessToken');
+      await axios
+        .get('http://43.202.18.230:8000/recipe/today', {
+          headers: {Autorization: `Bearer ${Token}`},
+        })
+        .then(res => setRecommendData([...res.data]))
+        .catch(err => console.log(err));
     }
+
+    getRecommendRecipe();
     getAlarmData();
-    getTodayData();
   }, []);
   return (
     <Frame>
@@ -166,10 +154,12 @@ export const Main = ({navigation}: any) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 8}}>
-          {today
-            ? today.map((v, i) => (
-                <RecipeLarge nav={navigation} data={v} key={i} />
-              ))
+          {recommendData
+            ? recommendData
+                .slice(0, 6)
+                .map((v: recommendDataRes, i) => (
+                  <RecipeLarge nav={navigation} data={v} key={i} />
+                ))
             : [1, 2, 3, 4, 5, 6].map(v => <RecipeLarge key={v} />)}
         </RecommendRecipe>
       </Content>
