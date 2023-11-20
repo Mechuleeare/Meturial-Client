@@ -18,7 +18,7 @@ const RecipeLarge = ({
       {data ? (
         <RecipeFrame
           onTouchEnd={() => nav.navigate('DetailRecipe', {recipe: data.name})}>
-          <BigImg source={{uri: `${data.url}`}} />
+          <BigImg source={{uri: data.url}} />
           <Title>
             <Txt typography="TitleMedium">{data.name}</Txt>
             <WishButton size={18} />
