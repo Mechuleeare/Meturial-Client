@@ -46,7 +46,7 @@ const RecipeLarge = ({
           },
         })
           .then(res => setStar(res.data))
-          .catch(err => console.log(err));
+          .catch(err => console.log('error is : ' + err));
       }
     };
     getStar();

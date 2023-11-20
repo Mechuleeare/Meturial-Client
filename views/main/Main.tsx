@@ -154,9 +154,11 @@ export const Main = ({navigation}: any) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 8}}>
           {recommendData
-            ? recommendData.map((v: recommendDataRes, i) => (
-                <RecipeLarge nav={navigation} data={v} key={i} />
-              ))
+            ? recommendData
+                .slice(0, 6)
+                .map((v: recommendDataRes, i) => (
+                  <RecipeLarge nav={navigation} data={v} key={i} />
+                ))
             : [1, 2, 3, 4, 5, 6].map(v => <RecipeLarge key={v} />)}
         </RecommendRecipe>
       </Content>
