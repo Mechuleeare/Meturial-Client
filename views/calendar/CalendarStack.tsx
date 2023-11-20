@@ -1,6 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
-// import {TodayRecipe} from './TodayRecipe';
 import {Calendar} from './Calendar';
+import CalendarTopBar from './CalendarToBar';
 
 const CalendarStack = () => {
   const Stack = createStackNavigator();
@@ -9,7 +9,7 @@ const CalendarStack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="TodayRecipe">
-      {/* <Stack.Screen name="TodayRecipe" component={TodayRecipe} /> */}
+      <Stack.Screen name="TodayRecipe" component={CalendarTopBar} />
       <Stack.Screen name="Calendar" component={Calendar} />
     </Stack.Navigator>
   );

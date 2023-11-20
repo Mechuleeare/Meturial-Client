@@ -3,51 +3,58 @@ import styled from 'styled-components/native';
 import {color} from '../style/color';
 import Txt from './Txt';
 import {Arrow_right} from '../assets';
-import {menuType} from '../views';
+import {useEffect, useState} from 'react';
 
-const todayTime = {
-  morning: ['아침', '8:00'],
-  lunch: ['점심', '12:00'],
-  dinner: ['저녁', '6:00'],
-};
+interface TodayMenuType {
+  id?: string;
+  img?: string;
+  time?: string;
+  nav?: any;
+  name?: string;
+}
 
-const TodayMenu = ({
-  data,
-  time,
-  nav,
-}: {
-  data: menuType;
-  time: 'morning' | 'lunch' | 'dinner';
-  nav: any;
-}) => {
-  const {menu, img, recipe} = data;
+const TodayMenu = ({time, nav, img, id, name}: TodayMenuType) => {
+  const [timeData, setTimeData] = useState<string>();
+  const [timeName, setTimeName] = useState<string>();
+
+  useEffect(() => {
+    if (time === 'BREAKFAST') {
+      setTimeName('아침');
+      setTimeData('8:00');
+    } else if (time === 'LUNCH') {
+      setTimeName('점심');
+      setTimeData('12:00');
+    } else if (time === 'DINNER') {
+      setTimeName('저녁');
+      setTimeData('6:00');
+    }
+  }, [time]);
+
   return (
     <View>
-      {data && (
-        <TodayFrame>
-          <TextFrame>
-            <Txt typography="TitleSmall">{todayTime[time][0]}</Txt>
-            <Txt typography="HeadlineLarge">{todayTime[time][1]}</Txt>
-            <Txt typography="TitleMedium" style={{marginTop: 8}}>
-              {menu}
+      <TodayFrame>
+        <TextFrame>
+          <Txt typography="TitleSmall">{timeName}</Txt>
+          <Txt typography="HeadlineLarge">{timeData}</Txt>
+          <Txt typography="TitleMedium" style={{marginTop: 8}}>
+            {name}
+          </Txt>
+          <MoveFrame>
+            <Txt
+              typography="BodySmall"
+              color={color.Green[500]}
+              onPress={() => nav.navigate('DetailRecipe', {recipe: id})}>
+              레시피 보러가기
             </Txt>
-            <MoveFrame>
-              <Txt
-                typography="BodySmall"
-                color={color.Green[500]}
-                onPress={() => nav.navigate('DetailRecipe', {recipe: recipe})}>
-                레시피 보러가기
-              </Txt>
-              <Arrow_right color={color.Green[500]} />
-            </MoveFrame>
-          </TextFrame>
-          <ImgFrame
-            source={{
-              uri: img,
-            }}
-          />
-        </TodayFrame>
-      )}
+            <Arrow_right color={color.Green[500]} />
+          </MoveFrame>
+        </TextFrame>
+        <ImgFrame
+          source={{
+            uri: img,
+          }}
+        />
+      </TodayFrame>
     </View>
   );
 };
