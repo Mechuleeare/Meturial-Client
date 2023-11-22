@@ -6,8 +6,7 @@ import {Animated, Dimensions} from 'react-native';
 import {useEffect, useRef} from 'react';
 import {TodayRecipe} from './TodayRecipe';
 import {Calendar} from './Calendar';
-import {Image} from 'react-native';
-import {CalendarTitle} from '../../assets';
+import UnderTxt from '../../components/UnderTxt';
 
 const TabBar = ({state, navigation}: any) => {
   const animationHorizontalValue = useRef(new Animated.Value(0)).current;
@@ -27,7 +26,7 @@ const TabBar = ({state, navigation}: any) => {
   return (
     <Background>
       <Header>
-        <Image source={CalendarTitle} />
+        <UnderTxt typo="HeadlineLarge">식단관리</UnderTxt>
         <Txt typography="TitleSmall">찜해둔 레시피로 식단을 구성해보세요.</Txt>
       </Header>
       <Bar>
