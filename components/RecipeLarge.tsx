@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {BaseUrl} from '../utils';
 
-interface starRes {
+export interface starRes {
   recipeId: string;
   isChoice: boolean;
   starRating: number;
