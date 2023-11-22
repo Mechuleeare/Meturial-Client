@@ -17,12 +17,12 @@ interface MenuData {
 
 export const TodayRecipe = ({navigation}: any) => {
   const [today, setToday] = useState<MenuData[]>([]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const [Sort, setSort] = useState<MenuData[]>([]);
 
   console.log(Sort);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     const today = new Date();
 
     const formattedDate = `${today.getFullYear()}-${
@@ -41,7 +41,6 @@ export const TodayRecipe = ({navigation}: any) => {
             date: formattedDate,
           },
         });
-        // console.log(result.data.menuDetailList);
         setToday(result.data.menuDetailList);
       } catch (error) {
         console.log(error);
