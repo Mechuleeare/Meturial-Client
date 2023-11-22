@@ -1,15 +1,16 @@
-import {Pressable, View} from 'react-native';
+import {Dimensions, Pressable, View} from 'react-native';
 import styled from 'styled-components/native';
 import {color} from '../../style/color';
 import Txt from '../../components/Txt';
 import {Access_time, Search} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
-// import TodayMenu from '../../components/TodayMenu';
+import TodayMenu from '../../components/TodayMenu';
 import RecipeLarge from '../../components/RecipeLarge';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {BaseUrl, CategoriData} from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Button from '../../components/Button';
 
 export interface menuType {
   menu?: string;
@@ -35,12 +36,12 @@ interface MenuData {
   menuId: string;
   recipeId: string;
   recipeName: string;
-  menuType: string;
+  menuType: 'BREAKFAST' | 'LUNCH' | 'DINNER';
   recipeImageUrl: string;
 }
 
 export const Main = ({navigation}: any) => {
-  const [menu, setMenu] = useState<MenuData>();
+  const [menu, setMenu] = useState<MenuData[] | undefined>(undefined);
   const [recommendData, setRecommendData] = useState<
     recommendDataRes[] | undefined
   >(undefined);
@@ -114,13 +115,28 @@ export const Main = ({navigation}: any) => {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 32}}>
-          {/* <TodayMenu
-            id={menu?.menuId}
-            time={menu?.menuType}
-            img={menu?.recipeImageUrl}
-            nav={navigation}
-            name={menu?.recipeName}
-          /> */}
+          {menu ? (
+            menu.map(v => (
+              <TodayMenu
+                recipeId={v.menuId}
+                time={v.menuType}
+                recipeImg={v.recipeImageUrl}
+                navigation={navigation}
+                recipeName={v.recipeName}
+                key={v.menuId}
+              />
+            ))
+          ) : (
+            <None>
+              <Txt typography="TitleMedium">오늘 등록된 식단이 없어요</Txt>
+              <Txt typography="BodySmall">
+                오늘의 식단을 등록하여 시간에 맞춰 식사해 보세요.
+              </Txt>
+              <View style={{marginTop: 8}}>
+                <Button status="primary2">식단 등록하기</Button>
+              </View>
+            </None>
+          )}
         </TodayRecipe>
         <Box>
           <UnderTxt>레시피 카테고리</UnderTxt>
@@ -170,6 +186,16 @@ export const Main = ({navigation}: any) => {
   );
 };
 
+const None = styled.View`
+  width: ${Dimensions.get('window').width - 32}px;
+  background-color: white;
+  height: 200px;
+  border-radius: 8px;
+  border: 2px solid ${color.Gray[50]};
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+`;
 const RecommendRecipe = styled.ScrollView`
   margin-top: 16px;
   width: 100%;
