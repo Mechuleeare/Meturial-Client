@@ -3,51 +3,53 @@ import styled from 'styled-components/native';
 import {color} from '../style/color';
 import Txt from './Txt';
 import {Arrow_right} from '../assets';
-import {menuType} from '../views';
+
+interface TodayMenuProps {
+  recipeId: string;
+  recipeImg: string;
+  recipeName: string;
+  time: 'BREAKFAST' | 'LUNCH' | 'DINNER';
+  navigation?: any;
+}
 
 const todayTime = {
-  morning: ['아침', '8:00'],
-  lunch: ['점심', '12:00'],
-  dinner: ['저녁', '6:00'],
+  BREAKFAST: ['아침', '8:00'],
+  LUNCH: ['점심', '12:00'],
+  DINNER: ['저녁', '6:00'],
 };
 
 const TodayMenu = ({
-  data,
   time,
-  nav,
-}: {
-  data: menuType;
-  time: 'morning' | 'lunch' | 'dinner';
-  nav: any;
-}) => {
-  const {menu, img, recipe} = data;
+  recipeId,
+  recipeImg,
+  recipeName,
+  navigation,
+}: TodayMenuProps) => {
   return (
     <View>
-      {data && (
-        <TodayFrame>
-          <TextFrame>
-            <Txt typography="TitleSmall">{todayTime[time][0]}</Txt>
-            <Txt typography="HeadlineLarge">{todayTime[time][1]}</Txt>
-            <Txt typography="TitleMedium" style={{marginTop: 8}}>
-              {menu}
+      <TodayFrame>
+        <TextFrame>
+          <Txt typography="TitleSmall">{todayTime[time][0]}</Txt>
+          <Txt typography="HeadlineLarge">{todayTime[time][1]}</Txt>
+          <Txt typography="TitleMedium" style={{marginTop: 8}}>
+            {recipeName}
+          </Txt>
+          <MoveFrame
+            onPress={() =>
+              navigation.navigate('DetailRecipe', {recipeId: recipeId})
+            }>
+            <Txt typography="BodySmall" color={color.Green[500]}>
+              레시피 보러가기
             </Txt>
-            <MoveFrame>
-              <Txt
-                typography="BodySmall"
-                color={color.Green[500]}
-                onPress={() => nav.navigate('DetailRecipe', {recipe: recipe})}>
-                레시피 보러가기
-              </Txt>
-              <Arrow_right color={color.Green[500]} />
-            </MoveFrame>
-          </TextFrame>
-          <ImgFrame
-            source={{
-              uri: img,
-            }}
-          />
-        </TodayFrame>
-      )}
+            <Arrow_right color={color.Green[500]} />
+          </MoveFrame>
+        </TextFrame>
+        <ImgFrame
+          source={{
+            uri: recipeImg,
+          }}
+        />
+      </TodayFrame>
     </View>
   );
 };
@@ -64,7 +66,7 @@ const ImgFrame = styled.Image`
 const TextFrame = styled.View`
   padding: 18px;
 `;
-const MoveFrame = styled.View`
+const MoveFrame = styled.Pressable`
   flex-direction: row;
   align-items: center;
   gap: 4px;
