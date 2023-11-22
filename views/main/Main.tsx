@@ -4,7 +4,7 @@ import {color} from '../../style/color';
 import Txt from '../../components/Txt';
 import {Access_time, Search} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
-import TodayMenu from '../../components/TodayMenu';
+// import TodayMenu from '../../components/TodayMenu';
 import RecipeLarge from '../../components/RecipeLarge';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
@@ -114,13 +114,13 @@ export const Main = ({navigation}: any) => {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 32}}>
-          <TodayMenu
+          {/* <TodayMenu
             id={menu?.menuId}
             time={menu?.menuType}
             img={menu?.recipeImageUrl}
             nav={navigation}
             name={menu?.recipeName}
-          />
+          /> */}
         </TodayRecipe>
         <Box>
           <UnderTxt>레시피 카테고리</UnderTxt>
