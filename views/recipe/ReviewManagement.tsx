@@ -11,7 +11,7 @@ import {BaseUrl} from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ReviewManagement = ({route, navigation}: any) => {
-  const {isRegister} = route.params;
+  const {isRegister, recipeId} = route.params;
 
   const [star, setStar] = useState<number>(1);
   const [content, setContent] = useState<string>('');
@@ -35,21 +35,29 @@ const ReviewManagement = ({route, navigation}: any) => {
         })
         .then(response => {
           setImageData(response.data.imageUrl[0]);
-          console.log(imageData);
+          console.log('image upload successed');
         });
     });
   };
 
   const onSubmit = async () => {
+    console.log(recipeId);
     if (content.trim() !== '' && imageData) {
-      const Token = await AsyncStorage.getItem('Access_Token');
+      const Token = await AsyncStorage.getItem('AccessToken');
       await axios({
         method: 'POST',
-        url: `${BaseUrl}/review`,
+        url: `${BaseUrl}/review/${recipeId}`,
         headers: {
           Authorization: `Bearer ${Token}`,
         },
-      });
+        data: {
+          starRating: star,
+          content: content,
+          reviewImageUrl: imageData,
+        },
+      })
+        .then(() => navigation.navigate('DetailRecipe', {recipeId: recipeId}))
+        .catch(err => console.log(err));
     }
   };
 
@@ -59,7 +67,7 @@ const ReviewManagement = ({route, navigation}: any) => {
         name={isRegister ? '요리 후기 작성' : '요리 후기 수정'}
         nav={navigation}
         button={isRegister ? '등록' : '수정'}
-        func={() => console.log('히히')}
+        func={() => onSubmit()}
       />
       <Frame
         contentContainerStyle={{

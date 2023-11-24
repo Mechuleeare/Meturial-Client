@@ -79,7 +79,7 @@ const DetailRecipe = ({route, navigation}: any) => {
     };
     getRecipeDetail();
     getReview();
-  }, [recipeId]);
+  }, [recipeId, data]);
 
   return (
     <Frame>
@@ -147,7 +147,10 @@ const DetailRecipe = ({route, navigation}: any) => {
             status="silver"
             icon={<Pencil size={20} />}
             onPress={() =>
-              navigation.navigate('ReviewManagement', {isRegister: true})
+              navigation.navigate('ReviewManagement', {
+                isRegister: true,
+                recipeId: recipeId,
+              })
             }>
             요리 후기 작성하기
           </Button>

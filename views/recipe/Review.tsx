@@ -50,7 +50,7 @@ const Review = ({route, navigation}: any) => {
   }, [data]);
 
   const deleteReview = async () => {
-    const Token = await AsyncStorage.getItem('Access_Token');
+    const Token = await AsyncStorage.getItem('AccessToken');
     await axios({
       method: 'DELETE',
       url: `${BaseUrl}/review/${data}`,
@@ -60,7 +60,7 @@ const Review = ({route, navigation}: any) => {
     })
       .then(res => {
         console.log('review is deleted! ' + res.data);
-        navigation.goBack(null);
+        navigation.navigate('DetailRecipe', {recipeId: reviewData.recipeId});
       })
       .catch(err => console.log(err));
   };
