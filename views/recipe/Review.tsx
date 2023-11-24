@@ -49,15 +49,36 @@ const Review = ({route, navigation}: any) => {
     AxiosReviewDetail();
   }, [data]);
 
+  const deleteReview = async () => {
+    const Token = await AsyncStorage.getItem('Access_Token');
+    await axios({
+      method: 'DELETE',
+      url: `${BaseUrl}/review/${data}`,
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      },
+    })
+      .then(res => console.log('review is deleted! ' + res.data))
+      .catch(err => console.log(err));
+  };
+
   const Modal = (
     <MFrame>
       <List
+        onPress={() =>
+          navigation.navigate('ReviewManagement', {
+            isRegister: true,
+            recipeId: undefined,
+            reviewId: data,
+          })
+        }
         style={({pressed}) => [
           {backgroundColor: pressed ? color.Gray[100] : color.White},
         ]}>
         <Txt typography="LabelMedium">수정하기</Txt>
       </List>
       <List
+        onPress={() => deleteReview()}
         style={({pressed}) => [
           {backgroundColor: pressed ? color.Gray[100] : color.White},
         ]}>
