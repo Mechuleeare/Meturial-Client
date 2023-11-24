@@ -58,7 +58,10 @@ const Review = ({route, navigation}: any) => {
         Authorization: `Bearer ${Token}`,
       },
     })
-      .then(res => console.log('review is deleted! ' + res.data))
+      .then(res => {
+        console.log('review is deleted! ' + res.data);
+        navigation.goBack(null);
+      })
       .catch(err => console.log(err));
   };
 
