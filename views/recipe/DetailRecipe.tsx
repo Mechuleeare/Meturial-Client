@@ -85,7 +85,11 @@ const DetailRecipe = ({route, navigation}: any) => {
     <Frame>
       <BackHeader name={data?.name || '레시피'} nav={navigation} />
       <Content contentContainerStyle={{paddingBottom: 120}}>
-        <TitleImg source={{uri: data?.recipeImageUrl}} />
+        {data?.recipeImageUrl ? (
+          <TitleImg source={{uri: data?.recipeImageUrl}} />
+        ) : (
+          <NImg />
+        )}
         <Title>
           <Txt typography="HeadlineLarge">{data?.name}</Txt>
           <Tag>
@@ -230,6 +234,11 @@ const Tag = styled.View`
 const Title = styled.View`
   gap: 4px;
   padding: 16px 16px 20px;
+`;
+const NImg = styled.View`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: ${color.Gray[50]};
 `;
 const TitleImg = styled.Image`
   width: 100%;
