@@ -39,7 +39,6 @@ const Review = ({route, navigation}: any) => {
             Authorization: `Bearer ${Token}`,
           },
         });
-        console.log(result.data);
         setReviewData(result.data);
       } catch (error) {
         console.log(error);
@@ -49,6 +48,7 @@ const Review = ({route, navigation}: any) => {
     AxiosReviewDetail();
   }, [data]);
 
+  /**등록된 리뷰를 삭제하는 함수입니다.*/
   const deleteReview = async () => {
     const Token = await AsyncStorage.getItem('AccessToken');
     await axios({
@@ -71,8 +71,9 @@ const Review = ({route, navigation}: any) => {
         onPress={() =>
           navigation.navigate('ReviewManagement', {
             isRegister: false,
-            recipeId: undefined,
+            recipeId: reviewData.recipeId,
             reviewId: data,
+            name: reviewData.recipeName,
           })
         }
         style={({pressed}) => [

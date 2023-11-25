@@ -2,9 +2,9 @@ import styled from 'styled-components/native';
 import {color} from '../../style/color';
 import BackHeader from '../../components/BackHeader';
 import Txt from '../../components/Txt';
-import {Add, Star_filled} from '../../assets';
+import {Add, Close, Star_filled} from '../../assets';
 import {Image, Pressable, View} from 'react-native';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import {BaseUrl} from '../../utils';
@@ -13,15 +13,38 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface routeParams {
   isRegister: boolean;
   recipeId: string;
+  reviewId?: string;
+  name: string;
 }
 
 const ReviewManagement = ({route, navigation}: any) => {
-  const {isRegister, recipeId}: routeParams = route.params;
+  const {isRegister, recipeId, reviewId, name}: routeParams = route.params;
 
   const [star, setStar] = useState<number>(1);
   const [content, setContent] = useState<string>('');
   const [imageData, setImageData] = useState<string | undefined>();
 
+  useEffect(() => {
+    if (!isRegister) {
+      (async () => {
+        const Token = await AsyncStorage.getItem('AccessToken');
+        await axios({
+          method: 'GET',
+          url: `${BaseUrl}/review/${reviewId}`,
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        }).then(res => {
+          const {starRating, content, reviewImageUrl} = res.data;
+          setStar(starRating);
+          setContent(content);
+          setImageData(reviewImageUrl);
+        });
+      })();
+    }
+  }, [isRegister, reviewId]);
+
+  /**사용자의 앨범에서 받아온 image를 s3에 등록하는 함수입니다.*/
   const ShowPicker = () => {
     //launchImageLibrary : 사용자 앨범 접근
     launchImageLibrary({mediaType: 'photo'}, async res => {
@@ -45,13 +68,13 @@ const ReviewManagement = ({route, navigation}: any) => {
     });
   };
 
+  /**리뷰를 등록 및 수정하는 함수입니다.*/
   const onSubmit = async () => {
-    console.log(recipeId);
     if (content.trim() !== '') {
       const Token = await AsyncStorage.getItem('AccessToken');
       await axios({
-        method: 'POST',
-        url: `${BaseUrl}/review/${recipeId}`,
+        method: isRegister ? 'POST' : 'PATCH',
+        url: `${BaseUrl}/review/${isRegister ? recipeId : reviewId}`,
         headers: {
           Authorization: `Bearer ${Token}`,
         },
@@ -69,7 +92,7 @@ const ReviewManagement = ({route, navigation}: any) => {
   return (
     <Flex>
       <BackHeader
-        name={isRegister ? '요리 후기 작성' : '요리 후기 수정'}
+        name={name + (isRegister ? ' 후기 작성' : ' 후기 수정')}
         nav={navigation}
         button={isRegister ? '등록' : '수정'}
         func={() => onSubmit()}
@@ -88,6 +111,9 @@ const ReviewManagement = ({route, navigation}: any) => {
             </ProfileInput>
           ) : (
             <Pressable onPress={ShowPicker}>
+              <DelImg onPress={() => setImageData(undefined)}>
+                <Close />
+              </DelImg>
               <Img source={{uri: `${imageData}`}} borderRadius={8} />
             </Pressable>
           )}
@@ -119,6 +145,15 @@ const ReviewManagement = ({route, navigation}: any) => {
 
 export default ReviewManagement;
 
+const DelImg = styled.Pressable`
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  z-index: 2;
+  padding: 4px;
+  top: 8px;
+  left: 8px;
+`;
 const ProfileInput = styled.Pressable`
   width: 120px;
   height: 120px;

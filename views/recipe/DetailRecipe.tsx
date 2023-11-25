@@ -150,6 +150,7 @@ const DetailRecipe = ({route, navigation}: any) => {
               navigation.navigate('ReviewManagement', {
                 isRegister: true,
                 recipeId: recipeId,
+                name: data?.name,
               })
             }>
             요리 후기 작성하기
