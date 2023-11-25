@@ -12,6 +12,7 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {BaseUrl} from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {RecipeType} from '../my/MyReviewList';
 
 interface sequence {
   sequenceId: string;
@@ -51,6 +52,7 @@ const DetailRecipe = ({route, navigation}: any) => {
   const {recipeId}: {recipeId: string} = route.params;
   const [data, setData] = useState<dataType>();
   const [review, setReview] = useState<recipeReviewRes>();
+  const [index, setIndex] = useState<string | undefined>();
 
   useEffect(() => {
     const getRecipeDetail = async () => {
@@ -80,6 +82,27 @@ const DetailRecipe = ({route, navigation}: any) => {
     getRecipeDetail();
     getReview();
   }, [recipeId, data]);
+
+  useEffect(() => {
+    if (review?.recipeName) {
+      (async () => {
+        const Token = await AsyncStorage.getItem('AccessToken');
+        const nameCheckReq = await axios({
+          method: 'GET',
+          url: `${BaseUrl}/review/my`,
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        });
+        const check: RecipeType = nameCheckReq.data.myReviewList.find(
+          (reviewRes: RecipeType) =>
+            reviewRes.recipeName === review.recipeName.slice(9, -1),
+        );
+        setIndex(check?.reviewId);
+        console.log(check?.reviewId);
+      })();
+    }
+  }, [review?.recipeName]);
 
   return (
     <Frame>
@@ -143,18 +166,20 @@ const DetailRecipe = ({route, navigation}: any) => {
               {review?.recipeReviewCount}
             </Txt>
           </Txt>
-          <Button
-            status="silver"
-            icon={<Pencil size={20} />}
-            onPress={() =>
-              navigation.navigate('ReviewManagement', {
-                isRegister: true,
-                recipeId: recipeId,
-                name: data?.name,
-              })
-            }>
-            요리 후기 작성하기
-          </Button>
+          {!index && (
+            <Button
+              status="silver"
+              icon={<Pencil size={20} />}
+              onPress={() =>
+                navigation.navigate('ReviewManagement', {
+                  isRegister: true,
+                  recipeId: recipeId,
+                  name: data?.name,
+                })
+              }>
+              요리 후기 작성하기
+            </Button>
+          )}
           {review?.recipeReviewList.slice(0, 3).map(v => (
             <ReviewPreview
               name={v.writerName}
@@ -163,7 +188,13 @@ const DetailRecipe = ({route, navigation}: any) => {
               starRating={v.starRating}
               reviewImageUrl={v.reviewImageUrl}
               key={v.reviewId}
-              onTouch={() => navigation.navigate('Review', {data: v.reviewId})}
+              onTouch={() =>
+                navigation.navigate('Review', {
+                  data: v.reviewId,
+                  edit: index === v.reviewId,
+                })
+              }
+              my={index === v.reviewId}
             />
           ))}
           {review && review?.recipeReviewList?.length > 3 && (
@@ -172,6 +203,7 @@ const DetailRecipe = ({route, navigation}: any) => {
               onPress={() =>
                 navigation.navigate('ReviewAll', {
                   review: review,
+                  index: index,
                 })
               }>
               요리 후기 모두 보기

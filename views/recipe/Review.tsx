@@ -19,7 +19,7 @@ interface ReviewDataType {
 }
 
 const Review = ({route, navigation}: any) => {
-  const {data} = route.params;
+  const {data, edit} = route.params;
   const [reviewData, setReviewData] = useState<ReviewDataType>({
     recipeId: '',
     recipeName: '',
@@ -95,7 +95,11 @@ const Review = ({route, navigation}: any) => {
 
   return (
     <Flex key={reviewData.recipeId}>
-      <BackHeader name={reviewData.recipeName} nav={navigation} modal={Modal} />
+      <BackHeader
+        name={reviewData.recipeName}
+        nav={navigation}
+        modal={edit && Modal}
+      />
       <Frame>
         {reviewData.reviewImageUrl && (
           <Img

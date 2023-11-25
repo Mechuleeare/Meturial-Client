@@ -21,7 +21,7 @@ const ReviewManagement = ({route, navigation}: any) => {
   const {isRegister, recipeId, reviewId, name}: routeParams = route.params;
 
   const [star, setStar] = useState<number>(1);
-  const [content, setContent] = useState<string>('');
+  const [contents, setContents] = useState<string>('');
   const [imageData, setImageData] = useState<string | undefined>();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const ReviewManagement = ({route, navigation}: any) => {
         }).then(res => {
           const {starRating, content, reviewImageUrl} = res.data;
           setStar(starRating);
-          setContent(content);
+          setContents(content);
           setImageData(reviewImageUrl);
         });
       })();
@@ -70,7 +70,7 @@ const ReviewManagement = ({route, navigation}: any) => {
 
   /**리뷰를 등록 및 수정하는 함수입니다.*/
   const onSubmit = async () => {
-    if (content.trim() !== '') {
+    if (contents.trim() !== '') {
       const Token = await AsyncStorage.getItem('AccessToken');
       await axios({
         method: isRegister ? 'POST' : 'PATCH',
@@ -80,7 +80,7 @@ const ReviewManagement = ({route, navigation}: any) => {
         },
         data: {
           starRating: star,
-          content: content,
+          content: contents,
           reviewImageUrl: imageData,
         },
       })
@@ -135,8 +135,8 @@ const ReviewManagement = ({route, navigation}: any) => {
           multiline={true}
           placeholder="후기를 입력해주세요.."
           style={{textAlignVertical: 'top'}}
-          value={content}
-          onChangeText={setContent}
+          value={contents}
+          onChangeText={setContents}
         />
       </Frame>
     </Flex>
