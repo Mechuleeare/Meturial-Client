@@ -44,11 +44,13 @@ const ReviewPreview = ({
           {content}
         </Txt>
       </Content>
-      <Img
-        source={{
-          uri: reviewImageUrl,
-        }}
-      />
+      {reviewImageUrl && (
+        <Img
+          source={{
+            uri: reviewImageUrl,
+          }}
+        />
+      )}
     </Frame>
   );
 };

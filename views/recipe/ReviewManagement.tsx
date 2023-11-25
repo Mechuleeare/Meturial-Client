@@ -10,12 +10,17 @@ import axios from 'axios';
 import {BaseUrl} from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+interface routeParams {
+  isRegister: boolean;
+  recipeId: string;
+}
+
 const ReviewManagement = ({route, navigation}: any) => {
-  const {isRegister, recipeId} = route.params;
+  const {isRegister, recipeId}: routeParams = route.params;
 
   const [star, setStar] = useState<number>(1);
   const [content, setContent] = useState<string>('');
-  const [imageData, setImageData] = useState<string>();
+  const [imageData, setImageData] = useState<string | undefined>();
 
   const ShowPicker = () => {
     //launchImageLibrary : 사용자 앨범 접근
@@ -42,7 +47,7 @@ const ReviewManagement = ({route, navigation}: any) => {
 
   const onSubmit = async () => {
     console.log(recipeId);
-    if (content.trim() !== '' && imageData) {
+    if (content.trim() !== '') {
       const Token = await AsyncStorage.getItem('AccessToken');
       await axios({
         method: 'POST',

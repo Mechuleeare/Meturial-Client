@@ -70,7 +70,7 @@ const Review = ({route, navigation}: any) => {
       <List
         onPress={() =>
           navigation.navigate('ReviewManagement', {
-            isRegister: true,
+            isRegister: false,
             recipeId: undefined,
             reviewId: data,
           })
@@ -96,14 +96,12 @@ const Review = ({route, navigation}: any) => {
     <Flex key={reviewData.recipeId}>
       <BackHeader name={reviewData.recipeName} nav={navigation} modal={Modal} />
       <Frame>
-        {reviewData.reviewImageUrl ? (
+        {reviewData.reviewImageUrl && (
           <Img
             source={{
               uri: reviewData.reviewImageUrl,
             }}
           />
-        ) : (
-          <ImgSkeleton />
         )}
         <Content>
           <TxtFrame>
@@ -136,12 +134,6 @@ const Review = ({route, navigation}: any) => {
 
 export default Review;
 
-const ImgSkeleton = styled.View`
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 8px;
-  background-color: ${color.Gray[100]};
-`;
 const List = styled.Pressable`
   padding: 8px;
   border-radius: 6px;
