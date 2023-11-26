@@ -2,25 +2,100 @@ import styled from 'styled-components/native';
 import {color} from '../../style/color';
 import BackHeader from '../../components/BackHeader';
 import Txt from '../../components/Txt';
-import {Star_filled} from '../../assets';
-import {View} from 'react-native';
-import {useState} from 'react';
+import {Add, Close, Star_filled} from '../../assets';
+import {Image, Pressable, View} from 'react-native';
+import {useEffect, useState} from 'react';
+import {launchImageLibrary} from 'react-native-image-picker';
+import axios from 'axios';
+import {BaseUrl} from '../../utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface routeParams {
+  isRegister: boolean;
+  recipeId: string;
+  reviewId?: string;
+  name: string;
+}
 
 const ReviewManagement = ({route, navigation}: any) => {
-  const {isRegister} = route.params;
+  const {isRegister, recipeId, reviewId, name}: routeParams = route.params;
 
-  const [star, setStar] = useState<number>(4);
-  const [content, setContent] = useState<string>('');
+  const [star, setStar] = useState<number>(1);
+  const [contents, setContents] = useState<string>('');
+  const [imageData, setImageData] = useState<string | undefined>();
 
-  console.log(content);
+  useEffect(() => {
+    if (!isRegister) {
+      (async () => {
+        const Token = await AsyncStorage.getItem('AccessToken');
+        await axios({
+          method: 'GET',
+          url: `${BaseUrl}/review/${reviewId}`,
+          headers: {
+            Authorization: `Bearer ${Token}`,
+          },
+        }).then(res => {
+          const {starRating, content, reviewImageUrl} = res.data;
+          setStar(starRating);
+          setContents(content);
+          setImageData(reviewImageUrl);
+        });
+      })();
+    }
+  }, [isRegister, reviewId]);
+
+  /**사용자의 앨범에서 받아온 image를 s3에 등록하는 함수입니다.*/
+  const ShowPicker = () => {
+    //launchImageLibrary : 사용자 앨범 접근
+    launchImageLibrary({mediaType: 'photo'}, async res => {
+      const formdata = new FormData();
+      const file = {
+        name: res?.assets?.[0]?.fileName,
+        type: res?.assets?.[0]?.type,
+        uri: res?.assets?.[0]?.uri,
+      };
+      formdata.append('images', file);
+      await axios
+        .post(`${BaseUrl}/image`, formdata, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then(response => {
+          setImageData(response.data.imageUrl[0]);
+          console.log('image upload successed');
+        });
+    });
+  };
+
+  /**리뷰를 등록 및 수정하는 함수입니다.*/
+  const onSubmit = async () => {
+    if (contents.trim() !== '') {
+      const Token = await AsyncStorage.getItem('AccessToken');
+      await axios({
+        method: isRegister ? 'POST' : 'PATCH',
+        url: `${BaseUrl}/review/${isRegister ? recipeId : reviewId}`,
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+        data: {
+          starRating: star,
+          content: contents,
+          reviewImageUrl: imageData,
+        },
+      })
+        .then(() => navigation.navigate('DetailRecipe', {recipeId: recipeId}))
+        .catch(err => console.log(err));
+    }
+  };
 
   return (
     <Flex>
       <BackHeader
-        name={isRegister ? '요리 후기 작성' : '요리 후기 수정'}
+        name={name + (isRegister ? ' 후기 작성' : ' 후기 수정')}
         nav={navigation}
         button={isRegister ? '등록' : '수정'}
-        func={() => console.log('히히')}
+        func={() => onSubmit()}
       />
       <Frame
         contentContainerStyle={{
@@ -30,11 +105,18 @@ const ReviewManagement = ({route, navigation}: any) => {
           paddingBottom: 120,
         }}>
         <TxtFrame>
-          <Img
-            source={{
-              uri: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-            }}
-          />
+          {!imageData ? (
+            <ProfileInput onPress={ShowPicker}>
+              <Image source={Add} />
+            </ProfileInput>
+          ) : (
+            <Pressable onPress={ShowPicker}>
+              <DelImg onPress={() => setImageData(undefined)}>
+                <Close />
+              </DelImg>
+              <Img source={{uri: `${imageData}`}} borderRadius={8} />
+            </Pressable>
+          )}
           <StarFrame>
             <Txt typography="TitleSmall">별점</Txt>
             <Star>
@@ -53,8 +135,8 @@ const ReviewManagement = ({route, navigation}: any) => {
           multiline={true}
           placeholder="후기를 입력해주세요.."
           style={{textAlignVertical: 'top'}}
-          value={content}
-          onChangeText={setContent}
+          value={contents}
+          onChangeText={setContents}
         />
       </Frame>
     </Flex>
@@ -63,6 +145,23 @@ const ReviewManagement = ({route, navigation}: any) => {
 
 export default ReviewManagement;
 
+const DelImg = styled.Pressable`
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  z-index: 2;
+  padding: 4px;
+  top: 8px;
+  left: 8px;
+`;
+const ProfileInput = styled.Pressable`
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  background-color: ${color.Gray[100]};
+  justify-content: center;
+  align-items: center;
+`;
 const Textarea = styled.TextInput`
   font-family: Pretendard-Regular;
   font-size: 14px;
@@ -88,7 +187,6 @@ const Img = styled.Image`
   height: 120px;
   object-fit: cover;
   border-radius: 8px;
-  background-color: ${color.Gray[100]};
 `;
 const Flex = styled.View`
   background-color: ${color.White};

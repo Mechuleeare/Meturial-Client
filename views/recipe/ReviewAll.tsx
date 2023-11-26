@@ -2,15 +2,19 @@ import styled from 'styled-components/native';
 import BackHeader from '../../components/BackHeader';
 import {color} from '../../style/color';
 import ReviewPreview from '../../components/ReviewPreview';
+import {recipeReviewRes} from './DetailRecipe';
 
 const ReviewAll = ({route, navigation}: any) => {
-  const {recipe} = route.params;
-
-  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const {review, index}: {review: recipeReviewRes; index: string} =
+    route.params;
 
   return (
     <Flex>
-      <BackHeader name={recipe + ' 후기'} num={12} nav={navigation} />
+      <BackHeader
+        name={review.recipeName.slice(9, -1) + ' 후기'}
+        num={review.recipeReviewCount}
+        nav={navigation}
+      />
       <Content
         contentContainerStyle={{
           gap: 18,
@@ -18,12 +22,21 @@ const ReviewAll = ({route, navigation}: any) => {
           paddingTop: 24,
           paddingBottom: 120,
         }}>
-        {data.map(v => (
+        {review?.recipeReviewList.map(v => (
           <ReviewPreview
-            key={v}
+            name={v.writerName}
+            content={v.content}
+            createdAt={v.createdAt}
+            starRating={v.starRating}
+            reviewImageUrl={v.reviewImageUrl}
+            key={v.reviewId}
             onTouch={() =>
-              navigation.navigate('Review', {recipe: recipe, data: v})
+              navigation.navigate('Review', {
+                data: v.reviewId,
+                edit: index === v.reviewId,
+              })
             }
+            my={index === v.reviewId}
           />
         ))}
       </Content>
