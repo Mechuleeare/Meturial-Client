@@ -57,6 +57,7 @@ export const MyReviewList = ({navigation}: any) => {
                 navigation.navigate('Review', {
                   data: v.reviewId,
                   edit: true,
+                  my: true,
                 })
               }
             />
