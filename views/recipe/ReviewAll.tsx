@@ -5,7 +5,8 @@ import ReviewPreview from '../../components/ReviewPreview';
 import {recipeReviewRes} from './DetailRecipe';
 
 const ReviewAll = ({route, navigation}: any) => {
-  const {review}: {review: recipeReviewRes} = route.params;
+  const {review, index}: {review: recipeReviewRes; index: string} =
+    route.params;
 
   return (
     <Flex>
@@ -29,7 +30,13 @@ const ReviewAll = ({route, navigation}: any) => {
             starRating={v.starRating}
             reviewImageUrl={v.reviewImageUrl}
             key={v.reviewId}
-            onTouch={() => navigation.navigate('Review', {data: v.reviewId})}
+            onTouch={() =>
+              navigation.navigate('Review', {
+                data: v.reviewId,
+                edit: index === v.reviewId,
+              })
+            }
+            my={index === v.reviewId}
           />
         ))}
       </Content>

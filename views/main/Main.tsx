@@ -133,7 +133,11 @@ export const Main = ({navigation}: any) => {
                 오늘의 식단을 등록하여 시간에 맞춰 식사해 보세요.
               </Txt>
               <View style={{marginTop: 8}}>
-                <Button status="primary2">식단 등록하기</Button>
+                <Button
+                  status="primary2"
+                  onPress={() => navigation.navigate('Calendar')}>
+                  식단 등록하기
+                </Button>
               </View>
             </None>
           )}
@@ -146,7 +150,7 @@ export const Main = ({navigation}: any) => {
                 key={v.name}
                 onTouchEnd={() =>
                   navigation.navigate('CategoryRecipe', {
-                    recipe: v.name,
+                    category: v.name,
                   })
                 }>
                 <ItemImg source={{uri: v.img}} />

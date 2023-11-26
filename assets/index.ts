@@ -31,3 +31,4 @@ export * from './Filter';
 export * from './Arrow_down';
 export * from './Arrow_up';
 export * from './Add';
+export * from './Close';

@@ -19,7 +19,7 @@ interface ReviewDataType {
 }
 
 const Review = ({route, navigation}: any) => {
-  const {data} = route.params;
+  const {data, edit, my} = route.params;
   const [reviewData, setReviewData] = useState<ReviewDataType>({
     recipeId: '',
     recipeName: '',
@@ -39,7 +39,6 @@ const Review = ({route, navigation}: any) => {
             Authorization: `Bearer ${Token}`,
           },
         });
-        console.log(result.data);
         setReviewData(result.data);
       } catch (error) {
         console.log(error);
@@ -49,15 +48,44 @@ const Review = ({route, navigation}: any) => {
     AxiosReviewDetail();
   }, [data]);
 
+  /**등록된 리뷰를 삭제하는 함수입니다.*/
+  const deleteReview = async () => {
+    const Token = await AsyncStorage.getItem('AccessToken');
+    await axios({
+      method: 'DELETE',
+      url: `${BaseUrl}/review/${data}`,
+      headers: {
+        Authorization: `Bearer ${Token}`,
+      },
+    })
+      .then(res => {
+        console.log('review is deleted! ' + res.data);
+        navigation.navigate(my ? 'My' : 'DetailRecipe', {
+          recipeId: reviewData.recipeId,
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
   const Modal = (
     <MFrame>
       <List
+        onPress={() =>
+          navigation.navigate('ReviewManagement', {
+            isRegister: false,
+            recipeId: reviewData.recipeId,
+            reviewId: data,
+            name: reviewData.recipeName,
+            my: my,
+          })
+        }
         style={({pressed}) => [
           {backgroundColor: pressed ? color.Gray[100] : color.White},
         ]}>
         <Txt typography="LabelMedium">수정하기</Txt>
       </List>
       <List
+        onPress={() => deleteReview()}
         style={({pressed}) => [
           {backgroundColor: pressed ? color.Gray[100] : color.White},
         ]}>
@@ -70,16 +98,18 @@ const Review = ({route, navigation}: any) => {
 
   return (
     <Flex key={reviewData.recipeId}>
-      <BackHeader name={reviewData.recipeName} nav={navigation} modal={Modal} />
+      <BackHeader
+        name={reviewData.recipeName}
+        nav={navigation}
+        modal={edit && Modal}
+      />
       <Frame>
-        {reviewData.reviewImageUrl ? (
+        {reviewData.reviewImageUrl && (
           <Img
             source={{
               uri: reviewData.reviewImageUrl,
             }}
           />
-        ) : (
-          <ImgSkeleton />
         )}
         <Content>
           <TxtFrame>
@@ -112,12 +142,6 @@ const Review = ({route, navigation}: any) => {
 
 export default Review;
 
-const ImgSkeleton = styled.View`
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 8px;
-  background-color: ${color.Gray[100]};
-`;
 const List = styled.Pressable`
   padding: 8px;
   border-radius: 6px;

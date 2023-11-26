@@ -25,6 +25,7 @@ export const TodayRecipe = ({navigation}: any) => {
   console.log(Sort);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     const today = new Date();
 
     const formattedDate = `${today.getFullYear()}-${
