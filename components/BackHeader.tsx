@@ -87,5 +87,6 @@ const Frame = styled.View`
   justify-content: space-between;
   border-bottom-width: 1px;
   border-bottom-color: ${color.Gray[100]};
+  background-color: white;
   z-index: 10;
 `;

@@ -9,6 +9,7 @@ import axios from 'axios';
 import {BaseUrl} from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
+import BackHeader from '../../components/BackHeader';
 
 interface RecipeType {
   content: string;
@@ -41,7 +42,6 @@ export const My = ({navigation}: any) => {
             Authorization: `Bearer ${Token}`,
           },
         });
-        console.log(result.data);
         const recipeData = result.data.myReviewList;
         const sliceData = recipeData.slice(0, 3);
         setRecipe(sliceData);
@@ -59,10 +59,9 @@ export const My = ({navigation}: any) => {
             Authorization: `Bearer ${Token}`,
           },
         });
-        console.log(result.data);
         setInformaion(result.data);
         const all = result.data;
-        const AllergySplit = all.split(',');
+        const AllergySplit = all.allergyInfo.split(',');
         setAllergyData(AllergySplit);
       } catch (error) {
         console.log(error);
@@ -75,10 +74,7 @@ export const My = ({navigation}: any) => {
 
   return (
     <Background>
-      <Header>
-        <Txt typography="TitleMedium">마이페이지</Txt>
-      </Header>
-      <Line />
+      <BackHeader name="마이페이지" />
       <ScrollView>
         <Information>
           <Profile
@@ -108,16 +104,18 @@ export const My = ({navigation}: any) => {
             내정보 수정하기
           </Button>
         </Information>
-        <AllergyInfromation>
-          <Txt typography="TitleMedium">알레르기</Txt>
-          <AllergyFlex>
-            {allergyData.map(v => (
-              <Allergy>
-                <Txt typography="LabelSmall">{v}</Txt>
-              </Allergy>
-            ))}
-          </AllergyFlex>
-        </AllergyInfromation>
+        {allergyData[0] && (
+          <AllergyInfromation>
+            <Txt typography="TitleMedium">알레르기</Txt>
+            <AllergyFlex>
+              {allergyData.map(v => (
+                <Allergy>
+                  <Txt typography="LabelSmall">{v}</Txt>
+                </Allergy>
+              ))}
+            </AllergyFlex>
+          </AllergyInfromation>
+        )}
         <MyReview>
           <ReviewTitle>
             <Txt typography="TitleMedium">내가 작성한 후기</Txt>
@@ -156,20 +154,6 @@ export const My = ({navigation}: any) => {
 const Background = styled.View`
   width: 100%;
   height: 100%;
-`;
-
-const Header = styled.View`
-  width: 100%;
-  height: 48px;
-  padding: 12px 16px;
-  background-color: ${color.White};
-  justify-content: center;
-`;
-
-const Line = styled.View`
-  width: 100%;
-  height: 1px;
-  background-color: ${color.Gray[100]};
 `;
 
 const ScrollView = styled.ScrollView`
