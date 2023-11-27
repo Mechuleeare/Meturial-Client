@@ -7,9 +7,11 @@ import {useEffect, useRef} from 'react';
 import {TodayRecipe} from './TodayRecipe';
 import {Calendar} from './Calendar';
 import UnderTxt from '../../components/UnderTxt';
+import {useIsFocused} from '@react-navigation/native';
 
 const TabBar = ({state, navigation}: any) => {
   const animationHorizontalValue = useRef(new Animated.Value(0)).current;
+  const isFocused = useIsFocused();
 
   const animate = (index: number) => {
     Animated.spring(animationHorizontalValue, {
@@ -21,7 +23,7 @@ const TabBar = ({state, navigation}: any) => {
   useEffect(() => {
     animate(state.index);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.index]);
+  }, [state.index, isFocused]);
 
   return (
     <Background>
