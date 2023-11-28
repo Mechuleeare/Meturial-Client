@@ -12,8 +12,8 @@ import UnderTxt from '../components/UnderTxt';
 import {Arrow_back} from '../assets';
 
 export const Login = ({navigation}: any) => {
-  const [emailValue, setEmailValue] = useState<string>();
-  const [pwValue, setpwValue] = useState<string>();
+  const [emailValue, setEmailValue] = useState<string>('wjknn3123@gmail.com');
+  const [pwValue, setpwValue] = useState<string>('asdf1234!');
   const [isKeyboard, setIsKeyboard] = useState<boolean>(false);
 
   Keyboard.addListener('keyboardDidShow', () => {
