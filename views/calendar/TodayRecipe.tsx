@@ -6,6 +6,8 @@ import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TodayMenu from '../../components/TodayMenu';
 import Button from '../../components/Button';
+import Txt from '../../components/Txt';
+import {Dimensions, View} from 'react-native';
 
 interface MenuData {
   menuId: string;
@@ -17,8 +19,9 @@ interface MenuData {
 
 export const TodayRecipe = ({navigation}: any) => {
   const [today, setToday] = useState<MenuData[]>([]);
-  const [Sort, setSort] = useState<MenuData[]>([]);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const [Sort, setSort] = useState<MenuData[] | undefined>(undefined);
+  console.log(today);
   console.log(Sort);
 
   useEffect(() => {
@@ -65,6 +68,9 @@ export const TodayRecipe = ({navigation}: any) => {
         [sortedData],
       );
       setSort(sortedData);
+      if (sortedData.length === 0) {
+        setSort(undefined);
+      }
     }
     SortData();
   }, [today]);
@@ -72,15 +78,28 @@ export const TodayRecipe = ({navigation}: any) => {
   return (
     <Background>
       <TodayFlex>
-        {Sort.map(v => (
-          <TodayMenu
-            time={v.menuType}
-            recipeId={v.recipeId}
-            recipeImg={v.recipeImageUrl}
-            recipeName={v.recipeName}
-            navigation={navigation}
-          />
-        ))}
+        {Sort ? (
+          Sort.map(v => (
+            <TodayMenu
+              key={v.menuId}
+              time={v.menuType}
+              recipeId={v.recipeId}
+              recipeImg={v.recipeImageUrl}
+              recipeName={v.recipeName}
+              navigation={navigation}
+            />
+          ))
+        ) : (
+          <None>
+            <Txt typography="TitleMedium">오늘 등록된 식단이 없어요</Txt>
+            <Txt typography="BodySmall">
+              오늘의 식단을 등록하여 시간에 맞춰 식사해 보세요.
+            </Txt>
+            <View style={{marginTop: 8}}>
+              <Button status="primary2">식단 등록하기</Button>
+            </View>
+          </None>
+        )}
       </TodayFlex>
       <BtnFlex>
         <Button>식단 변경하기</Button>
@@ -107,4 +126,15 @@ const BtnFlex = styled.View`
   gap: 8px;
   margin-top: 24px;
   margin-bottom: 100px;
+`;
+
+const None = styled.View`
+  width: ${Dimensions.get('window').width - 32}px;
+  background-color: white;
+  height: 200px;
+  border-radius: 8px;
+  border: 2px solid ${color.Gray[50]};
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 `;

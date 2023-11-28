@@ -19,7 +19,7 @@ interface ReviewDataType {
 }
 
 const Review = ({route, navigation}: any) => {
-  const {data, edit} = route.params;
+  const {data, edit, my} = route.params;
   const [reviewData, setReviewData] = useState<ReviewDataType>({
     recipeId: '',
     recipeName: '',
@@ -60,7 +60,9 @@ const Review = ({route, navigation}: any) => {
     })
       .then(res => {
         console.log('review is deleted! ' + res.data);
-        navigation.navigate('DetailRecipe', {recipeId: reviewData.recipeId});
+        navigation.navigate(my ? 'My' : 'DetailRecipe', {
+          recipeId: reviewData.recipeId,
+        });
       })
       .catch(err => console.log(err));
   };
@@ -74,6 +76,7 @@ const Review = ({route, navigation}: any) => {
             recipeId: reviewData.recipeId,
             reviewId: data,
             name: reviewData.recipeName,
+            my: my,
           })
         }
         style={({pressed}) => [

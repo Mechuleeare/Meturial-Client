@@ -15,10 +15,11 @@ interface routeParams {
   recipeId: string;
   reviewId?: string;
   name: string;
+  my?: boolean;
 }
 
 const ReviewManagement = ({route, navigation}: any) => {
-  const {isRegister, recipeId, reviewId, name}: routeParams = route.params;
+  const {isRegister, recipeId, reviewId, name, my}: routeParams = route.params;
 
   const [star, setStar] = useState<number>(1);
   const [contents, setContents] = useState<string>('');
@@ -84,7 +85,9 @@ const ReviewManagement = ({route, navigation}: any) => {
           reviewImageUrl: imageData,
         },
       })
-        .then(() => navigation.navigate('DetailRecipe', {recipeId: recipeId}))
+        .then(() =>
+          navigation.navigate(my ? 'My' : 'DetailRecipe', {recipeId: recipeId}),
+        )
         .catch(err => console.log(err));
     }
   };

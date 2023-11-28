@@ -135,6 +135,8 @@ export const My = ({navigation}: any) => {
                 onTouch={() =>
                   navigation.navigate('Review', {
                     data: v.reviewId,
+                    edit: true,
+                    my: true,
                   })
                 }
               />
