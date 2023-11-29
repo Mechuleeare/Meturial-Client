@@ -1,8 +1,8 @@
-import {Dimensions, Pressable, View} from 'react-native';
+import {Dimensions, Pressable, View, Image} from 'react-native';
 import styled from 'styled-components/native';
 import {color} from '../../style/color';
 import Txt from '../../components/Txt';
-import {Access_time, Search} from '../../assets';
+import {Access_time, Logo, Search} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
 import TodayMenu from '../../components/TodayMenu';
 import RecipeLarge from '../../components/RecipeLarge';
@@ -94,14 +94,7 @@ export const Main = ({navigation}: any) => {
     <Frame>
       <Header>
         <LeftFrame>
-          <View
-            style={{
-              borderRadius: 100,
-              backgroundColor: color.Green[500],
-              width: 24,
-              height: 24,
-            }}
-          />
+          <Image source={Logo} />
           <Txt typography="TitleMedium">메추리알</Txt>
         </LeftFrame>
         <RightFrame>

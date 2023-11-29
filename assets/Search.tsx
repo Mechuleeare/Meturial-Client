@@ -1,8 +1,14 @@
 import {Svg, Path} from 'react-native-svg';
 
-export const Search = ({color = '#000'}: {color?: string}) => {
+export const Search = ({
+  color = '#000',
+  size = 24,
+}: {
+  color?: string;
+  size?: number;
+}) => {
   return (
-    <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
         fill-rule="evenodd"
         clip-rule="evenodd"
