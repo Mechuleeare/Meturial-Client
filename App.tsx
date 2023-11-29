@@ -17,11 +17,19 @@ import {MyReviewList} from './views/my/MyReviewList';
 import {MyFixed} from './views/my/MyFixed';
 import {PwChangeCheck} from './views/my/PwChangeCheck';
 import {PwChange} from './views/my/PwChange';
+import SplashScreen from 'react-native-splash-screen';
+import {useEffect} from 'react';
 
 const HelloWorldApp = () => {
   const Stack = createStackNavigator();
   StatusBar.setBackgroundColor('white');
   StatusBar.setBarStyle('dark-content');
+
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 1000);
+  }, []);
 
   return (
     <SafeAreaProvider>

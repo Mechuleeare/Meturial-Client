@@ -6,6 +6,7 @@ import {color} from '../../style/color';
 import Txt from '../../components/Txt';
 import {Animated} from 'react-native';
 import {useEffect, useRef} from 'react';
+import {Search} from '../../assets';
 
 const TabBar = ({state, navigation}: any) => {
   const animationHorizontalValue = useRef(new Animated.Value(0)).current;
@@ -41,10 +42,47 @@ const TabBar = ({state, navigation}: any) => {
           </Txt>
         </Btn>
       </Bar>
+      <Gap>
+        <InputFrame
+          style={{
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+            shadowOpacity: 0.12,
+            shadowRadius: 16.0,
+            elevation: 24,
+          }}>
+          <Input
+            placeholder="재료별 레시피를 검색해보세요."
+            placeholderTextColor={color.Gray[400]}
+          />
+          <Search color={color.Gray[400]} />
+        </InputFrame>
+      </Gap>
     </Frame>
   );
 };
 
+const InputFrame = styled.View`
+  border-radius: 8px;
+  background-color: ${color.White};
+  padding: 0 8px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+`;
+const Input = styled.TextInput`
+  font-size: 16px;
+  line-height: 24px;
+  flex: 1;
+`;
+const Gap = styled.View`
+  width: 100%;
+  padding: 24px 16px 32px;
+`;
 const Move = styled(Animated.View)`
   width: 72px;
   height: 28px;
@@ -70,12 +108,11 @@ const Bar = styled.View`
 `;
 const Frame = styled.View`
   width: 100%;
-  height: 48px;
-  justify-content: center;
   align-items: center;
   background-color: ${color.White};
   border-bottom-width: 1px;
   border-bottom-color: ${color.Gray[100]};
+  padding-top: 16px;
 `;
 
 const RecipeTopBar = () => {
