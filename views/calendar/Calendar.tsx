@@ -78,7 +78,7 @@ const RenderBody = ({currentMonth, onDateClick, todayDate, menuList}: any) => {
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
-      dotday = format(day, 'yyyy-M-d');
+      dotday = format(day, 'yyyy-M-dd');
       const cloneday = day;
       days.push(
         <BodyTxtFlex
@@ -193,6 +193,7 @@ export const Calendar = ({navigation}: any) => {
           },
         });
         setMenuList(result.data.menuMap);
+        console.log(result.data);
       } catch (error) {
         console.log(error);
       }

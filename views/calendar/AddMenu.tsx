@@ -43,7 +43,7 @@ export const AddMenu = ({navigation, route}: any) => {
           `${BaseUrl}/menu`,
           {
             menuType: time,
-            date: format(date, 'yyyy-M-d'),
+            date: format(date, 'yyyy-M-dd'),
             choiceRecipeId: MenuData?.recipeId,
             isActivated: alarm,
           },
@@ -54,6 +54,7 @@ export const AddMenu = ({navigation, route}: any) => {
           },
         );
         console.log(result);
+        navigation.navigate('TodayRecipe');
       } catch (error) {
         console.log(error);
       }
