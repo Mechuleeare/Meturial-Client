@@ -10,6 +10,7 @@ interface ReviewProps {
   reviewImageUrl: string;
   createdAt: string;
   onTouch: () => void;
+  my?: boolean;
 }
 
 const ReviewPreview = ({
@@ -19,12 +20,13 @@ const ReviewPreview = ({
   reviewImageUrl,
   createdAt,
   onTouch,
+  my,
 }: ReviewProps) => {
   return (
     <Frame onTouchEnd={() => onTouch()}>
       <Content>
         <TxtFrame>
-          <Txt typography="LabelLarge">{name}</Txt>
+          <Txt typography="LabelLarge">{name + `${my ? ' (나)' : ''}`}</Txt>
           <StarFrame>
             <Star>
               {[1, 2, 3, 4, 5].map((v, i) => (
@@ -36,7 +38,7 @@ const ReviewPreview = ({
               ))}
             </Star>
             <Txt typography="LabelSmall" color={color.Gray[300]}>
-              {createdAt.substring(0, 10).replaceAll('-', '.')}
+              {createdAt?.slice(0, 10).replaceAll('-', '.')}
             </Txt>
           </StarFrame>
         </TxtFrame>
@@ -44,11 +46,13 @@ const ReviewPreview = ({
           {content}
         </Txt>
       </Content>
-      <Img
-        source={{
-          uri: reviewImageUrl,
-        }}
-      />
+      {reviewImageUrl && (
+        <Img
+          source={{
+            uri: reviewImageUrl,
+          }}
+        />
+      )}
     </Frame>
   );
 };

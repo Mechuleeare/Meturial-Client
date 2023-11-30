@@ -7,7 +7,7 @@ import ReviewPreview from '../../components/ReviewPreview';
 import {BaseUrl} from '../../utils';
 import BackHeader from '../../components/BackHeader';
 
-interface RecipeType {
+export interface RecipeType {
   content: string;
   createdAt: string;
   recipeName: string;
@@ -56,6 +56,8 @@ export const MyReviewList = ({navigation}: any) => {
               onTouch={() =>
                 navigation.navigate('Review', {
                   data: v.reviewId,
+                  edit: true,
+                  my: true,
                 })
               }
             />

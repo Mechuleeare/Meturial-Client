@@ -21,6 +21,7 @@ interface WishPreviewData {
 export const Wish = ({navigation}: any) => {
   const [wishListData, setWishListData] = useState<WishPreviewData[]>([]);
   const [wishListCount, setWishListCount] = useState<number>(0);
+
   useEffect(() => {
     async function AxiosMyWish() {
       const Token = await AsyncStorage.getItem('AccessToken');
@@ -30,7 +31,6 @@ export const Wish = ({navigation}: any) => {
             Authorization: `Bearer ${Token}`,
           },
         });
-        console.log(result.data.choiceRecipeList);
         setWishListData(result.data.choiceRecipeList);
         setWishListCount(result.data.choiceRecipeCount);
       } catch (error) {

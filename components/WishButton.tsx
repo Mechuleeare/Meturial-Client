@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Bookmark, Bookmark_filled} from '../assets';
 import {color} from '../style/color';
@@ -18,6 +18,10 @@ const WishButton = ({
   wishState = false,
 }: WishButtonProps) => {
   const [isWish, setIsWish] = useState<boolean>(wishState);
+
+  useEffect(() => {
+    setIsWish(wishState);
+  }, [wishState]);
 
   const wishClick = async () => {
     const Token = await AsyncStorage.getItem('AccessToken');

@@ -16,7 +16,6 @@ interface headerProps {
 
 const BackHeader = ({name, nav, num, button, func, modal}: headerProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  console.log(modal);
   return (
     <Frame>
       <Left>
@@ -88,5 +87,6 @@ const Frame = styled.View`
   justify-content: space-between;
   border-bottom-width: 1px;
   border-bottom-color: ${color.Gray[100]};
+  background-color: white;
   z-index: 10;
 `;
