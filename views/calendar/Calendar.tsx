@@ -1,7 +1,7 @@
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
 import Txt from '../../components/Txt';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   addDays,
   addMonths,
@@ -14,12 +14,13 @@ import {
   startOfWeek,
   subMonths,
 } from 'date-fns';
-import {Add, Arrow_down, Arrow_up} from '../../assets';
+import {Add, Arrow_back, Arrow_down, Arrow_up} from '../../assets';
 import Button from '../../components/Button';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BaseUrl} from '../../utils';
 import {Dot} from '../../components/Dot';
+import {Modal} from 'react-native';
 
 const RenderHeader = ({currentMonth, prevMonth, nextMonth}: any) => {
   return (
@@ -77,7 +78,7 @@ const RenderBody = ({currentMonth, onDateClick, todayDate, menuList}: any) => {
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
-      dotday = format(day, 'yyyy-M-d');
+      dotday = format(day, 'yyyy-M-dd');
       const cloneday = day;
       days.push(
         <BodyTxtFlex
@@ -145,7 +146,7 @@ const RenderBody = ({currentMonth, onDateClick, todayDate, menuList}: any) => {
 };
 
 function DotFun({dotday, menuList}: any) {
-  const sortedData = [];
+  const sortedData = new Array(3);
   for (const key in menuList) {
     if (key === dotday) {
       if (menuList[key]) {
@@ -163,18 +164,19 @@ function DotFun({dotday, menuList}: any) {
       }
       return (
         <DotFlex>
-          {sortedData[0] && <Dot DotColor="BREAKFAST" />}
-          {sortedData[1] && <Dot DotColor="LUNCH" />}
-          {sortedData[2] && <Dot DotColor="DINNER" />}
+          {sortedData[0] ? <Dot DotColor="BREAKFAST" /> : <Dot />}
+          {sortedData[1] ? <Dot DotColor="LUNCH" /> : <Dot />}
+          {sortedData[2] ? <Dot DotColor="DINNER" /> : <Dot />}
         </DotFlex>
       );
     }
   }
 }
 
-export const Calendar = () => {
+export const Calendar = ({navigation}: any) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [menuList, setMenuList] = useState([]);
+  const [isModal, setIsModal] = useState<boolean>(false);
   const todayDate = new Date();
 
   useEffect(() => {
@@ -191,6 +193,7 @@ export const Calendar = () => {
           },
         });
         setMenuList(result.data.menuMap);
+        console.log(result.data);
       } catch (error) {
         console.log(error);
       }
@@ -206,6 +209,7 @@ export const Calendar = () => {
   };
   const onDateClick = (day: Date) => {
     console.log(day);
+    setIsModal(true);
   };
   return (
     <Background>
@@ -224,10 +228,29 @@ export const Calendar = () => {
         />
       </CalendarBackground>
       <ButtonFlex>
-        <Button status="silver" icon={<Add />}>
+        <Button
+          status="silver"
+          icon={<Add />}
+          onPress={() => navigation.navigate('AddMenu')}>
           식단 추가하기
         </Button>
       </ButtonFlex>
+      {isModal && (
+        <Modal
+          animationType={'slide'}
+          transparent={true}
+          visible={isModal}
+          onRequestClose={() => {
+            setIsModal(false);
+            console.log('모달 등장');
+          }}>
+          <ModalBackground>
+            <ModalBack onPress={() => setIsModal(false)}>
+              <Arrow_back />
+            </ModalBack>
+          </ModalBackground>
+        </Modal>
+      )}
     </Background>
   );
 };
@@ -317,3 +340,11 @@ const DotFlex = styled.View`
   align-items: center;
   gap: 2px;
 `;
+
+const ModalBackground = styled.Modal`
+  width: 600px;
+  height: 600px;
+  padding: 32px 16px;
+`;
+
+const ModalBack = styled.Pressable``;

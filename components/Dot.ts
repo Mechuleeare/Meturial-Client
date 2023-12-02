@@ -4,7 +4,7 @@ import {color} from '../style/color';
 type color = 'BREAKFAST' | 'LUNCH' | 'DINNER';
 
 interface DotType {
-  DotColor: color;
+  DotColor?: color;
 }
 
 export const Dot = styled.View<DotType>`
@@ -18,5 +18,5 @@ export const Dot = styled.View<DotType>`
       ? color.Green[400]
       : props.DotColor === 'DINNER'
       ? color.Green[600]
-      : null};
+      : 'transparent'};
 `;

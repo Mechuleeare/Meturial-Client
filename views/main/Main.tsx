@@ -64,15 +64,17 @@ export const Main = ({navigation}: any) => {
             date: formattedDate,
           },
         });
-        console.log(result.data);
-        const hours = today.getHours();
-        if (hours > 8 && hours <= 12) {
-          setMenu(result.data.menuDetailList[1]);
-        } else if (hours > 12 && hours <= 18) {
-          setMenu(result.data.menuDetailList[2]);
-        } else if (hours > 18 && hours <= 8) {
-          setMenu(result.data.menuDetailList[0]);
-        }
+        // const hours = today.getHours();
+        // if (result.data.menuDetailList) {
+        // }
+        // if (hours > 8 && hours <= 12) {
+        //   setMenu(result.data.menuDetailList[1]);
+        // } else if (hours > 12 && hours <= 18) {
+        //   setMenu(result.data.menuDetailList[2]);
+        // } else if (hours > 18 && hours <= 8) {
+        //   setMenu(result.data.menuDetailList[0]);
+        // }
+        setMenu(result.data.menuDetailList);
       } catch (error) {
         console.log(error);
       }
@@ -128,7 +130,7 @@ export const Main = ({navigation}: any) => {
               <View style={{marginTop: 8}}>
                 <Button
                   status="primary2"
-                  onPress={() => navigation.navigate('Calendar')}>
+                  onPress={() => navigation.navigate('AddMenu')}>
                   식단 등록하기
                 </Button>
               </View>
