@@ -60,8 +60,9 @@ export const My = ({navigation}: any) => {
           },
         });
         setInformaion(result.data);
+        console.log(result.data);
         const all = result.data;
-        const AllergySplit = all.allergyInfo.split(',');
+        const AllergySplit = all.allergyInfo?.split(',');
         setAllergyData(AllergySplit);
       } catch (error) {
         console.log(error);
@@ -99,6 +100,7 @@ export const My = ({navigation}: any) => {
               navigation.navigate('MyFixed', {
                 ImgUrl: information?.profileImageUrl,
                 name: information?.name,
+                allergy: allergyData,
               })
             }>
             내정보 수정하기
