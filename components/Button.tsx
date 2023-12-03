@@ -54,12 +54,14 @@ interface ButtonProps {
   children: ReactNode;
   icon?: ReactNode;
   onPress?: () => void;
+  disable?: boolean;
 }
 const Button = ({
   status = 'primary',
   children,
   onPress,
   icon,
+  disable = false,
   ...props
 }: ButtonProps) => {
   return (
@@ -67,6 +69,7 @@ const Button = ({
       style={({pressed}: any) =>
         pressed && {backgroundColor: ButtonStatus[status].click}
       }
+      disabled={disable}
       status={status}
       onPress={onPress}
       {...props}>

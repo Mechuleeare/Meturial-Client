@@ -8,6 +8,7 @@ import TodayMenu from '../../components/TodayMenu';
 import Button from '../../components/Button';
 import Txt from '../../components/Txt';
 import {Dimensions, View} from 'react-native';
+import {format} from 'date-fns';
 
 interface MenuData {
   menuId: string;
@@ -19,7 +20,6 @@ interface MenuData {
 
 export const TodayRecipe = ({navigation}: any) => {
   const [today, setToday] = useState<MenuData[]>([]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const [Sort, setSort] = useState<MenuData[] | undefined>(undefined);
   console.log(today);
   console.log(Sort);
@@ -28,9 +28,7 @@ export const TodayRecipe = ({navigation}: any) => {
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const today = new Date();
 
-    const formattedDate = `${today.getFullYear()}-${
-      today.getMonth() + 1
-    }-${today.getDate()}`;
+    const formattedDate = format(today, 'yyyy-M-dd');
 
     async function GetTodayData() {
       const Token = await AsyncStorage.getItem('AccessToken');
@@ -44,6 +42,7 @@ export const TodayRecipe = ({navigation}: any) => {
             date: formattedDate,
           },
         });
+        console.log(result.data);
         setToday(result.data.menuDetailList);
       } catch (error) {
         console.log(error);
@@ -102,8 +101,19 @@ export const TodayRecipe = ({navigation}: any) => {
         )}
       </TodayFlex>
       <BtnFlex>
-        <Button>식단 변경하기</Button>
-        <Button status="silver">알림 관리</Button>
+        <Button
+          onPress={() =>
+            navigation.navigate('FixMenuList', {date: new Date()})
+          }>
+          식단 변경하기
+        </Button>
+        <Button
+          status="silver"
+          onPress={() =>
+            navigation.navigate('AlarmManager', {date: new Date()})
+          }>
+          알림 관리
+        </Button>
       </BtnFlex>
     </Background>
   );

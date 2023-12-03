@@ -11,6 +11,7 @@ import axios from 'axios';
 import {BaseUrl, CategoriData} from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../../components/Button';
+import {format} from 'date-fns';
 
 export interface menuType {
   menu?: string;
@@ -50,9 +51,7 @@ export const Main = ({navigation}: any) => {
   useEffect(() => {
     const today = new Date();
 
-    const formattedDate = `${today.getFullYear()}-${
-      today.getMonth() + 1
-    }-${today.getDate()}`;
+    const formattedDate = format(today, 'yyyy-M-dd');
     async function getAlarmData() {
       const Token = await AsyncStorage.getItem('AccessToken');
       try {
@@ -64,16 +63,6 @@ export const Main = ({navigation}: any) => {
             date: formattedDate,
           },
         });
-        // const hours = today.getHours();
-        // if (result.data.menuDetailList) {
-        // }
-        // if (hours > 8 && hours <= 12) {
-        //   setMenu(result.data.menuDetailList[1]);
-        // } else if (hours > 12 && hours <= 18) {
-        //   setMenu(result.data.menuDetailList[2]);
-        // } else if (hours > 18 && hours <= 8) {
-        //   setMenu(result.data.menuDetailList[0]);
-        // }
         setMenu(result.data.menuDetailList);
       } catch (error) {
         console.log(error);
