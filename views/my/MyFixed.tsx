@@ -42,12 +42,12 @@ export const MyFixed = ({navigation, route}: any) => {
     console.log(nameValue);
     const Token = await AsyncStorage.getItem('AccessToken');
     try {
-      const result = await axios.patch(
+      await axios.patch(
         `${BaseUrl}/user/my-page`,
         {
           profileImageUrl: imageData,
           name: nameValue,
-          allergyInfo: '',
+          allergyInfo: Old.allergy.join(','),
         },
         {
           headers: {
@@ -55,7 +55,6 @@ export const MyFixed = ({navigation, route}: any) => {
           },
         },
       );
-      console.log(result);
       await navigation.navigate('My');
     } catch (error) {
       console.log(error);
@@ -86,7 +85,17 @@ export const MyFixed = ({navigation, route}: any) => {
             fun={setNameValue}
             inputValue={nameValue}
           />
-          <Button status="silver">알레르기 관리</Button>
+          <Button
+            status="silver"
+            onPress={() =>
+              navigation.navigate('MyAllergy', {
+                allergy: Old.allergy,
+                name: nameValue,
+                image: imageData,
+              })
+            }>
+            알레르기 관리
+          </Button>
           <Button
             status="silver"
             onPress={() => navigation.navigate('PwChangeCheck')}>

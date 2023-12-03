@@ -19,6 +19,8 @@ import {PwChangeCheck} from './views/my/PwChangeCheck';
 import {PwChange} from './views/my/PwChange';
 import SplashScreen from 'react-native-splash-screen';
 import {useEffect} from 'react';
+import NormalSearch from './views/recipe/NormalSearch';
+import MyAllergy from './views/my/MyAllergy';
 
 const HelloWorldApp = () => {
   const Stack = createStackNavigator();
@@ -45,13 +47,14 @@ const HelloWorldApp = () => {
           <Stack.Screen name="MyFixed" component={MyFixed} />
           <Stack.Screen name="PwChangeCheck" component={PwChangeCheck} />
           <Stack.Screen name="PwChange" component={PwChange} />
-          {/* <Stack.Navigator initialRouteName="Start"> */}
           <Stack.Screen name="Start" component={Start} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Signup" component={Signup} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="AllergyCheck" component={AllergyCheck} />
           <Stack.Screen name="Allergy" component={Allergy} />
+          <Stack.Screen name="MyAllergy" component={MyAllergy} />
+          <Stack.Screen name="NormalSearch" component={NormalSearch} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
