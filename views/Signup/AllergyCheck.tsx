@@ -19,7 +19,7 @@ export const AllergyCheck = ({navigation, route}: any) => {
         profileImageUrl: `${profileImageUrl}`,
       });
       console.log(result);
-      navigation.navigate('Main');
+      navigation.navigate('HomeTabs');
     } catch (error) {
       console.log(error);
     }
