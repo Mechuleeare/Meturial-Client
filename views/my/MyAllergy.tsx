@@ -8,7 +8,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BaseUrl} from '../../utils';
 
 const MyAllergy = ({navigation, route}: any) => {
-  const [allergy, setAllergy] = useState<string[]>(route.params.allergy);
+  const {allergy, name, image} = route.params;
+  const [allergys, setAllergy] = useState<string[]>(
+    allergy[0] === '' ? [] : allergy,
+  );
+  console.log(allergys);
 
   const patchAllergy = async () => {
     const Token = await AsyncStorage.getItem('AccessToken');
@@ -16,9 +20,9 @@ const MyAllergy = ({navigation, route}: any) => {
       method: 'PATCH',
       url: `${BaseUrl}/user/my-page`,
       data: {
-        profileImageUrl: route.params.image,
-        name: route.params.name,
-        allergyInfo: allergy.join(','),
+        profileImageUrl: image,
+        name: name,
+        allergyInfo: allergys.join(','),
       },
       headers: {
         Authorization: `Bearer ${Token}`,
@@ -31,7 +35,7 @@ const MyAllergy = ({navigation, route}: any) => {
   return (
     <Frame>
       <BackHeader name="알레르기 관리" nav={navigation} />
-      <AllergyDropdown setAllergy={setAllergy} allergy={allergy} />
+      <AllergyDropdown setAllergy={setAllergy} allergy={allergys} />
       <BtnFrame>
         <Button onPress={() => patchAllergy()}>수정하기</Button>
       </BtnFrame>

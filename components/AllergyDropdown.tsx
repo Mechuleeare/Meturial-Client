@@ -47,17 +47,18 @@ const AllergyDropdown = ({
           </DropBox>
         )}
       </DropFrame>
-      {allergy?.map(v => (
-        <Item key={v}>
-          <Txt typography="LabelMedium" color={color.Green[600]}>
-            {v}
-          </Txt>
-          <Pressable
-            onPress={() => setAllergy(allergy.filter(value => value !== v))}>
-            <Close size={16} color={color.Green[600]} />
-          </Pressable>
-        </Item>
-      ))}
+      {allergy &&
+        allergy?.map(v => (
+          <Item key={v}>
+            <Txt typography="LabelMedium" color={color.Green[600]}>
+              {v}
+            </Txt>
+            <Pressable
+              onPress={() => setAllergy(allergy.filter(value => value !== v))}>
+              <Close size={16} color={color.Green[600]} />
+            </Pressable>
+          </Item>
+        ))}
     </Frame>
   );
 };

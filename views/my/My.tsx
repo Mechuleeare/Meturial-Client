@@ -143,11 +143,13 @@ export const My = ({navigation}: any) => {
               />
             ))}
           </ReviewFlex>
-          <Button
-            status="outline"
-            onPress={() => navigation.navigate('MyReviewList')}>
-            내가 작성한 후기 모두 보기
-          </Button>
+          {recipe && (
+            <Button
+              status="outline"
+              onPress={() => navigation.navigate('MyReviewList')}>
+              내가 작성한 후기 모두 보기
+            </Button>
+          )}
         </MyReview>
       </ScrollView>
     </Background>
