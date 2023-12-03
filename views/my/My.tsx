@@ -111,7 +111,7 @@ export const My = ({navigation}: any) => {
             <Txt typography="TitleMedium">알레르기</Txt>
             <AllergyFlex>
               {allergyData.map(v => (
-                <Allergy>
+                <Allergy key={v}>
                   <Txt typography="LabelSmall">{v}</Txt>
                 </Allergy>
               ))}
