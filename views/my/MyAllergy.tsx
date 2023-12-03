@@ -9,7 +9,6 @@ import {BaseUrl} from '../../utils';
 
 const MyAllergy = ({navigation, route}: any) => {
   const [allergy, setAllergy] = useState<string[]>(route.params.allergy);
-  console.log(allergy);
 
   const patchAllergy = async () => {
     const Token = await AsyncStorage.getItem('AccessToken');

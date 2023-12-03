@@ -60,7 +60,6 @@ export const My = ({navigation}: any) => {
           },
         });
         setInformaion(result.data);
-        console.log(result.data);
         const all = result.data;
         const AllergySplit = all.allergyInfo?.split(',');
         setAllergyData(AllergySplit);
