@@ -1,7 +1,7 @@
-import {Image, Pressable} from 'react-native';
+import {Pressable} from 'react-native';
 import {styled} from 'styled-components/native';
 import {color} from '../../style/color';
-import {AddImge, Arrow_back} from '../../assets';
+import {Add, Arrow_back} from '../../assets';
 import Txt from '../../components/Txt';
 import Button from '../../components/Button';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -68,7 +68,7 @@ export const Profile = ({navigation, route}: any) => {
                 shadowRadius: 8,
                 elevation: 5,
               }}>
-              <Image source={AddImge} />
+              <Add />
             </ProfileInput>
           </ProfileInputBackground>
         ) : (
