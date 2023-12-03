@@ -106,7 +106,7 @@ export const My = ({navigation}: any) => {
             내정보 수정하기
           </Button>
         </Information>
-        {allergyData[0] && (
+        {allergyData && allergyData[0] && (
           <AllergyInfromation>
             <Txt typography="TitleMedium">알레르기</Txt>
             <AllergyFlex>

@@ -47,7 +47,7 @@ export const MyFixed = ({navigation, route}: any) => {
         {
           profileImageUrl: imageData,
           name: nameValue,
-          allergyInfo: '세현이 알레르기,진현이 알레르기',
+          allergyInfo: Old.allergy.join(','),
         },
         {
           headers: {
@@ -88,7 +88,11 @@ export const MyFixed = ({navigation, route}: any) => {
           <Button
             status="silver"
             onPress={() =>
-              navigation.navigate('MyAllergy', {allergy: Old.allergy})
+              navigation.navigate('MyAllergy', {
+                allergy: Old.allergy,
+                name: nameValue,
+                image: imageData,
+              })
             }>
             알레르기 관리
           </Button>
