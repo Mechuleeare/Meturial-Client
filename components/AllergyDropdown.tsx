@@ -2,8 +2,9 @@ import styled from 'styled-components/native';
 import {color} from '../style/color';
 import Txt from './Txt';
 import {Arrow_down, Arrow_up, Close} from '../assets';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {AllergyList} from '../utils';
+import {Pressable} from 'react-native';
 
 const AllergyDropdown = ({
   setAllergy,
@@ -13,6 +14,13 @@ const AllergyDropdown = ({
   allergy: string[];
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [dropAllergy, setDropAllergy] = useState<string[]>(AllergyList);
+
+  // 선택한 알레르기를 Dropdown에서 제외
+  useEffect(() => {
+    setDropAllergy(dropAllergy.filter(v => !allergy.includes(v)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allergy]);
 
   return (
     <Frame>
@@ -23,7 +31,7 @@ const AllergyDropdown = ({
         </DropDown>
         {isOpen && (
           <DropBox>
-            {AllergyList.map(v => (
+            {dropAllergy.map(v => (
               <DropItem
                 key={v}
                 style={({pressed}: any) =>
@@ -44,7 +52,10 @@ const AllergyDropdown = ({
           <Txt typography="LabelMedium" color={color.Green[600]}>
             {v}
           </Txt>
-          <Close size={16} color={color.Green[600]} />
+          <Pressable
+            onPress={() => setAllergy(allergy.filter(value => value !== v))}>
+            <Close size={16} color={color.Green[600]} />
+          </Pressable>
         </Item>
       ))}
     </Frame>
