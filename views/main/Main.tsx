@@ -46,7 +46,7 @@ export const Main = ({navigation}: any) => {
   const [recommendData, setRecommendData] = useState<
     recommendDataRes[] | undefined
   >(undefined);
-  console.log(menu);
+  console.log('menu is : ' + menu);
 
   useEffect(() => {
     const today = new Date();
@@ -99,7 +99,7 @@ export const Main = ({navigation}: any) => {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 32}}>
-          {menu ? (
+          {menu?.[0] ? (
             menu.map(v => (
               <TodayMenu
                 recipeId={v.menuId}

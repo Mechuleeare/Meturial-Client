@@ -26,7 +26,7 @@ export const Allergy = ({navigation, route}: any) => {
         allergyInfo: allergy.join(','),
       },
     })
-      .then(() => navigation.navigate('HomeTabs'))
+      .then(() => navigation.navigate('Login'))
       .catch(err => console.log(err));
   };
 

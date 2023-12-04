@@ -143,7 +143,7 @@ export const My = ({navigation}: any) => {
               />
             ))}
           </ReviewFlex>
-          {recipe && (
+          {recipe[0] && (
             <Button
               status="outline"
               onPress={() => navigation.navigate('MyReviewList')}>

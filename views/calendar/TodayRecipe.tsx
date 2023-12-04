@@ -95,7 +95,11 @@ export const TodayRecipe = ({navigation}: any) => {
               오늘의 식단을 등록하여 시간에 맞춰 식사해 보세요.
             </Txt>
             <View style={{marginTop: 8}}>
-              <Button status="primary2">식단 등록하기</Button>
+              <Button
+                status="primary2"
+                onPress={() => navigation.navigate('AddMenu')}>
+                식단 등록하기
+              </Button>
             </View>
           </None>
         )}

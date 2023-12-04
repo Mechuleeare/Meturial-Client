@@ -37,29 +37,24 @@ export const AddMenu = ({navigation, route}: any) => {
 
   const HandleAddMenu = async () => {
     if (MenuData) {
-      try {
-        const Token = await AsyncStorage.getItem('AccessToken');
-        const result = await axios.post(
-          `${BaseUrl}/menu`,
-          {
-            menuType: time,
-            date: format(date, 'yyyy-M-dd'),
-            choiceRecipeId: MenuData?.recipeId,
-            isActivated: alarm,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${Token}`,
-            },
-          },
-        );
-        console.log(result);
-        navigation.navigate('TodayRecipe');
-      } catch (error) {
-        console.log(error);
-      }
+      const Token = await AsyncStorage.getItem('AccessToken');
+      await axios({
+        method: 'POST',
+        url: `${BaseUrl}/menu`,
+        data: {
+          menuType: time,
+          date: format(date, 'yyyy-M-dd'),
+          choiceRecipeId: MenuData?.recipeId,
+          isActivated: alarm,
+        },
+        headers: {
+          Authorization: `Bearer ${Token}`,
+        },
+      })
+        .then(() => navigation.navigate('TodayRecipe'))
+        .catch(err => console.log(err));
     } else {
-      Alert.alert('이메일 비밀번호를 다시 확인해주세요', '', [
+      Alert.alert('레시피를 선택해 주세요', '', [
         {text: '확인', style: 'cancel'},
       ]);
     }
@@ -168,7 +163,7 @@ export const AddMenu = ({navigation, route}: any) => {
           )}
           <AddMenuFlex>
             <Button
-              icon={<Add />}
+              icon={<Add size={20} />}
               status="silver"
               onPress={() => navigation.navigate('MenuList')}>
               레시피 선택
