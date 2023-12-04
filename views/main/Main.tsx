@@ -1,8 +1,8 @@
-import {Dimensions, Pressable, View} from 'react-native';
+import {Dimensions, Pressable, View, Image} from 'react-native';
 import styled from 'styled-components/native';
 import {color} from '../../style/color';
 import Txt from '../../components/Txt';
-import {Access_time, Search} from '../../assets';
+import {Access_time, Logo, Search} from '../../assets';
 import UnderTxt from '../../components/UnderTxt';
 import TodayMenu from '../../components/TodayMenu';
 import RecipeLarge from '../../components/RecipeLarge';
@@ -11,6 +11,7 @@ import axios from 'axios';
 import {BaseUrl, CategoriData} from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../../components/Button';
+import {format} from 'date-fns';
 
 export interface menuType {
   menu?: string;
@@ -45,14 +46,12 @@ export const Main = ({navigation}: any) => {
   const [recommendData, setRecommendData] = useState<
     recommendDataRes[] | undefined
   >(undefined);
-  console.log(menu);
+  console.log('menu is : ' + menu);
 
   useEffect(() => {
     const today = new Date();
 
-    const formattedDate = `${today.getFullYear()}-${
-      today.getMonth() + 1
-    }-${today.getDate()}`;
+    const formattedDate = format(today, 'yyyy-M-dd');
     async function getAlarmData() {
       const Token = await AsyncStorage.getItem('AccessToken');
       try {
@@ -64,16 +63,6 @@ export const Main = ({navigation}: any) => {
             date: formattedDate,
           },
         });
-        // const hours = today.getHours();
-        // if (result.data.menuDetailList) {
-        // }
-        // if (hours > 8 && hours <= 12) {
-        //   setMenu(result.data.menuDetailList[1]);
-        // } else if (hours > 12 && hours <= 18) {
-        //   setMenu(result.data.menuDetailList[2]);
-        // } else if (hours > 18 && hours <= 8) {
-        //   setMenu(result.data.menuDetailList[0]);
-        // }
         setMenu(result.data.menuDetailList);
       } catch (error) {
         console.log(error);
@@ -96,14 +85,7 @@ export const Main = ({navigation}: any) => {
     <Frame>
       <Header>
         <LeftFrame>
-          <View
-            style={{
-              borderRadius: 100,
-              backgroundColor: color.Green[500],
-              width: 24,
-              height: 24,
-            }}
-          />
+          <Image source={Logo} />
           <Txt typography="TitleMedium">메추리알</Txt>
         </LeftFrame>
         <RightFrame>
@@ -117,7 +99,7 @@ export const Main = ({navigation}: any) => {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 16, gap: 32}}>
-          {menu ? (
+          {menu?.[0] ? (
             menu.map(v => (
               <TodayMenu
                 recipeId={v.menuId}

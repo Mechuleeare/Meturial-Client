@@ -7,6 +7,7 @@ export {default as AllergyTitle} from './Images/AllergyTitle.png';
 export {default as AllergyCheckTitle} from './Images/AllergyCheckTitle.png';
 export {default as Gear} from './Images/gear.png';
 export {default as ProfileImg} from './Images/Profile.png';
+export {default as Logo} from './Images/Logo.png';
 
 export * from './Person';
 export * from './Person_filled';
@@ -32,3 +33,4 @@ export * from './Arrow_down';
 export * from './Arrow_up';
 export * from './Add';
 export * from './Close';
+export * from './Creation';

@@ -14,13 +14,12 @@ import {
   startOfWeek,
   subMonths,
 } from 'date-fns';
-import {Add, Arrow_back, Arrow_down, Arrow_up} from '../../assets';
+import {Add, Arrow_down, Arrow_up} from '../../assets';
 import Button from '../../components/Button';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BaseUrl} from '../../utils';
 import {Dot} from '../../components/Dot';
-import {Modal} from 'react-native';
 
 const RenderHeader = ({currentMonth, prevMonth, nextMonth}: any) => {
   return (
@@ -145,7 +144,7 @@ const RenderBody = ({currentMonth, onDateClick, todayDate, menuList}: any) => {
   return <Body>{rows}</Body>;
 };
 
-function DotFun({dotday, menuList}: any) {
+const DotFun = ({dotday, menuList}: any) => {
   const sortedData = new Array(3);
   for (const key in menuList) {
     if (key === dotday) {
@@ -171,12 +170,11 @@ function DotFun({dotday, menuList}: any) {
       );
     }
   }
-}
+};
 
 export const Calendar = ({navigation}: any) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [menuList, setMenuList] = useState([]);
-  const [isModal, setIsModal] = useState<boolean>(false);
   const todayDate = new Date();
 
   useEffect(() => {
@@ -209,7 +207,7 @@ export const Calendar = ({navigation}: any) => {
   };
   const onDateClick = (day: Date) => {
     console.log(day);
-    setIsModal(true);
+    navigation.navigate('MenuDetail', {date: day});
   };
   return (
     <Background>
@@ -235,22 +233,6 @@ export const Calendar = ({navigation}: any) => {
           식단 추가하기
         </Button>
       </ButtonFlex>
-      {isModal && (
-        <Modal
-          animationType={'slide'}
-          transparent={true}
-          visible={isModal}
-          onRequestClose={() => {
-            setIsModal(false);
-            console.log('모달 등장');
-          }}>
-          <ModalBackground>
-            <ModalBack onPress={() => setIsModal(false)}>
-              <Arrow_back />
-            </ModalBack>
-          </ModalBackground>
-        </Modal>
-      )}
     </Background>
   );
 };
@@ -340,11 +322,3 @@ const DotFlex = styled.View`
   align-items: center;
   gap: 2px;
 `;
-
-const ModalBackground = styled.Modal`
-  width: 600px;
-  height: 600px;
-  padding: 32px 16px;
-`;
-
-const ModalBack = styled.Pressable``;

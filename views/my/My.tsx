@@ -61,7 +61,7 @@ export const My = ({navigation}: any) => {
         });
         setInformaion(result.data);
         const all = result.data;
-        const AllergySplit = all.allergyInfo.split(',');
+        const AllergySplit = all.allergyInfo?.split(',');
         setAllergyData(AllergySplit);
       } catch (error) {
         console.log(error);
@@ -99,17 +99,18 @@ export const My = ({navigation}: any) => {
               navigation.navigate('MyFixed', {
                 ImgUrl: information?.profileImageUrl,
                 name: information?.name,
+                allergy: allergyData,
               })
             }>
             내정보 수정하기
           </Button>
         </Information>
-        {allergyData[0] && (
+        {allergyData && allergyData[0] && (
           <AllergyInfromation>
             <Txt typography="TitleMedium">알레르기</Txt>
             <AllergyFlex>
               {allergyData.map(v => (
-                <Allergy>
+                <Allergy key={v}>
                   <Txt typography="LabelSmall">{v}</Txt>
                 </Allergy>
               ))}
@@ -142,11 +143,13 @@ export const My = ({navigation}: any) => {
               />
             ))}
           </ReviewFlex>
-          <Button
-            status="outline"
-            onPress={() => navigation.navigate('MyReviewList')}>
-            내가 작성한 후기 모두 보기
-          </Button>
+          {recipe[0] && (
+            <Button
+              status="outline"
+              onPress={() => navigation.navigate('MyReviewList')}>
+              내가 작성한 후기 모두 보기
+            </Button>
+          )}
         </MyReview>
       </ScrollView>
     </Background>

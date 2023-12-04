@@ -3,7 +3,7 @@ import {color} from '../../style/color';
 import BackHeader from '../../components/BackHeader';
 import Txt from '../../components/Txt';
 import {Add, Close, Star_filled} from '../../assets';
-import {Image, Pressable, View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {useEffect, useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
@@ -110,7 +110,7 @@ const ReviewManagement = ({route, navigation}: any) => {
         <TxtFrame>
           {!imageData ? (
             <ProfileInput onPress={ShowPicker}>
-              <Image source={Add} />
+              <Add />
             </ProfileInput>
           ) : (
             <Pressable onPress={ShowPicker}>
